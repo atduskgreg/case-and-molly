@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+	<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<title>Meat Toy</title>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+		
+			
+			var ws = null;
+			var host = "meat-toy.nodejitsu.com"
+			var port = 80
+
+			var frameNum = 0;
+			
+			function ready(){
+				console.log("trying to open a websocket")
+				ws = new WebSocket("ws://"+host+":"+port+"/")
+				// When the connection is open, send some data to the server
+				ws.onopen = function () {
+				  console.log("opened");
+				  console.log("joining...");
+				  //ws.send('Ping'); // Send the message 'Ping' to the server
+				  //ws.send("foo");
+				  ws.send("join");
+				};
+
+				// oh, it did close
+				ws.onerror = function (e) {
+				  console.log('WebSocket did close ',e);
+				};
+				
+				// Log errors
+				ws.onerror = function (error) {
+				  console.log('WebSocket Error ' + error);
+				};
+
+			
+				// Log messages from the server
+				ws.onmessage = function (e) {
+					//console.log("onmessage");
+					var result = $.parseJSON(e.data);				
+					console.log(result);
+					if(result.t){
+
+						$("body").css("background", "green");
+
+					} else {
+						$("body").css("background", "red");
+					}
+				}					
+
+
+			}
+						
+			document.addEventListener("DOMContentLoaded", ready, false);
+		</script>
+	</head>
+	<body>
+		
+	</body>
+	</html>

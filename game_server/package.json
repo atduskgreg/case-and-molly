@@ -1,0 +1,16 @@
+{
+  "name": "meat-toy",
+  "version": "0.0.1-24",
+  "dependencies": {
+    "websocket": "1.0.8",
+    "ws": "*"
+  },
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.2.x"
+  },
+  "subdomain": "meat-toy",
+  "scripts": {
+    "start": "node web.js"
+  }
+}
