@@ -47,6 +47,7 @@ public class InitGame : MonoBehaviour {
 
 			BlinkySorty bs = o.GetComponent<BlinkySorty>();
 			
+			bs.leftCamera = cameraLeft;
 			//bs.startColor.r = Random.value;
 						
 			bs.numBlinks = (int)Random.Range(1, 7);
@@ -71,6 +72,30 @@ public class InitGame : MonoBehaviour {
 			lerpStarted = Time.time;
 	}
 	
+	bool CheckVictory(){
+		bool result = true;
+		
+		if(userSort.Count < numCubes){
+			result = false;
+		} else{
+		
+			for(int i = 0; i < userSort.Count; i++){
+			
+				if(i > 0){
+					GameObject curr = (GameObject)userSort[i];
+					GameObject prev = (GameObject)userSort[i-1];
+					// if any of the items are out of order
+					if(prev.GetComponent<BlinkySorty>().numBlinks > curr.GetComponent<BlinkySorty>().numBlinks ){
+						result = false;
+					}	
+				}
+			
+			}
+		}
+		
+		return result;
+	}
+	
 	void OnGUI(){
 		Event e = Event.current;
 		if(e.isKey && e.keyCode == KeyCode.RightArrow && movePercent == 1){
@@ -84,6 +109,8 @@ public class InitGame : MonoBehaviour {
 				userSort.Remove(cubes[currentCube]);
 				userSort.Add(cubes[currentCube]);
 			}
+			
+			print (CheckVictory());
 			
 			int i = 0;
 			foreach(GameObject item in userSort){

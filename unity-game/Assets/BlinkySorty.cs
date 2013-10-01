@@ -7,7 +7,9 @@ public class BlinkySorty : MonoBehaviour {
 	public Color darkColor;
 	public float blinkDuration = 0.4f;
 	public int numBlinks = 2;
-
+	
+	public Camera leftCamera;
+	
 	int blinkCount = 0;
 	float prevLerp = 0;
 	bool isBlinking = false;
@@ -30,6 +32,13 @@ public class BlinkySorty : MonoBehaviour {
 			blinkCount = 0;
 			blinkStartTime = Time.time;
 		}
+		
+		Vector3 p = leftCamera.WorldToScreenPoint(transform.position);
+		
+		GUIStyle style = new GUIStyle();
+		style.normal.textColor = Color.black;
+		GUI.Label(new Rect(p.x, p.y, 20,20), "" + numBlinks, style);
+		
 	}
 	
 	public void GoTo(Vector3 v){
@@ -42,9 +51,7 @@ public class BlinkySorty : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		if(isBlinking && blinkCount < numBlinks){
-		
-			//float lerp = Mathf.PingPong(Time.time - blinkStartTime, blinkDuration)/blinkDuration;
+		if(isBlinking && blinkCount < numBlinks){		
 			float lerp = Mathf.Sin((Time.time - blinkStartTime) * 10);
 			renderer.material.color = Color.Lerp(darkColor, startColor, lerp);
 		
@@ -63,17 +70,9 @@ public class BlinkySorty : MonoBehaviour {
 			float movePercent = (Time.time - moveStarted)/moveTime;
 			movePercent = Mathf.Clamp (movePercent, 0,1);
 			
-			transform.position = Vector3.Lerp(startedFrom, goTo, movePercent);
-			
-			/*
-			 * movePercent = (Time.time - lerpStarted)/lerpTime;
-			movePercent = Mathf.Clamp(movePercent, 0, 1);
-			ovrParent.transform.position = Vector3.Lerp(prevDest, dest, movePercent);
-			ovrParent.transform.LookAt(cubes[currentCube].gameObject.transform.position);
-			 * 
-			 */
-			
+			transform.position = Vector3.Lerp(startedFrom, goTo, movePercent);			
 		}
+		
 		
 	}
 }
