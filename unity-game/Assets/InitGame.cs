@@ -7,6 +7,7 @@ public class InitGame : MonoBehaviour {
 	public int numCubes = 5;
 	public int maxDistance = 20;
 	public GameObject cube;
+	
 	GameObject[] cubes;
 	
 	int currentCube = -1;
@@ -26,18 +27,27 @@ public class InitGame : MonoBehaviour {
 	ArrayList userSort;
 	public GameObject lineHead;
 	
+	OVRGUI ovrGui;
+	public OVRCameraController cameraController;
+	
+	public float timePerLevel = 60.0f;
+	string timeString;
+	public Color timeColor;
+	public Font timeFont;
+	
 	void cleanupCameras(){
 		
-		cameraLeft.backgroundColor = backgroundColor;//new Color(0.1f, 0.1f, 0.1f);
-		cameraRight.backgroundColor = backgroundColor;//new Color(0.1f, 0.1f, 0.1f);
-		
-		//renderer.material.mainTexture.wrapMode = TextureWrapMode.Clamp;
-		
+		cameraLeft.backgroundColor = backgroundColor;
+		cameraRight.backgroundColor = backgroundColor;		
 	}
 	
 	// Use this for initialization
 	void Start () {
 		cleanupCameras();
+		
+		ovrGui = new OVRGUI();
+		ovrGui.SetCameraController(ref cameraController);
+		ovrGui.SetFontReplace(timeFont);
 		
 		cubes = new GameObject[numCubes];
 		for(int i = 0; i < numCubes; i++){
@@ -48,7 +58,6 @@ public class InitGame : MonoBehaviour {
 			BlinkySorty bs = o.GetComponent<BlinkySorty>();
 			
 			bs.leftCamera = cameraLeft;
-			//bs.startColor.r = Random.value;
 						
 			bs.numBlinks = (int)Random.Range(1, 7);
 			cubes[i] = o;			
@@ -79,17 +88,13 @@ public class InitGame : MonoBehaviour {
 			result = false;
 		} else{
 		
-			for(int i = 0; i < userSort.Count; i++){
-			
-				if(i > 0){
-					GameObject curr = (GameObject)userSort[i];
-					GameObject prev = (GameObject)userSort[i-1];
-					// if any of the items are out of order
-					if(prev.GetComponent<BlinkySorty>().numBlinks > curr.GetComponent<BlinkySorty>().numBlinks ){
-						result = false;
-					}	
-				}
-			
+			for(int i = 1; i < userSort.Count; i++){
+				GameObject curr = (GameObject)userSort[i];
+				GameObject prev = (GameObject)userSort[i-1];
+				// if any of the items are out of order
+				if(prev.GetComponent<BlinkySorty>().numBlinks > curr.GetComponent<BlinkySorty>().numBlinks ){
+					result = false;
+				}			
 			}
 		}
 		
@@ -97,6 +102,12 @@ public class InitGame : MonoBehaviour {
 	}
 	
 	void OnGUI(){
+		if(!CheckVictory()){
+			timeString = (timePerLevel - Time.timeSinceLevelLoad).ToString("0.000");
+		}
+		ovrGui.StereoBox (200,500, 200, 200, ref timeString, timeColor);
+
+		
 		Event e = Event.current;
 		if(e.isKey && e.keyCode == KeyCode.RightArrow && movePercent == 1){
 			NextCube();
@@ -110,7 +121,6 @@ public class InitGame : MonoBehaviour {
 				userSort.Add(cubes[currentCube]);
 			}
 			
-			print (CheckVictory());
 			
 			int i = 0;
 			foreach(GameObject item in userSort){
@@ -118,8 +128,12 @@ public class InitGame : MonoBehaviour {
 				i++;
 			}
 			
+
+			
 			//NextCube();
 		}
+		
+
 		
 	}
 	
@@ -131,6 +145,9 @@ public class InitGame : MonoBehaviour {
 			ovrParent.transform.position = Vector3.Lerp(prevDest, dest, movePercent);
 			ovrParent.transform.LookAt(cubes[currentCube].gameObject.transform.position);
 		}
+		
+		print (CheckVictory());
+
 		
 	}
 }

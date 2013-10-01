@@ -598,6 +598,7 @@ MonoBehaviour:
   cameraLeft: {fileID: 1574757485}
   cameraRight: {fileID: 2107729972}
   lineHead: {fileID: 462870320}
+  cameraController: {fileID: 656843230}
 --- !u!4 &1622861962
 Transform:
   m_ObjectHideFlags: 0

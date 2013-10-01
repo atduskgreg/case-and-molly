@@ -33,12 +33,13 @@ public class BlinkySorty : MonoBehaviour {
 			blinkStartTime = Time.time;
 		}
 		
+		/*
 		Vector3 p = leftCamera.WorldToScreenPoint(transform.position);
 		
 		GUIStyle style = new GUIStyle();
 		style.normal.textColor = Color.black;
 		GUI.Label(new Rect(p.x, p.y, 20,20), "" + numBlinks, style);
-		
+		*/
 	}
 	
 	public void GoTo(Vector3 v){
