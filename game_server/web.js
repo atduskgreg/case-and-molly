@@ -21,15 +21,16 @@ wss.on('connection', function(ws) {
 	console.log("socket connection");
     ws.on('message', function(message) {
     	if(message == "join"){
+            console.log("joined: " + clients.length);
     		clients.push(ws);
-    	}
-    	if(message == "write"){
-        	on = !on;
-        	console.log('t: %s', on);
-        	for(var i = 0; i< clients.length; i++){
-        		clients[i].send("{\"t\":"+ on+ "}");
-        	}
     	} 
-    	
+        else if(message == "switch"){
+            on = !on;
+            console.log('t: %s', on);
+        } else{
+            for(var i = 0; i< clients.length; i++){
+                clients[i].send("{\"switch\":"+ on+ "," + "\"time\":" + message  + "}");
+            }
+        }
     });
 });

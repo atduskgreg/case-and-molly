@@ -9,24 +9,23 @@ public class WebsocketSwitch : MonoBehaviour {
 	public string host = "meat-toy.nodejitsu.com";
 	public int port = 80;
 	
+	LevelTimer levelTimer;
+	
 	// Use this for initialization
 	void Start () {
-		//Security.PrefetchSocketPolicy(host, port);
-
 	 	ws = new WebSocket("ws://"+host+":"+port);
+		levelTimer = GetComponent<LevelTimer>();
+		print ("connecting...");
+		ws.Connect();
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		print (levelTimer.GetTimeRemaining());
+		ws.Send(levelTimer.GetTimeRemaining().ToString("0.000"));
 		if(Input.GetKeyDown(KeyCode.Space)){
-			print ("connecting");
-					ws.Connect();
-
-		} 
-		if(Input.GetKeyDown(KeyCode.UpArrow))
-		{
-			print ("gotcha");
-			ws.Send(String.Format("write"));
+			ws.Send("switch");
 		}
 	}
 }
