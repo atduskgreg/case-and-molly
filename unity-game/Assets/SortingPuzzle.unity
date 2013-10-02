@@ -456,6 +456,7 @@ GameObject:
   - 114: {fileID: 1574757483}
   - 114: {fileID: 1574757482}
   - 114: {fileID: 1574757487}
+  - 114: {fileID: 1574757488}
   m_Layer: 8
   m_Name: CameraLeft
   m_TagString: MainCamera
@@ -562,6 +563,19 @@ MonoBehaviour:
   blurIterations: 3
   blurType: 0
   fastBloomShader: {fileID: 4800000, guid: 68a00c837b82e4c6d92e7da765dc5f1d, type: 3}
+--- !u!114 &1574757488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1574757481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8313647243af146dab989a31c1f04de1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syphonClients: []
+  nullTexture: {fileID: 0}
 --- !u!1 &1622861960
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,6 +613,9 @@ MonoBehaviour:
   cameraRight: {fileID: 2107729972}
   lineHead: {fileID: 462870320}
   cameraController: {fileID: 656843230}
+  timePerLevel: 60
+  timeColor: {r: 0, g: 1, b: .917241335, a: 1}
+  timeFont: {fileID: 12800000, guid: 264f2924a79264dcbb98f2ad463d05ea, type: 3}
 --- !u!4 &1622861962
 Transform:
   m_ObjectHideFlags: 0

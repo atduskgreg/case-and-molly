@@ -34,7 +34,7 @@ public class InitGame : MonoBehaviour {
 	string timeString;
 	public Color timeColor;
 	public Font timeFont;
-	
+		
 	void cleanupCameras(){
 		
 		cameraLeft.backgroundColor = backgroundColor;
@@ -101,38 +101,45 @@ public class InitGame : MonoBehaviour {
 		return result;
 	}
 	
+	bool CheckFailure(){
+		return (timePerLevel - Time.timeSinceLevelLoad <= 0.0f);
+	}
+	
 	void OnGUI(){
 		if(!CheckVictory()){
 			timeString = (timePerLevel - Time.timeSinceLevelLoad).ToString("0.000");
 		}
-		ovrGui.StereoBox (200,500, 200, 200, ref timeString, timeColor);
+		
+		if(CheckFailure()){
+			string fail = "FAIL";
+			ovrGui.StereoBox(200,500,200,60, ref fail, Color.red);
+		} else {
+			ovrGui.StereoBox (200,500, 200, 60, ref timeString, timeColor);
 
 		
-		Event e = Event.current;
-		if(e.isKey && e.keyCode == KeyCode.RightArrow && movePercent == 1){
-			NextCube();
-		}
-		else if(e.isKey && Input.GetKeyDown(KeyCode.Space) && movePercent == 1){
-			
-			if(!userSort.Contains(cubes[currentCube])){
-				userSort.Add(cubes[currentCube]);
-			} else {
-				userSort.Remove(cubes[currentCube]);
-				userSort.Add(cubes[currentCube]);
+			Event e = Event.current;
+			if(e.isKey && e.keyCode == KeyCode.RightArrow && movePercent == 1){
+				NextCube();
 			}
+			else if(e.isKey && Input.GetKeyDown(KeyCode.Space) && movePercent == 1){
+			
+				if(!userSort.Contains(cubes[currentCube])){
+					userSort.Add(cubes[currentCube]);
+				} else {
+					userSort.Remove(cubes[currentCube]);
+					userSort.Add(cubes[currentCube]);
+				}
 			
 			
-			int i = 0;
-			foreach(GameObject item in userSort){
-				item.GetComponent<BlinkySorty>().GoTo(lineHead.transform.position + (Vector3.left * 2 * i));
-				i++;
-			}
-			
-
+				int i = 0;
+				foreach(GameObject item in userSort){
+					item.GetComponent<BlinkySorty>().GoTo(lineHead.transform.position + (Vector3.left * 2 * i));
+					i++;
+				}
 			
 			//NextCube();
+			}
 		}
-		
 
 		
 	}
