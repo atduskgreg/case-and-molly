@@ -34,6 +34,9 @@ public class InitGame : MonoBehaviour {
 	string timeString;
 	public Color timeColor;
 	public Font timeFont;
+	
+	float winTime = 0.0f;
+	bool won = false;
 		
 	void cleanupCameras(){
 		
@@ -108,14 +111,26 @@ public class InitGame : MonoBehaviour {
 	void OnGUI(){
 		if(!CheckVictory()){
 			timeString = (timePerLevel - Time.timeSinceLevelLoad).ToString("0.000");
+		} else {
+			string win = "WIN";
+			ovrGui.StereoBox(200,500,200,60, ref win, Color.red);
+			if(winTime == 0){
+				winTime = Time.time;
+			}
+			
+			if(winTime > 0 && (Time.time - winTime > 2.0f)){
+				Application.LoadLevel("cameraIntegration");
+			}
 		}
+		
 		
 		if(CheckFailure()){
 			string fail = "FAIL";
 			ovrGui.StereoBox(200,500,200,60, ref fail, Color.red);
 		} else {
-			ovrGui.StereoBox (200,500, 200, 60, ref timeString, timeColor);
-
+			if(winTime == 0){
+				ovrGui.StereoBox (200,500, 200, 60, ref timeString, timeColor);
+			}
 		
 			Event e = Event.current;
 			if(e.isKey && e.keyCode == KeyCode.RightArrow && movePercent == 1){
