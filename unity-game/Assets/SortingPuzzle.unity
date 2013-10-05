@@ -585,6 +585,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1622861962}
   - 114: {fileID: 1622861961}
+  - 114: {fileID: 1622861963}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -627,6 +628,20 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &1622861963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1622861960}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41af548609c4142f9ad0b53eb0c1c4c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  host: meat-toy.nodejitsu.com
+  port: 80
+  sendClick: 0
 --- !u!1001 &1988281372
 Prefab:
   m_ObjectHideFlags: 0

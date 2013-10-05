@@ -36,7 +36,6 @@ public class InitGame : MonoBehaviour {
 	public Font timeFont;
 	
 	float winTime = 0.0f;
-	bool won = false;
 		
 	void cleanupCameras(){
 		
