@@ -577,7 +577,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clientAppName: AirBeam Pro
-  clientName: Tibbetts' iPhone
+  clientName: iPhone
 --- !u!1 &660458925
 GameObject:
   m_ObjectHideFlags: 0
@@ -622,7 +622,7 @@ MonoBehaviour:
   cameraController: {fileID: 0}
   timeFont: {fileID: 12800000, guid: 264f2924a79264dcbb98f2ad463d05ea, type: 3}
   timeColor: {r: 1, g: 0, b: 0, a: 1}
-  showOverlays: 1
+  showOverlays: 0
   instructionSteps:
   - Go LEFT to corner of lab
   - Go RIGHT down the hall
