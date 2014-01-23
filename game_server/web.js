@@ -10,6 +10,7 @@
 // server.listen(8080);
 
 // Socket part
+var port = process.env.PORT || 5000
 var WebSocketServer = require('ws').Server
   , wss = new WebSocketServer({port: port});
 
