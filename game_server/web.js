@@ -34,4 +34,7 @@ wss.on('connection', function(ws) {
             }
         }
     });
+    ws.on('error', function(reason, code) {
+        console.log('socket error: reason ' + reason + ', code ' + code);
+    });
 });

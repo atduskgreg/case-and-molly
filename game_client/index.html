@@ -40,7 +40,7 @@
 			
 				// Log messages from the server
 				ws.onmessage = function (e) {
-					//console.log("onmessage");
+					console.log("onmessage: " + e.data);
 					var result = $.parseJSON(e.data);				
 					$("h1").html(result.time);
 					if(result.switch){
