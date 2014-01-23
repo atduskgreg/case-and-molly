@@ -11,7 +11,7 @@
 
 // Socket part
 var WebSocketServer = require('ws').Server
-  , wss = new WebSocketServer({port: 80});
+  , wss = new WebSocketServer({port: port});
 
 var on = false;
 
