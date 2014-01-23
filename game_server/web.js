@@ -33,7 +33,7 @@ wss.on('connection', function(ws) {
                 clients[i].send("{\"switch\":"+ on+ "," + "\"time\":" + message  + "}", function(error){
                     if(error){
                         console.log('send error: reason ' + error + " removing.");
-                        cliens.splice(i,1);
+                        clients.splice(i,1);
                     }
                 });
             }
