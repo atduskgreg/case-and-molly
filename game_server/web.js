@@ -32,8 +32,11 @@ wss.on('connection', function(ws) {
             try{
                 msg = JSON.parse(message);
                 if(msg.location){
-                    console.log("sending location message");
+
+
                     msg.switch = on; // add switch message for now
+                    console.log("sending location message");
+                    console.log(JSON.stringify(msg));
                     for(var i = 0; i< clients.length; i++){
                         clients[i].send(JSON.stringify(msg), function(error){
                         if(error){
