@@ -47,7 +47,7 @@ wss.on('connection', function(ws) {
                 }
             }
             } catch(e){
-
+                console.log("ERROR:" + e.message);
             }
             
         }
