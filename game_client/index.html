@@ -8,16 +8,15 @@
 		
 			
 			var ws = null;
-			var host = "http://case-and-molly-server.herokuapp.com/"
-			var port = 5000;
+			var host = "case-and-molly-server.herokuapp.com"
 			//var host = "127.0.0.1";
 			//var port = 1337;
 
 			var frameNum = 0;
 			
 			function ready(){
-				console.log("trying to open a websocket")
-				ws = new WebSocket("ws://"+host+":"+port+"/")
+				console.log("trying to open a websocket:" + "ws://"+host)
+				ws = new WebSocket("ws://"+host)
 				// When the connection is open, send some data to the server
 				ws.onopen = function () {
 				  console.log("opened");
@@ -34,6 +33,7 @@
 				
 				// Log errors
 				ws.onerror = function (error) {
+				console.log(error);
 				  console.log('WebSocket Error ' + error);
 				};
 
