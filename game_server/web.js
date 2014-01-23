@@ -29,14 +29,24 @@ wss.on('connection', function(ws) {
             on = !on;
             console.log('t: %s', on);
         } else{
-            for(var i = 0; i< clients.length; i++){
-                clients[i].send("{\"switch\":"+ on+ "," + "\"time\":" + message  + "}", function(error){
-                    if(error){
-                        console.log('send error: reason ' + error + " removing.");
-                        clients.splice(i,1);
-                    }
-                });
+            try{
+                msg = JSON.parse(message);
+                if(msg.location){
+                    console.log("sending location message");
+                    msg.switch = on; // add switch message for now
+                    for(var i = 0; i< clients.length; i++){
+                        clients[i].send(JSON.stringify(msg), function(error){
+                        if(error){
+                            console.log(error + " removing.");
+                            clients.splice(i,1);
+                        }
+                    });
+                }
             }
+            } catch(e){
+
+            }
+            
         }
     });
     ws.on('error', function(reason, code) {
