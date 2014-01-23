@@ -30,7 +30,7 @@ wss.on('connection', function(ws) {
             console.log('t: %s', on);
         } else{
             for(var i = 0; i< clients.length; i++){
-                clients[i].send("{\"switch\":"+ on+ "," + "\"time\":" + message  + "}", function(error){
+                clients[i].send("{\"switch\":"+ on+ "," + "\"time\":" + message  + "}", function(reason,code){
                     console.log('send error: reason ' + reason + ', code ' + code);
                 });
             }
