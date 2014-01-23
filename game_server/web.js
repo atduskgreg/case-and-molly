@@ -13,7 +13,7 @@
 var port = process.env.PORT || 5000
 var WebSocketServer = require('ws').Server
   , wss = new WebSocketServer({port: port});
-
+console.log('http server listening on %d', port);
 var on = false;
 
 var clients = [];
