@@ -2,6 +2,9 @@
 using System.Collections;
 using System;
 using System.Text;
+using WebSocketSharp;
+using SimpleJSON;
+using System.Collections.Generic;
 
 public class ShowHUD : MonoBehaviour {
 
@@ -15,20 +18,96 @@ public class ShowHUD : MonoBehaviour {
 	public float pointSize = 10.0f;
 
 	public GUIStyle guiStyle;
-	
+
+	int zoom = 17;
+
+	WebSocket ws;
+	public string host = "case-and-molly-server.herokuapp.com";
+
+	Vector2 tileNum;
+
+	public List<Texture> mapTiles; // 0 1 2
+								   //   3
+
+	String currentMapTile = "39654x48478";
+	bool needsNewMapTile = false;
 	// Use this for initialization
 	void Start () {
-	
+		//mapImage = Resources.Load("39654x48478") as Texture;
+//		string texPath = "Assets/" + texName + ".png";
+//		mapImage = (Texture)Resources.LoadAssetAtPath(texPath, typeof(Texture));
+		Texture t = mapTiles[0];
+		print("name: " + t.name);
+
+		mapImage = t;
+
+		ws = new WebSocket("ws://"+host);
+		ws.OnOpen += (sender, e) => {
+			print ("socket open");
+			ws.Send ("join");
+		};
+		ws.OnMessage += (sender, e) => {
+			var d = JSON.Parse(e.Data);
+			print("lat: " +  d["location"]["lat"] + " lng: " + d["location"]["lng"]);
+			tileNum = GetTileNumber(d["location"]["lat"].AsDouble,d["location"]["lng"].AsDouble, zoom);
+
+			point_lat = d["location"]["lat"].AsFloat;
+			point_lng = d["location"]["lng"].AsFloat;
+
+			print ("Loc: " + point_lat + "," + point_lng);
+
+			print("Tile number: "  + (int)tileNum.x  +"x" + (int)tileNum.y);
+			string newTexName = tileNum.x + "x" + tileNum.y;
+			if(!String.Equals(currentMapTile, newTexName)){
+			//	texPath = "Assets/" + newTexName + ".png";
+			//	mapImage = (Texture)Resources.LoadAssetAtPath(texPath, typeof(Texture));
+				currentMapTile = newTexName;
+				needsNewMapTile = true;
+				print ("update currentMapTile: " + newTexName);
+
+			}
+
+		};
+
+		ws.OnError += (sender, e) => {
+			print ("error: " + e);
+		};
+
+		ws.Connect();
 	}
 
+//	void LoadMapTextures(){
+//		"39654x48478"
+//		"39652x48478"
+//		"39654x48478"
+//		"39653x48479"
+//
+//
+//		Resources.Load("glass", Texture2D);
+//
+//	}
+
 	void OnGUI(){
+		if(needsNewMapTile == true){
+			print ("changing map tile");
+			foreach(Texture tex in mapTiles){
+				if(tex.name == currentMapTile){
+					mapImage = tex;
+					print ("got one");
+				}
+			}
+			needsNewMapTile = false;
+		}
+
+
 		GUI.DrawTexture(new Rect(0,0,256,256), mapImage, ScaleMode.ScaleToFit, true, 0.0f);
 
 		int levelOfDetail = 17;
 
 		int topX = 0;
 		int topY = 0;
-		Microsoft.MapPoint.TileSystem.LatLongToPixelXY( top_lat,  top_lng,  levelOfDetail, out topX, out topY);
+		Vector2 tileTop = LatLngForTileNumber((int)tileNum.x, (int)tileNum.y, zoom);
+		Microsoft.MapPoint.TileSystem.LatLongToPixelXY( tileTop.x,  tileTop.y,  levelOfDetail, out topX, out topY);
 		int pointX= 0;
 		int pointY= 0;
 		Microsoft.MapPoint.TileSystem.LatLongToPixelXY( point_lat,  point_lng,  levelOfDetail, out pointX, out pointY);
@@ -48,15 +127,28 @@ public class ShowHUD : MonoBehaviour {
 	
 	}
 
-	Vector2 toPixel(float lat, float lng, int zoomLevel){
-		float x = (float)((lng + 180.0) / (360.0 * (1 << zoomLevel))); 
-		float y = (float)((1.0 - Math.Log(Math.Tan(lat * Math.PI / 180.0) + 1.0 / Math.Cos(toRadians(lat))) / Math.PI) / 2.0 * (1 << zoomLevel));
+	Vector2 GetTileNumber(double lat_deg, double lng_deg, int zoom){
+		double lat_rad = lat_deg/180.0f * Math.PI;
+		double n = Math.Pow(2.0f , zoom);
+		int x = (int)((lng_deg + 180.0f) / 360.0f * n);
+		int y = (int)((1.0 - Math.Log(Math.Tan(lat_rad) + (1 / Math.Cos(lat_rad))) / Math.PI) / 2.0f * n);
 		return new Vector2(x,y);
 	}
-
-	double toRadians(float angle){
-		return Math.PI * angle / 180.0;
+	Vector2 LatLngForTileNumber(int xTile, int yTile, int zoom){
+		double n = Math.Pow(2.0f, zoom);
+		double lng_deg = xTile / n * 360.0f - 180.0f;
+		double lat_rad = Math.Atan(Math.Sinh(Math.PI * (1-2*yTile/n)));
+		double lat_deg = 180.0f * (lat_rad / Math.PI);
+		return (new Vector2((float)lat_deg, (float)lng_deg));
 	}
+
+//	def get_lat_lng_for_number(xtile, ytile, zoom)
+//		n = 2.0 ** zoom
+//			lon_deg = xtile / n * 360.0 - 180.0
+//			lat_rad = Math::atan(Math::sinh(Math::PI * (1 - 2 * ytile / n)))
+//			lat_deg = 180.0 * (lat_rad / Math::PI)
+//		{:lat_deg => lat_deg, :lng_deg => lon_deg}
+//	end
 }
 
 

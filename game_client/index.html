@@ -3,62 +3,138 @@
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>Meat Toy</title>
+		<style>
+		html, body {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+       #map-canvas {
+       	width:500px;
+       	height:500px;
+       }
+
+		</style>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 		<script type="text/javascript" charset="utf-8">
+
+		var markers = [];
+		var map;
+
+		function clearMarkers(){
+      	  for(var i = 0; i < markers.length; i++){
+      	    markers[i].setMap(null);
+      	  }
+      	}
+
+		function initializeMap() {
+			console.log("here");
 		
+      		
+
+  			var mapOptions = {
+  			  zoom: 17,
+  			  center: new google.maps.LatLng(42.36024,-71.08745),
+  			  mapTypeId: google.maps.MapTypeId.ROADMAP
+  			};
+		
+  			map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+  			// console.log(map);
+
+      		function responseToString(o,i){
+      		      if(typeof i=='undefined')i='';
+      		      if(i.length>50)return '[MAX ITERATIONS]';
+      		        var r=[];
+      		        for(var p in o){
+      		          if(o[p] == null){
+      		            o[p] = "null";
+      		          }
+      		          var t=typeof o[p];
+      		            
+      		          if(t == 'object' && o[p].length == 0){
+      		            r.push(i+'"'+p+'":[]');
+  		
+      		          } else {
+      		          r.push(i+'"'+p+'":'+(t=='object' ? '\n'+responseToString(o[p],i+' ') : o[p]+''));
+      		        } 
+      		      }
+      		      return r.join(i+'\n');
+      		}
+		}
+
+		// google.maps.event.addDomListener(window, 'load', initializeMap);
+
 			
-			var ws = null;
-			var host = "case-and-molly-server.herokuapp.com"
-			//var host = "127.0.0.1";
-			//var port = 1337;
+		var ws = null;
+		var host = "case-and-molly-server.herokuapp.com"
+		//var host = "127.0.0.1";
+		//var port = 1337;
 
-			var frameNum = 0;
+		var frameNum = 0;
+		
+		function ready(){
+			initializeMap();
+			console.log("trying to open a websocket:" + "ws://"+host)
+			ws = new WebSocket("ws://"+host)
+			// When the connection is open, send some data to the server
+			ws.onopen = function () {
+			  console.log("opened");
+			  console.log("joining...");
+			  //ws.send('Ping'); // Send the message 'Ping' to the server
+			  //ws.send("foo");
+			  ws.send("join");
+			};
+
+			// oh, it did close
+			ws.onerror = function (e) {
+			  console.log('WebSocket did close ',e);
+			};
 			
-			function ready(){
-				console.log("trying to open a websocket:" + "ws://"+host)
-				ws = new WebSocket("ws://"+host)
-				// When the connection is open, send some data to the server
-				ws.onopen = function () {
-				  console.log("opened");
-				  console.log("joining...");
-				  //ws.send('Ping'); // Send the message 'Ping' to the server
-				  //ws.send("foo");
-				  ws.send("join");
-				};
+			// Log errors
+			ws.onerror = function (error) {
+			console.log(error);
+			  console.log('WebSocket Error ' + error);
+			};
 
-				// oh, it did close
-				ws.onerror = function (e) {
-				  console.log('WebSocket did close ',e);
-				};
-				
-				// Log errors
-				ws.onerror = function (error) {
-				console.log(error);
-				  console.log('WebSocket Error ' + error);
-				};
+		
+			// Log messages from the server
+			ws.onmessage = function (e) {
+				console.log("onmessage: " + e.data);
+				var result = $.parseJSON(e.data);				
+				$("h1").html(result.time);
+				if(result.switch){
 
-			
-				// Log messages from the server
-				ws.onmessage = function (e) {
-					console.log("onmessage: " + e.data);
-					var result = $.parseJSON(e.data);				
-					$("h1").html(result.time);
-					if(result.switch){
+					$("body").css("background", "green");
 
-						$("body").css("background", "green");
+				} else {
+					$("body").css("background", "red");
+				}
 
-					} else {
-						$("body").css("background", "red");
-					}
-				}					
+				clearMarkers();
+				var pos =  new google.maps.LatLng(result.location.lat,
+                                       result.location.lng);
+				console.log(pos);
+        		var marker = new google.maps.Marker({
+        		  position: pos,
+        		  map: map,
+        		});
+	
+        		markers.push(marker);
+        		map.setCenter(pos);
+			}					
 
 
-			}
-						
-			document.addEventListener("DOMContentLoaded", ready, false);
+		}
+
+		
+							
+				document.addEventListener("DOMContentLoaded", ready, false);
 		</script>
 	</head>
 	<body>
-		<h1 style="color:#fff"></h1>
+		<!-- <h1 style="color:#fff"></h1> -->
+		<div id="map-canvas"></div>
 	</body>
 	</html>
