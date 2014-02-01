@@ -31,8 +31,8 @@ public class ShowHUD : MonoBehaviour {
 	public List<Texture> mapTiles; // 0 1 2
 								   //   3
 
-	public bool needsLerp = false;
-	int targetX = 0;
+	Vector2 lerpTo;
+	bool needsLerp = false;
 	float lerpStarted = 0.0f;
 
 	String currentMapTile = "39654x48478";
@@ -51,8 +51,8 @@ public class ShowHUD : MonoBehaviour {
 			var d = JSON.Parse(e.Data);
 			tileNum = GetTileNumber(d["location"]["lat"].AsDouble,d["location"]["lng"].AsDouble, zoom);
 
-			point_lat = d["location"]["lat"].AsDouble;
-			point_lng = d["location"]["lng"].AsDouble;
+			lerpTo.x = d["location"]["lat"].AsFloat;
+			lerpTo.y = d["location"]["lng"].AsFloat;
 
 			print ("Loc: " + point_lat + "," + point_lng);
 
@@ -61,6 +61,7 @@ public class ShowHUD : MonoBehaviour {
 			if(!String.Equals(currentMapTile, newTexName)){
 				currentMapTile = newTexName;
 				needsNewMapTile = true;
+				needsLerp = true;
 			}
 
 		};
@@ -75,6 +76,8 @@ public class ShowHUD : MonoBehaviour {
 	void OnGUI(){
 		if(needsNewMapTile == true){
 			print ("changing map tile");
+			lerpStarted = Time.time;
+
 			foreach(Texture tex in mapTiles){
 				if(tex.name == currentMapTile){
 					mapImage = tex;
@@ -90,6 +93,16 @@ public class ShowHUD : MonoBehaviour {
 		int topX = 0;
 		int topY = 0;//39654x48478
 
+		if(needsLerp){
+			print ("needs lerp: " + (Time.time - lerpStarted));
+			point_lat = (double)Mathf.Lerp((float)point_lat, lerpTo.x, Time.time - lerpStarted);
+			point_lng = (double)Mathf.Lerp((float)point_lng, lerpTo.y, Time.time - lerpStarted);
+		}
+
+		if(point_lat == lerpTo.x && point_lng == lerpTo.y){
+			print ("end lerp");
+			needsLerp = false;
+		}
 
 		Vector2 tileTop = LatLngForTileNumber(39653, 48479, zoom);
 		Microsoft.MapPoint.TileSystem.LatLongToPixelXY( tileTop.x,  tileTop.y,  levelOfDetail, out topX, out topY);
@@ -102,18 +115,9 @@ public class ShowHUD : MonoBehaviour {
 		pointX = pointX - topX;
 		pointY = pointY - topY;
 
-		if(needsLerp){
-			targetX = 128 - pointX;
-			print (lerpStarted - Time.time);
-			pointX = (int)Mathf.Lerp(pointX, targetX, Time.time - lerpStarted);
-		}
 
 
-		if(pointX == targetX){
-			targetX = 0;
-			print ("end lerp");
-			needsLerp = false;
-		}
+
 
 		GUI.BeginGroup(new Rect(0,0,256,256));
 
