@@ -42,21 +42,25 @@ puts url
 puts "original: #{lat},#{lng}"
 puts "bounds: center: #{center[:lat_deg]}, #{center[:lng_deg]}\ntop:#{top_left[:lat_deg]},#{top_left[:lng_deg]}\nbottom:#{bottom_right[:lat_deg]},#{bottom_right[:lng_deg]}"
 
-`wget #{url}`
+# `wget #{url}`
 
 
 above_center = get_lat_lng_for_number(tile[:x], tile[:y] - 1, zoom)
 above_left = get_lat_lng_for_number(tile[:x]-1, tile[:y] - 1, zoom)
+
 above_right = get_lat_lng_for_number(tile[:x]+1, tile[:y] - 1, zoom)
 
-puts url_for(above_center, zoom)
-`wget #{url_for above_center,zoom}`
-puts url_for(above_left, zoom)
+puts "above left: #{above_left.inspect}"
 
-`wget #{url_for above_left,zoom}`
-puts url_for(above_right, zoom)
 
-`wget #{url_for above_right,zoom}`
+# puts url_for(above_center, zoom)
+# `wget #{url_for above_center,zoom}`
+# puts url_for(above_left, zoom)
+
+# `wget #{url_for above_left,zoom}`
+# puts url_for(above_right, zoom)
+
+# `wget #{url_for above_right,zoom}`
 
 
 

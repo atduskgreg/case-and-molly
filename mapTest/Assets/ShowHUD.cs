@@ -9,11 +9,13 @@ using System.Collections.Generic;
 public class ShowHUD : MonoBehaviour {
 
 	public Texture mapImage;
-	public float top_lat;
+	public double  top_lat;
 	public float top_lng;
 
-	public float point_lat;
-	public float point_lng;
+	public double point_lat;
+	public double point_lng;
+
+	public double debugMoveAmt = 0.00001d;
 
 	public float pointSize = 10.0f;
 
@@ -29,16 +31,15 @@ public class ShowHUD : MonoBehaviour {
 	public List<Texture> mapTiles; // 0 1 2
 								   //   3
 
+	public bool needsLerp = false;
+	int targetX = 0;
+	float lerpStarted = 0.0f;
+
 	String currentMapTile = "39654x48478";
 	bool needsNewMapTile = false;
 	// Use this for initialization
-	void Start () {
-		//mapImage = Resources.Load("39654x48478") as Texture;
-//		string texPath = "Assets/" + texName + ".png";
-//		mapImage = (Texture)Resources.LoadAssetAtPath(texPath, typeof(Texture));
+	void Start () {;
 		Texture t = mapTiles[0];
-		print("name: " + t.name);
-
 		mapImage = t;
 
 		ws = new WebSocket("ws://"+host);
@@ -48,23 +49,18 @@ public class ShowHUD : MonoBehaviour {
 		};
 		ws.OnMessage += (sender, e) => {
 			var d = JSON.Parse(e.Data);
-			print("lat: " +  d["location"]["lat"] + " lng: " + d["location"]["lng"]);
 			tileNum = GetTileNumber(d["location"]["lat"].AsDouble,d["location"]["lng"].AsDouble, zoom);
 
-			point_lat = d["location"]["lat"].AsFloat;
-			point_lng = d["location"]["lng"].AsFloat;
+			point_lat = d["location"]["lat"].AsDouble;
+			point_lng = d["location"]["lng"].AsDouble;
 
 			print ("Loc: " + point_lat + "," + point_lng);
 
 			print("Tile number: "  + (int)tileNum.x  +"x" + (int)tileNum.y);
 			string newTexName = tileNum.x + "x" + tileNum.y;
 			if(!String.Equals(currentMapTile, newTexName)){
-			//	texPath = "Assets/" + newTexName + ".png";
-			//	mapImage = (Texture)Resources.LoadAssetAtPath(texPath, typeof(Texture));
 				currentMapTile = newTexName;
 				needsNewMapTile = true;
-				print ("update currentMapTile: " + newTexName);
-
 			}
 
 		};
@@ -76,55 +72,87 @@ public class ShowHUD : MonoBehaviour {
 		ws.Connect();
 	}
 
-//	void LoadMapTextures(){
-//		"39654x48478"
-//		"39652x48478"
-//		"39654x48478"
-//		"39653x48479"
-//
-//
-//		Resources.Load("glass", Texture2D);
-//
-//	}
-
 	void OnGUI(){
 		if(needsNewMapTile == true){
 			print ("changing map tile");
 			foreach(Texture tex in mapTiles){
 				if(tex.name == currentMapTile){
 					mapImage = tex;
-					print ("got one");
 				}
 			}
 			needsNewMapTile = false;
 		}
 
 
-		GUI.DrawTexture(new Rect(0,0,256,256), mapImage, ScaleMode.ScaleToFit, true, 0.0f);
 
 		int levelOfDetail = 17;
 
 		int topX = 0;
-		int topY = 0;
-		Vector2 tileTop = LatLngForTileNumber((int)tileNum.x, (int)tileNum.y, zoom);
+		int topY = 0;//39654x48478
+
+
+		Vector2 tileTop = LatLngForTileNumber(39653, 48479, zoom);
 		Microsoft.MapPoint.TileSystem.LatLongToPixelXY( tileTop.x,  tileTop.y,  levelOfDetail, out topX, out topY);
 		int pointX= 0;
 		int pointY= 0;
 		Microsoft.MapPoint.TileSystem.LatLongToPixelXY( point_lat,  point_lng,  levelOfDetail, out pointX, out pointY);
 
+		print (pointX + "," + pointY + " " + topX + "," + topY + " (" + (pointX - topX) + "," + (pointY - topY) + ")");
 
 		pointX = pointX - topX;
 		pointY = pointY - topY;
 
-		print ("pointX: " + pointX + " pointY: " + pointY);
+		if(needsLerp){
+			targetX = 128 - pointX;
+			print (lerpStarted - Time.time);
+			pointX = (int)Mathf.Lerp(pointX, targetX, Time.time - lerpStarted);
+		}
 
 
-		GUI.Button(new Rect((float)(pointX) - pointSize/2, (float)pointY - pointSize/2, pointSize, pointSize), "", guiStyle);
+		if(pointX == targetX){
+			targetX = 0;
+			print ("end lerp");
+			needsLerp = false;
+		}
+
+		GUI.BeginGroup(new Rect(0,0,256,256));
+
+		int xOffset = 128 - pointX;
+		int yOffset = 128 - pointY;
+
+		GUI.DrawTexture(new Rect(-256 + xOffset,-256 +yOffset,256,256), mapTiles[0], ScaleMode.ScaleToFit, true, 0.0f);
+		GUI.DrawTexture(new Rect(xOffset,-256 +yOffset,256,256), mapTiles[1], ScaleMode.ScaleToFit, true, 0.0f);
+		GUI.DrawTexture(new Rect(256 + xOffset,-256 +yOffset,256,256), mapTiles[3], ScaleMode.ScaleToFit, true, 0.0f);
+		GUI.DrawTexture(new Rect(xOffset,yOffset,256,256), mapTiles[2], ScaleMode.ScaleToFit, true, 0.0f);
+
+		GUI.Button(new Rect(128 - pointSize/2, 128 - pointSize/2, pointSize, pointSize), "", guiStyle);
+
+		GUI.EndGroup();
 	}
 
 	// Update is called once per frame
 	void Update () {
-	
+		if ( Input.GetKey(KeyCode.UpArrow) ){
+			point_lat += debugMoveAmt;
+		}
+		if ( Input.GetKey(KeyCode.DownArrow) ){
+			point_lat -= debugMoveAmt;
+
+		}
+		if ( Input.GetKey(KeyCode.RightArrow) ){
+			point_lng += debugMoveAmt;
+
+
+		}
+		if ( Input.GetKey(KeyCode.LeftArrow) ){
+			point_lng -= debugMoveAmt;
+		}
+
+		if(Input.GetKey(KeyCode.Space)){
+			needsLerp = true;
+			lerpStarted = Time.time;
+		}
+
 	}
 
 	Vector2 GetTileNumber(double lat_deg, double lng_deg, int zoom){
@@ -141,14 +169,6 @@ public class ShowHUD : MonoBehaviour {
 		double lat_deg = 180.0f * (lat_rad / Math.PI);
 		return (new Vector2((float)lat_deg, (float)lng_deg));
 	}
-
-//	def get_lat_lng_for_number(xtile, ytile, zoom)
-//		n = 2.0 ** zoom
-//			lon_deg = xtile / n * 360.0 - 180.0
-//			lat_rad = Math::atan(Math::sinh(Math::PI * (1 - 2 * ytile / n)))
-//			lat_deg = 180.0 * (lat_rad / Math::PI)
-//		{:lat_deg => lat_deg, :lng_deg => lon_deg}
-//	end
 }
 
 
