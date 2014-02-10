@@ -29,7 +29,7 @@ wss.on('connection', function(ws) {
             try{
                 console.log(message);
                 msg = JSON.parse(message);
-                if(msg.location){
+                // if(msg.location ||){
 
 
                     // msg.switch = on; // add switch message for now
@@ -42,7 +42,7 @@ wss.on('connection', function(ws) {
                             clients.splice(i,1);
                         }
                     });
-                }
+                // }
             }
             } catch(e){
                 console.log("ERROR:" + e.message);

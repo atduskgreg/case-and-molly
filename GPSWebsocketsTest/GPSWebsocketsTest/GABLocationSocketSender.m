@@ -78,14 +78,16 @@
 - (void)webSocket:(SRWebSocket *)ws didReceiveMessage:(id)message
 {
     NSLog(@"webSocket:didReceiveMessage: %@", message);
-    NSError* error;
-    NSDictionary* json = [NSJSONSerialization
-                          JSONObjectWithData:message //1
-                          
-                          options:kNilOptions
-                          error:&error];
+//    NSError* error;
+//    NSDictionary* json = [NSJSONSerialization
+//                          JSONObjectWithData:message //1
+//                          
+//                          options:kNilOptions
+//                          error:&error];
     
-    NSLog(@"switch: %@", [json objectForKey:@"switch"]);
+//    NSLog(@"json: @", json);
+    
+//    NSLog(@"switch: %@", [json objectForKey:@"switch"]);
 }
 
 

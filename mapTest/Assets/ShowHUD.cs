@@ -154,10 +154,10 @@ public class ShowHUD : MonoBehaviour {
 		}
 		
 		if (Input.GetKeyDown(KeyCode.N)) {
-			ws.Send ("{'switch': false}");
+			ws.Send ("{\"switch\": false}");
 		}
 		if (Input.GetKeyDown(KeyCode.Y)) {
-			ws.Send ("{'switch': true}");
+			ws.Send ("{\"switch\": true}");
 		}
 	}
 
