@@ -115,10 +115,6 @@ public class ShowHUD : MonoBehaviour {
 		pointX = pointX - topX;
 		pointY = pointY - topY;
 
-
-
-
-
 		GUI.BeginGroup(new Rect(0,0,256,256));
 
 		int xOffset = 128 - pointX;
@@ -156,7 +152,13 @@ public class ShowHUD : MonoBehaviour {
 			needsLerp = true;
 			lerpStarted = Time.time;
 		}
-
+		
+		if (Input.GetKeyDown(KeyCode.N)) {
+			ws.Send ("{'switch': false}");
+		}
+		if (Input.GetKeyDown(KeyCode.Y)) {
+			ws.Send ("{'switch': true}");
+		}
 	}
 
 	Vector2 GetTileNumber(double lat_deg, double lng_deg, int zoom){

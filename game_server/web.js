@@ -14,7 +14,7 @@ var port = process.env.PORT || 5000
 var WebSocketServer = require('ws').Server
   , wss = new WebSocketServer({port: port});
 console.log('http server listening on %d', port);
-var on = false;
+// var on = false;
 
 var clients = [];
 
@@ -25,17 +25,14 @@ wss.on('connection', function(ws) {
             console.log("joined: " + clients.length);
     		clients.push(ws);
     	} 
-        else if(message == "switch"){
-            on = !on;
-            console.log('t: %s', on);
-        } else{
+        else{
             try{
                 console.log(message);
                 msg = JSON.parse(message);
                 if(msg.location){
 
 
-                    msg.switch = on; // add switch message for now
+                    // msg.switch = on; // add switch message for now
                     // console.log("sending location message");
                     // console.log(JSON.stringify(msg));
                     for(var i = 0; i< clients.length; i++){

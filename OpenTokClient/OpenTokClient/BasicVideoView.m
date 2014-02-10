@@ -83,7 +83,7 @@
 }
 
 - (void)renderVideoFrame:(OTVideoFrame*) frame {
-    NSLog(@"BasicVideoView renderVideoFrame:%ix%i", frame.format.imageWidth, frame.format.imageHeight);
+//    NSLog(@"BasicVideoView renderVideoFrame:%ix%i", frame.format.imageWidth, frame.format.imageHeight);
     @synchronized(lock) {
         size_t width = frame.format.imageWidth;
         size_t height = frame.format.imageHeight;
@@ -146,15 +146,20 @@
                           bytesPerRow:width*4
                           bitsPerPixel:32];
         
-        [imageHolder addRepresentation:imageHolderRep];
+//        imageHolder = [[NSImage alloc] init];
+
+        NSImage* myImage = [[NSImage alloc] initWithCGImage:[imageHolderRep CGImage] size:NSMakeSize(width,height)];
+        [self setImage:myImage];
+
         
-        if (![self.image isEqualTo:imageHolder]) {
-            [self setImage:imageHolder];
-        }
+//        [imageHolder addRepresentation:imageHolderRep];
+//        if (![self.image isEqualTo:imageHolder]) {
+//            [self setImage:imageHolder];
+//        }
 
-        NSBitmapImageRep* imageRep=[[NSBitmapImageRep alloc] initWithData:[imageHolder TIFFRepresentation]];
+//        NSBitmapImageRep* imageRep=[[NSBitmapImageRep alloc] initWithData:[myImage TIFFRepresentation]];
 
-        CGImageRef pixelData = [imageRep CGImage];
+        CGImageRef pixelData = [imageHolderRep CGImage];
         texture = [GLKTextureLoader textureWithCGImage:pixelData options:NULL error:NULL];
         NSRect aRect = NSMakeRect(0, 0, 640, 480);
         
