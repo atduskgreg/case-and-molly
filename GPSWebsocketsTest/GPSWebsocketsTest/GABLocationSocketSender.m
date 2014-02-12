@@ -78,16 +78,31 @@
 - (void)webSocket:(SRWebSocket *)ws didReceiveMessage:(id)message
 {
     NSLog(@"webSocket:didReceiveMessage: %@", message);
-//    NSError* error;
-//    NSDictionary* json = [NSJSONSerialization
-//                          JSONObjectWithData:message //1
-//                          
-//                          options:kNilOptions
-//                          error:&error];
     
-//    NSLog(@"json: @", json);
+    if(message != NULL){
+        NSDictionary *result = [NSJSONSerialization JSONObjectWithData:[message dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableLeaves error:nil];
     
-//    NSLog(@"switch: %@", [json objectForKey:@"switch"]);
+    
+        if([result objectForKey:@"switch"] != nil){
+            NSLog(@"switch: %@", [result objectForKey:@"switch"]);
+            NSString* switchColor = (NSString *)[result objectForKey:@"switch"];
+            if([switchColor isEqualToString:@"green"]){
+                [_outputView setBackgroundColor:[UIColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:1.0]];
+
+            } else {
+                [_outputView setBackgroundColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0]];
+            }
+            [self fadeOutColor];
+        }
+    }
+}
+
+-(void) fadeOutColor
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:2];
+    [_outputView setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0]];
+    [UIView commitAnimations];
 }
 
 

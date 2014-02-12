@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title>Molly Client debugger</title>
+<style>
+		html, body {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+       #map-canvas {
+       	width:500px;
+       	height:500px;
+       	position: absolute;
+       	top: 0px;
+       	left: 400px;
+       }
+
+		</style>
+
+	  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        <script src='http://static.opentok.com/webrtc/v2.0/js/TB.min.js'></script>
+
+	<script type="text/javascript" charset="utf-8">
+		// BEGIN MAP STUFF ===============
+
+
+		var markers = [];
+		var map;
+
+		function clearMarkers(){
+      	  for(var i = 0; i < markers.length; i++){
+      	    markers[i].setMap(null);
+      	  }
+      	}
+
+		function initializeMap() {
+			console.log("here");
+		
+
+			var mapOptions = {
+  				  zoom: 17,
+  				  center: new google.maps.LatLng(42.36024,-71.08745	),
+  				  mapTypeId: google.maps.MapTypeId.ROADMAP
+  				};
+			  	console.log(mapOptions);
+	
+  			 map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+  			console.log("map:" + map);
+  			
+		}
+
+		
+
+		var ws = null;
+		var host = "case-and-molly-server.herokuapp.com";
+
+		var marker;
+		function placeMarker(location) {
+			console.log(location.lat() + "," + location.lng());
+
+		  if ( marker ) {
+		    marker.setPosition(location);
+		  } else {
+		    marker = new google.maps.Marker({
+		      position: location,
+		      map: map
+		    });
+		  }
+		}
+
+		function sendRed(){
+			console.log("sendRed()");
+			ws.send("{\"switch\": \"red\"}")
+		}
+
+		function sendGreen(){
+			console.log("sendGreen()");
+			ws.send("{\"switch\": \"green\"}")
+		}
+
+		function ready(){
+			initializeMap();
+			console.log("trying to open a websocket:" + "ws://"+host)
+			ws = new WebSocket("ws://"+host)
+			// When the connection is open, send some data to the server
+			ws.onopen = function () {
+			  console.log("opened");
+			  console.log("joining...");
+			  //ws.send('Ping'); // Send the message 'Ping' to the server
+			  //ws.send("foo");
+			  ws.send("join");
+			};
+
+			// oh, it did close
+			ws.onerror = function (e) {
+			  console.log('WebSocket did close ',e);
+			};
+			
+			// Log errors
+			ws.onerror = function (error) {
+			console.log(error);
+			  console.log('WebSocket Error ' + error);
+			};
+
+		
+			// Log messages from the server
+			ws.onmessage = function (e) {
+				console.log("onmessage: " + e.data);
+				var result = $.parseJSON(e.data);				
+				//$("h1").html(result.time);
+				if(result.switch != null){
+					if(result.switch == "green"){
+						$("body").css("background", "green");
+	
+					} else {
+						$("body").css("background", "red");
+					}
+					$("body").animate({backgroundColor: "#ffffff"}, 500);
+				} 
+				if(result.location != null) {
+
+					clearMarkers();
+					var pos =  new google.maps.LatLng(result.location.lat,
+                	                       result.location.lng);
+					console.log(pos);
+        			var marker = new google.maps.Marker({
+        			  position: pos,
+        			  map: map,
+        			});
+		
+        			markers.push(marker);
+        			map.setCenter(pos);
+        		}
+			}		
+
+
+			
+			// google.maps.event.addListener(map, 'click', function(event) {
+			//   placeMarker(event.latLng);
+			// });			
+		}
+
+		document.addEventListener("DOMContentLoaded", ready, false);
+
+
+		// *** Fill the following variables using your own Project info from the Dashboard  ***
+		// ***                  (https://dashboard.tokbox.com/projects)                     ***
+
+		var apiKey = '44604152';    // Replace with your own API key.
+		var sessionId = '2_MX40NDYwNDE1Mn5-VGh1IEphbiAwOSAxMjowNDo1MCBQU1QgMjAxNH4wLjY4NTE4ODh-'; // Replace with your generated Session ID.
+		var token = 'T1==cGFydG5lcl9pZD00NDYwNDE1MiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz0zZTQzMmUzYTM4YmVmNzk3OTJiNGQ2NDc5ZjAxOGI5OWE5ODY5Yzg2OnJvbGU9c3Vic2NyaWJlciZzZXNzaW9uX2lkPTJfTVg0ME5EWXdOREUxTW41LVZHaDFJRXBoYmlBd09TQXhNam93TkRvMU1DQlFVMVFnTWpBeE5INHdMalk0TlRFNE9EaC0mY3JlYXRlX3RpbWU9MTM5MjIyNTUxNCZub25jZT0wLjQ4MTg3MjM5MDQzMzUyODAzJmV4cGlyZV90aW1lPTEzOTQ4MTc1MDImY29ubmVjdGlvbl9kYXRhPQ==';     // Replace with your generated Token (use Project Tools or from a server-side library)
+
+		var session;
+		var publisher;
+		var subscribers = {};
+
+		// Un-comment either of the following to set automatic logging and exception handling.
+		// See the exceptionHandler() method below.
+		// TB.setLogLevel(TB.ALL);
+		// TB.addEventListener("exception", exceptionHandler);
+
+		session = TB.initSession(sessionId);	// Initialize session
+
+		// Add event listeners to the session
+		session.addEventListener('sessionConnected', sessionConnectedHandler);
+		session.addEventListener('sessionDisconnected', sessionDisconnectedHandler);
+		session.addEventListener('connectionCreated', connectionCreatedHandler);
+		session.addEventListener('connectionDestroyed', connectionDestroyedHandler);
+		session.addEventListener('streamCreated', streamCreatedHandler);
+		session.addEventListener('streamDestroyed', streamDestroyedHandler);
+		session.addEventListener("streamCreated", streamCreatedHandler);
+ 
+			 
+
+		//--------------------------------------
+		//  LINK CLICK HANDLERS
+		//--------------------------------------
+
+		function connect() {
+			session.connect(apiKey, token);
+		}
+
+		function disconnect() {
+			session.disconnect();
+			hide('disconnectLink');
+			hide('publishLink');
+			hide('unpublishLink');
+		}
+
+		// Called when user wants to start publishing to the session
+		function startPublishing() {
+			if (!publisher) {
+				var parentDiv = document.getElementById("myCamera");
+				var publisherDiv = document.createElement('div'); // Create a div for the publisher to replace
+				var publisherProperties = {};
+				publisherProperties.name = "A web-based OpenTok client";
+				publisherProperties.data = "Joe mama"
+				publisherDiv.setAttribute('id', 'opentok_publisher');
+				parentDiv.appendChild(publisherDiv);
+				publisher = session.publish(publisherDiv.id, publisherProperties); // Pass the replacement div id to the publish method
+				show('unpublishLink');
+				hide('publishLink');
+			}
+		}
+
+		function stopPublishing() {
+			if (publisher) {
+				session.unpublish(publisher);
+			}
+			publisher = null;
+
+			show('publishLink');
+			hide('unpublishLink');
+		}
+
+		//--------------------------------------
+		//  OPENTOK EVENT HANDLERS
+		//--------------------------------------
+
+		function sessionConnectedHandler(event) {
+			// Subscribe to all streams currently in the Session
+			for (var i = 0; i < event.streams.length; i++) {
+				addStream(event.streams[i]);
+			}
+			show('disconnectLink');
+			show('publishLink');
+			hide('connectLink');
+		}
+
+		function streamCreatedHandler(event) {
+			// Subscribe to the newly created streams
+			for (var i = 0; i < event.streams.length; i++) {
+				TB.log("streamCreated - connectionId: " + event.streams[i].connection.connectionId);
+				TB.log("streamCreated - connectionData: " + event.streams[i].connection.data);
+				addStream(event.streams[i]);
+			}
+		}
+
+		function streamDestroyedHandler(event) {
+			// This signals that a stream was destroyed. Any Subscribers will automatically be removed.
+			// This default behaviour can be prevented using event.preventDefault()
+		}
+
+		function sessionDisconnectedHandler(event) {
+			// This signals that the user was disconnected from the Session. Any subscribers and publishers
+			// will automatically be removed. This default behaviour can be prevented using event.preventDefault()
+			publisher = null;
+
+			show('connectLink');
+			hide('disconnectLink');
+			hide('publishLink');
+			hide('unpublishLink');
+		}
+
+		function connectionDestroyedHandler(event) {
+			// This signals that connections were destroyed
+		}
+
+		function connectionCreatedHandler(event) {
+			// This signals new connections have been created.
+		}
+
+		/*
+		If you un-comment the call to TB.addEventListener("exception", exceptionHandler) above, OpenTok calls the
+		exceptionHandler() method when exception events occur. You can modify this method to further process exception events.
+		If you un-comment the call to TB.setLogLevel(), above, OpenTok automatically displays exception event messages.
+		*/
+		function exceptionHandler(event) {
+			alert("Exception: " + event.code + "::" + event.message);
+		}
+
+		//--------------------------------------
+		//  HELPER METHODS
+		//--------------------------------------
+
+		function addStream(stream) {
+			// Check if this is the stream that I am publishing, and if so do not publish.
+			if (stream.connection.connectionId == session.connection.connectionId) {
+				return;
+			}
+			var subscriberDiv = document.createElement('div'); // Create a div for the subscriber to replace
+			subscriberDiv.setAttribute('id', stream.streamId); // Give the replacement div the id of the stream as its id.
+			document.getElementById("subscribers").appendChild(subscriberDiv);
+			subscribers[stream.streamId] = session.subscribe(stream, subscriberDiv.id);
+		}
+
+		function show(id) {
+			document.getElementById(id).style.display = 'block';
+		}
+
+		function hide(id) {
+			document.getElementById(id).style.display = 'none';
+		}
+
+		
+
+
+	</script>
+
+</head>
+<body>
+	<div id="map-canvas"></div>
+
+	<div id="links">
+       	<input type="button" value="Connect" id ="connectLink" onClick="javascript:connect()" />
+       	<input type="button" value="Disconnect" id ="disconnectLink" onClick="javascript:disconnect()" style="display:none" />
+       	<input type="button" value="Publish" id ="publishLink" onClick="javascript:startPublishing()" style="display:none" />
+       	<input type="button" value="Unpublish" id ="unpublishLink" onClick="javascript:stopPublishing()" style="display:none" />
+	</div>
+	<div id="myCamera" class="publisherContainer"></div>
+	<div id="subscribers"></div>
+	<input type="button" value="Red" id ="sendRed" onClick="javascript:sendRed()" />
+	<input type="button" value="Green" id ="sendGreen" onClick="javascript:sendGreen()" />
+
+
+</body>
+</html>

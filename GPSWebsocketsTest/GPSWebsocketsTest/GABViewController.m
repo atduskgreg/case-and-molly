@@ -19,7 +19,7 @@
     [super viewDidLoad];
     locationSender = [[GABLocationSocketSender alloc] init];
     // HERE: do this when correct websocket flag is set
-    [indicatorView setBackgroundColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0]];
+    [locationSender setOutputView:indicatorView];
 }
 
 - (IBAction)segmentedControlChanged:(id)sender

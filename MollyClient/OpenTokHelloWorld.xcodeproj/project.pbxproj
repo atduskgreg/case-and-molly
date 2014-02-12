@@ -1,0 +1,437 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1F3B0CEB14F725E100511DCC /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3B0CDE14F725E100511DCC /* MobileCoreServices.framework */; };
+		1F3B0CEC14F725E100511DCC /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3B0CDF14F725E100511DCC /* CFNetwork.framework */; };
+		1F3B0CED14F725E100511DCC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3B0CE014F725E100511DCC /* SystemConfiguration.framework */; };
+		1F3B0CEE14F725E100511DCC /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3B0CE114F725E100511DCC /* CoreMedia.framework */; };
+		1F3B0CEF14F725E100511DCC /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3B0CE214F725E100511DCC /* Security.framework */; };
+		1F3B0CF014F725E100511DCC /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3B0CE314F725E100511DCC /* AudioToolbox.framework */; };
+		1F3B0CF114F725E100511DCC /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3B0CE414F725E100511DCC /* CoreAudio.framework */; };
+		1F3B0CF214F725E100511DCC /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3B0CE514F725E100511DCC /* CoreVideo.framework */; };
+		1F3B0CF314F725E100511DCC /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3B0CE614F725E100511DCC /* OpenGLES.framework */; };
+		1F3B0CF414F725E100511DCC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3B0CE714F725E100511DCC /* libz.dylib */; };
+		1F3B0CF514F725E100511DCC /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3B0CE814F725E100511DCC /* libstdc++.dylib */; };
+		1F3B0CF614F725E100511DCC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3B0CE914F725E100511DCC /* QuartzCore.framework */; };
+		1F3B0CF714F725E100511DCC /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3B0CEA14F725E100511DCC /* AVFoundation.framework */; };
+		1FE24FBC14F71E47002929E6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE24FBB14F71E47002929E6 /* UIKit.framework */; };
+		1FE24FBE14F71E47002929E6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE24FBD14F71E47002929E6 /* Foundation.framework */; };
+		1FE24FC014F71E47002929E6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE24FBF14F71E47002929E6 /* CoreGraphics.framework */; };
+		1FE24FC614F71E47002929E6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1FE24FC414F71E47002929E6 /* InfoPlist.strings */; };
+		1FE24FC814F71E47002929E6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE24FC714F71E47002929E6 /* main.m */; };
+		1FE24FCC14F71E47002929E6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE24FCB14F71E47002929E6 /* AppDelegate.m */; };
+		1FE24FCF14F71E47002929E6 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FE24FCD14F71E47002929E6 /* MainStoryboard_iPhone.storyboard */; };
+		1FE24FD214F71E47002929E6 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FE24FD014F71E47002929E6 /* MainStoryboard_iPad.storyboard */; };
+		1FE24FD514F71E47002929E6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE24FD414F71E47002929E6 /* ViewController.m */; };
+		37B376B918ABE64B003BCC67 /* base64.c in Sources */ = {isa = PBXBuildFile; fileRef = 37B376B218ABE64B003BCC67 /* base64.c */; };
+		37B376BA18ABE64B003BCC67 /* NSData+SRB64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B376B518ABE64B003BCC67 /* NSData+SRB64Additions.m */; };
+		37B376BB18ABE64B003BCC67 /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B376B818ABE64B003BCC67 /* SRWebSocket.m */; };
+		37B376BE18ABE65C003BCC67 /* GABLocationSocketSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B376BD18ABE65C003BCC67 /* GABLocationSocketSender.m */; };
+		37B376C218ABE7AD003BCC67 /* Opentok.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37B376C118ABE7AD003BCC67 /* Opentok.framework */; };
+		37B376C418ABE8CE003BCC67 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37B376C318ABE8CE003BCC67 /* CoreLocation.framework */; };
+		37B376C618ABE91A003BCC67 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37B376C518ABE91A003BCC67 /* libicucore.dylib */; };
+		D46D3E7B14F85CD700DEDEDF /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D46D3E7A14F85CD700DEDEDF /* CoreTelephony.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1F3B0CDE14F725E100511DCC /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		1F3B0CDF14F725E100511DCC /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		1F3B0CE014F725E100511DCC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		1F3B0CE114F725E100511DCC /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		1F3B0CE214F725E100511DCC /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		1F3B0CE314F725E100511DCC /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		1F3B0CE414F725E100511DCC /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		1F3B0CE514F725E100511DCC /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		1F3B0CE614F725E100511DCC /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		1F3B0CE714F725E100511DCC /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		1F3B0CE814F725E100511DCC /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
+		1F3B0CE914F725E100511DCC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		1F3B0CEA14F725E100511DCC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		1FE24FB714F71E47002929E6 /* OpenTokHello.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenTokHello.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FE24FBB14F71E47002929E6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		1FE24FBD14F71E47002929E6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1FE24FBF14F71E47002929E6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		1FE24FC314F71E47002929E6 /* OpenTokHelloWorld-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenTokHelloWorld-Info.plist"; sourceTree = "<group>"; };
+		1FE24FC514F71E47002929E6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1FE24FC714F71E47002929E6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1FE24FC914F71E47002929E6 /* OpenTokHelloWorld-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OpenTokHelloWorld-Prefix.pch"; sourceTree = "<group>"; };
+		1FE24FCA14F71E47002929E6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		1FE24FCB14F71E47002929E6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		1FE24FCE14F71E47002929E6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		1FE24FD114F71E47002929E6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
+		1FE24FD314F71E47002929E6 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		1FE24FD414F71E47002929E6 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		37B376B218ABE64B003BCC67 /* base64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = base64.c; sourceTree = "<group>"; };
+		37B376B318ABE64B003BCC67 /* base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base64.h; sourceTree = "<group>"; };
+		37B376B418ABE64B003BCC67 /* NSData+SRB64Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SRB64Additions.h"; sourceTree = "<group>"; };
+		37B376B518ABE64B003BCC67 /* NSData+SRB64Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+SRB64Additions.m"; sourceTree = "<group>"; };
+		37B376B618ABE64B003BCC67 /* SocketRocket-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SocketRocket-Prefix.pch"; sourceTree = "<group>"; };
+		37B376B718ABE64B003BCC67 /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRWebSocket.h; sourceTree = "<group>"; };
+		37B376B818ABE64B003BCC67 /* SRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRWebSocket.m; sourceTree = "<group>"; };
+		37B376BC18ABE65C003BCC67 /* GABLocationSocketSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GABLocationSocketSender.h; sourceTree = "<group>"; };
+		37B376BD18ABE65C003BCC67 /* GABLocationSocketSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GABLocationSocketSender.m; sourceTree = "<group>"; };
+		37B376C118ABE7AD003BCC67 /* Opentok.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Opentok.framework; sourceTree = "<group>"; };
+		37B376C318ABE8CE003BCC67 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		37B376C518ABE91A003BCC67 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		D46D3E7A14F85CD700DEDEDF /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1FE24FB414F71E47002929E6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37B376C618ABE91A003BCC67 /* libicucore.dylib in Frameworks */,
+				37B376C418ABE8CE003BCC67 /* CoreLocation.framework in Frameworks */,
+				D46D3E7B14F85CD700DEDEDF /* CoreTelephony.framework in Frameworks */,
+				1FE24FBC14F71E47002929E6 /* UIKit.framework in Frameworks */,
+				1FE24FBE14F71E47002929E6 /* Foundation.framework in Frameworks */,
+				1FE24FC014F71E47002929E6 /* CoreGraphics.framework in Frameworks */,
+				1F3B0CEB14F725E100511DCC /* MobileCoreServices.framework in Frameworks */,
+				1F3B0CEC14F725E100511DCC /* CFNetwork.framework in Frameworks */,
+				1F3B0CED14F725E100511DCC /* SystemConfiguration.framework in Frameworks */,
+				1F3B0CEE14F725E100511DCC /* CoreMedia.framework in Frameworks */,
+				1F3B0CEF14F725E100511DCC /* Security.framework in Frameworks */,
+				1F3B0CF014F725E100511DCC /* AudioToolbox.framework in Frameworks */,
+				37B376C218ABE7AD003BCC67 /* Opentok.framework in Frameworks */,
+				1F3B0CF114F725E100511DCC /* CoreAudio.framework in Frameworks */,
+				1F3B0CF214F725E100511DCC /* CoreVideo.framework in Frameworks */,
+				1F3B0CF314F725E100511DCC /* OpenGLES.framework in Frameworks */,
+				1F3B0CF414F725E100511DCC /* libz.dylib in Frameworks */,
+				1F3B0CF514F725E100511DCC /* libstdc++.dylib in Frameworks */,
+				1F3B0CF614F725E100511DCC /* QuartzCore.framework in Frameworks */,
+				1F3B0CF714F725E100511DCC /* AVFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1FE24FAC14F71E47002929E6 = {
+			isa = PBXGroup;
+			children = (
+				37B376B118ABE64B003BCC67 /* SocketRocket */,
+				1FE24FC114F71E47002929E6 /* OpenTokHelloWorld */,
+				1FE24FBA14F71E47002929E6 /* Frameworks */,
+				1FE24FB814F71E47002929E6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1FE24FB814F71E47002929E6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1FE24FB714F71E47002929E6 /* OpenTokHello.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1FE24FBA14F71E47002929E6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				37B376C518ABE91A003BCC67 /* libicucore.dylib */,
+				37B376C318ABE8CE003BCC67 /* CoreLocation.framework */,
+				D46D3E7A14F85CD700DEDEDF /* CoreTelephony.framework */,
+				1F3B0CDE14F725E100511DCC /* MobileCoreServices.framework */,
+				1F3B0CDF14F725E100511DCC /* CFNetwork.framework */,
+				1F3B0CE014F725E100511DCC /* SystemConfiguration.framework */,
+				1F3B0CE114F725E100511DCC /* CoreMedia.framework */,
+				1F3B0CE214F725E100511DCC /* Security.framework */,
+				1F3B0CE314F725E100511DCC /* AudioToolbox.framework */,
+				1F3B0CE414F725E100511DCC /* CoreAudio.framework */,
+				1F3B0CE514F725E100511DCC /* CoreVideo.framework */,
+				1F3B0CE614F725E100511DCC /* OpenGLES.framework */,
+				1F3B0CE714F725E100511DCC /* libz.dylib */,
+				1F3B0CE814F725E100511DCC /* libstdc++.dylib */,
+				1F3B0CE914F725E100511DCC /* QuartzCore.framework */,
+				1F3B0CEA14F725E100511DCC /* AVFoundation.framework */,
+				1FE24FBB14F71E47002929E6 /* UIKit.framework */,
+				1FE24FBD14F71E47002929E6 /* Foundation.framework */,
+				1FE24FBF14F71E47002929E6 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1FE24FC114F71E47002929E6 /* OpenTokHelloWorld */ = {
+			isa = PBXGroup;
+			children = (
+				1FE24FCA14F71E47002929E6 /* AppDelegate.h */,
+				1FE24FCB14F71E47002929E6 /* AppDelegate.m */,
+				1FE24FCD14F71E47002929E6 /* MainStoryboard_iPhone.storyboard */,
+				1FE24FD014F71E47002929E6 /* MainStoryboard_iPad.storyboard */,
+				37B376C118ABE7AD003BCC67 /* Opentok.framework */,
+				1FE24FD314F71E47002929E6 /* ViewController.h */,
+				1FE24FD414F71E47002929E6 /* ViewController.m */,
+				37B376BC18ABE65C003BCC67 /* GABLocationSocketSender.h */,
+				37B376BD18ABE65C003BCC67 /* GABLocationSocketSender.m */,
+				1FE24FC214F71E47002929E6 /* Supporting Files */,
+			);
+			path = OpenTokHelloWorld;
+			sourceTree = "<group>";
+		};
+		1FE24FC214F71E47002929E6 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1FE24FC314F71E47002929E6 /* OpenTokHelloWorld-Info.plist */,
+				1FE24FC414F71E47002929E6 /* InfoPlist.strings */,
+				1FE24FC714F71E47002929E6 /* main.m */,
+				1FE24FC914F71E47002929E6 /* OpenTokHelloWorld-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		37B376B118ABE64B003BCC67 /* SocketRocket */ = {
+			isa = PBXGroup;
+			children = (
+				37B376B218ABE64B003BCC67 /* base64.c */,
+				37B376B318ABE64B003BCC67 /* base64.h */,
+				37B376B418ABE64B003BCC67 /* NSData+SRB64Additions.h */,
+				37B376B518ABE64B003BCC67 /* NSData+SRB64Additions.m */,
+				37B376B618ABE64B003BCC67 /* SocketRocket-Prefix.pch */,
+				37B376B718ABE64B003BCC67 /* SRWebSocket.h */,
+				37B376B818ABE64B003BCC67 /* SRWebSocket.m */,
+			);
+			path = SocketRocket;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1FE24FB614F71E47002929E6 /* OpenTokHelloWorld */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1FE24FD814F71E47002929E6 /* Build configuration list for PBXNativeTarget "OpenTokHelloWorld" */;
+			buildPhases = (
+				1FE24FB314F71E47002929E6 /* Sources */,
+				1FE24FB414F71E47002929E6 /* Frameworks */,
+				1FE24FB514F71E47002929E6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OpenTokHelloWorld;
+			productName = OpenTokHelloWorld;
+			productReference = 1FE24FB714F71E47002929E6 /* OpenTokHello.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1FE24FAE14F71E47002929E6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+			};
+			buildConfigurationList = 1FE24FB114F71E47002929E6 /* Build configuration list for PBXProject "OpenTokHelloWorld" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 1FE24FAC14F71E47002929E6;
+			productRefGroup = 1FE24FB814F71E47002929E6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1FE24FB614F71E47002929E6 /* OpenTokHelloWorld */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1FE24FB514F71E47002929E6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FE24FC614F71E47002929E6 /* InfoPlist.strings in Resources */,
+				1FE24FCF14F71E47002929E6 /* MainStoryboard_iPhone.storyboard in Resources */,
+				1FE24FD214F71E47002929E6 /* MainStoryboard_iPad.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1FE24FB314F71E47002929E6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37B376BB18ABE64B003BCC67 /* SRWebSocket.m in Sources */,
+				37B376BA18ABE64B003BCC67 /* NSData+SRB64Additions.m in Sources */,
+				1FE24FC814F71E47002929E6 /* main.m in Sources */,
+				1FE24FCC14F71E47002929E6 /* AppDelegate.m in Sources */,
+				37B376BE18ABE65C003BCC67 /* GABLocationSocketSender.m in Sources */,
+				37B376B918ABE64B003BCC67 /* base64.c in Sources */,
+				1FE24FD514F71E47002929E6 /* ViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		1FE24FC414F71E47002929E6 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1FE24FC514F71E47002929E6 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		1FE24FCD14F71E47002929E6 /* MainStoryboard_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1FE24FCE14F71E47002929E6 /* en */,
+			);
+			name = MainStoryboard_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		1FE24FD014F71E47002929E6 /* MainStoryboard_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1FE24FD114F71E47002929E6 /* en */,
+			);
+			name = MainStoryboard_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1FE24FD614F71E47002929E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = armv7;
+			};
+			name = Debug;
+		};
+		1FE24FD714F71E47002929E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = armv7;
+			};
+			name = Release;
+		};
+		1FE24FD914F71E47002929E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)",
+					"\\\"$(SRCROOT)/../..\\\"",
+					/Users/greg/Documents/code,
+					"/Users/greg/Documents/mit/scifi/case-and-molly/code/MollyClient/OpenTokHelloWorld",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OpenTokHelloWorld/OpenTokHelloWorld-Prefix.pch";
+				INFOPLIST_FILE = "OpenTokHelloWorld/OpenTokHelloWorld-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = OpenTokHello;
+				VALID_ARCHS = armv7;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		1FE24FDA14F71E47002929E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)",
+					"\\\"$(SRCROOT)/../..\\\"",
+					/Users/greg/Documents/code,
+					"/Users/greg/Documents/mit/scifi/case-and-molly/code/MollyClient/OpenTokHelloWorld",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OpenTokHelloWorld/OpenTokHelloWorld-Prefix.pch";
+				INFOPLIST_FILE = "OpenTokHelloWorld/OpenTokHelloWorld-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = OpenTokHello;
+				VALID_ARCHS = armv7;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1FE24FB114F71E47002929E6 /* Build configuration list for PBXProject "OpenTokHelloWorld" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1FE24FD614F71E47002929E6 /* Debug */,
+				1FE24FD714F71E47002929E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1FE24FD814F71E47002929E6 /* Build configuration list for PBXNativeTarget "OpenTokHelloWorld" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1FE24FD914F71E47002929E6 /* Debug */,
+				1FE24FDA14F71E47002929E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1FE24FAE14F71E47002929E6 /* Project object */;
+}

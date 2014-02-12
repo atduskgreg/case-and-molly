@@ -24,26 +24,21 @@ wss.on('connection', function(ws) {
     	if(message == "join"){
             console.log("joined: " + clients.length);
     		clients.push(ws);
-    	} 
+    	} else if(message == "ping"){
+            console.log("== ping received");
+        } 
         else{
             try{
                 console.log(message);
                 msg = JSON.parse(message);
-                // if(msg.location ||){
 
-
-                    // msg.switch = on; // add switch message for now
-                    // console.log("sending location message");
-                    // console.log(JSON.stringify(msg));
-                    for(var i = 0; i< clients.length; i++){
-                        clients[i].send(JSON.stringify(msg), function(error){
-                        if(error){
-                            console.log(error + " removing.");
-                            clients.splice(i,1);
-                        }
-                    });
-                // }
-            }
+                for(var i = 0; i< clients.length; i++){
+                    clients[i].send(JSON.stringify(msg), function(error){
+                    if(error){
+                        console.log(error + " removing.");
+                        clients.splice(i,1);
+                    }
+                });
             } catch(e){
                 console.log("ERROR:" + e.message);
             }
