@@ -44,7 +44,12 @@ setInterval(function(){
     thisPing = Date.now();
     console.log("ping interval: " + (thisPing - lastPing) + " " + clients.length + " clients");
     for(var i = 0; i< clients.length; i++){
-        clients[i].send("{\"ping\": " + Date.now() + "}");
+        clients[i].send("{\"ping\": " + Date.now() + "}", function(error){
+            if(error){
+                console.log(error + " removing.");
+                clients.splice(i,1);
+            }
+        });
     }
     lastPing = thisPing;
 }, pingInterval);
