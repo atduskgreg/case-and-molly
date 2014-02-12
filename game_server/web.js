@@ -1,21 +1,11 @@
 #!/usr/bin/env node
-// var http = require('http');
-
-//HTTP part
-// var server = http.createServer(function(req, res){
-//   res.writeHead(200,{ 'Content-Type': 'text/html' });
-//   console.log("web request");
-//   res.end('<h1>Try the same on socket!</h1>');
-// });
-// server.listen(8080);
-
 // Socket part
 var port = process.env.PORT || 5000
 var WebSocketServer = require('ws').Server
   , wss = new WebSocketServer({port: port});
 console.log('http server listening on %d', port);
-// var on = false;
 
+var pingInterval = 1000; //ms
 var clients = [];
 
 wss.on('connection', function(ws) {
@@ -48,3 +38,13 @@ wss.on('connection', function(ws) {
         console.log('socket error: reason ' + reason + ', code ' + code);
     });
 });
+// ping all clients
+var lastPing = 0;
+setInterval(function(){
+    thisPing = Date.now();
+    console.log("ping interval: " + (thisPing - lastPing) + " " + clients.length + " clients");
+    for(var i = 0; i< clients.length; i++){
+        clients[i].send("{\"ping\": " + Date.now() + "}");
+    }
+    lastPing = thisPing;
+}, pingInterval);
