@@ -94,6 +94,10 @@
 			  //ws.send('Ping'); // Send the message 'Ping' to the server
 			  //ws.send("foo");
 			  ws.send("join");
+
+			  setTimeout(function(){
+			  	ws.send("ping");
+			  }, 1000);
 			};
 
 			// oh, it did close

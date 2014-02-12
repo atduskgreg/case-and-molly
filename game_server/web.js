@@ -26,24 +26,23 @@ wss.on('connection', function(ws) {
     		clients.push(ws);
     	} else if(message == "ping"){
             console.log("== ping received");
-        } 
-        else{
+        } else {
             try{
                 console.log(message);
                 msg = JSON.parse(message);
 
                 for(var i = 0; i< clients.length; i++){
                     clients[i].send(JSON.stringify(msg), function(error){
-                    if(error){
-                        console.log(error + " removing.");
-                        clients.splice(i,1);
-                    }
-                });
+                        if(error){
+                            console.log(error + " removing.");
+                            clients.splice(i,1);
+                        }
+                    });
+                }
             } catch(e){
                 console.log("ERROR:" + e.message);
             }
-            
-        }
+        }   
     });
     ws.on('error', function(reason, code) {
         console.log('socket error: reason ' + reason + ', code ' + code);
