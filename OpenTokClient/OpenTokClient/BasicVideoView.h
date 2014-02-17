@@ -22,5 +22,5 @@
 - (void)offerFrame:(uint8_t*)frame width:(size_t)width height:(size_t)height;
 
 - (void)clearRenderBuffer;
-
+- (void) setupSyphon;
 @end

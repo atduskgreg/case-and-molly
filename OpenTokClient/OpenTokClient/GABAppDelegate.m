@@ -11,8 +11,14 @@
 @implementation GABAppDelegate
 
 static NSString* const kApiKey = @"44604152";    // Replace with your OpenTok API key
-static NSString* const kSessionId = @"1_MX40NDYwNDE1Mn5-TW9uIEphbiAyMCAxMzowNjowMyBQU1QgMjAxNH4wLjUwMjg5NjY3fg"; // Replace with your generated session ID
-static NSString* const kToken = @"T1==cGFydG5lcl9pZD00NDYwNDE1MiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz00MTRiODlkYmMyYjU2ZTUwMzA5YjQwYWFiZjY4OWRkYmMyMmY2MTAzOnJvbGU9c3Vic2NyaWJlciZzZXNzaW9uX2lkPTFfTVg0ME5EWXdOREUxTW41LVRXOXVJRXBoYmlBeU1DQXhNem93Tmpvd015QlFVMVFnTWpBeE5INHdMalV3TWpnNU5qWTNmZyZjcmVhdGVfdGltZT0xMzkwMjUxOTcxJm5vbmNlPTAuMDM0ODg0MjYzMDE1OTE4ODUmZXhwaXJlX3RpbWU9MTM5Mjg0Mzk3MiZjb25uZWN0aW9uX2RhdGE9";
+
+//========iOS===========
+static NSString* const kSessionId = @"2_MX40NDYwNDE1Mn5-VGh1IEphbiAwOSAxMjowNDo1MCBQU1QgMjAxNH4wLjY4NTE4ODh-";
+static NSString* const kToken = @"T1==cGFydG5lcl9pZD00NDYwNDE1MiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz0zZTQzMmUzYTM4YmVmNzk3OTJiNGQ2NDc5ZjAxOGI5OWE5ODY5Yzg2OnJvbGU9c3Vic2NyaWJlciZzZXNzaW9uX2lkPTJfTVg0ME5EWXdOREUxTW41LVZHaDFJRXBoYmlBd09TQXhNam93TkRvMU1DQlFVMVFnTWpBeE5INHdMalk0TlRFNE9EaC0mY3JlYXRlX3RpbWU9MTM5MjIyNTUxNCZub25jZT0wLjQ4MTg3MjM5MDQzMzUyODAzJmV4cGlyZV90aW1lPTEzOTQ4MTc1MDImY29ubmVjdGlvbl9kYXRhPQ==";
+
+//=======BROWSER=========
+/*static NSString* const kSessionId = @"1_MX40NDYwNDE1Mn5-TW9uIEphbiAyMCAxMzowNjowMyBQU1QgMjAxNH4wLjUwMjg5NjY3fg"; // Replace with your generated session ID
+static NSString* const kToken = @"T1==cGFydG5lcl9pZD00NDYwNDE1MiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz00MTRiODlkYmMyYjU2ZTUwMzA5YjQwYWFiZjY4OWRkYmMyMmY2MTAzOnJvbGU9c3Vic2NyaWJlciZzZXNzaW9uX2lkPTFfTVg0ME5EWXdOREUxTW41LVRXOXVJRXBoYmlBeU1DQXhNem93Tmpvd015QlFVMVFnTWpBeE5INHdMalV3TWpnNU5qWTNmZyZjcmVhdGVfdGltZT0xMzkwMjUxOTcxJm5vbmNlPTAuMDM0ODg0MjYzMDE1OTE4ODUmZXhwaXJlX3RpbWU9MTM5Mjg0Mzk3MiZjb25uZWN0aW9uX2RhdGE9";*/
 
 // Replace with your generated token (use the Dashboard or an OpenTok server-side library)
 
@@ -24,9 +30,7 @@ static bool subscribeToSelf = NO; // Chaange to NO to subscribe streams other th
     
     // Insert code here to initialize your application
     [self doConnect];
-//    [[[NSApplication sharedApplication] mainWindow] setContentView:videoView];
-    
-//    [self setupSyphon];
+    [videoView setupSyphon];
 }
 
 
@@ -156,6 +160,9 @@ static bool subscribeToSelf = NO; // Chaange to NO to subscribe streams other th
 
 - (void)subscriberVideoDataReceived:(OTSubscriberKit*)subscriber
 {
+    
+    
+    
 //    [videoView publishToSyphonServer:syphonServer];
 //    [videoView drawRect:NSMakeRect(0, 0, 640, 480)];
 

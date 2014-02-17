@@ -70,6 +70,11 @@ namespace SimpleJSON
         public virtual string Value                { get { return "";   } set { } }
         public virtual int Count                   { get { return 0;    } }
  
+		public virtual Dictionary<string, JSONNode>.KeyCollection Keys
+		{
+			get { return (new Dictionary<string,JSONNode>()).Keys; }
+		}
+
         public virtual void Add(JSONNode aItem)
         {
             Add("", aItem);
@@ -78,6 +83,7 @@ namespace SimpleJSON
         public virtual JSONNode Remove(string aKey) { return null; }
         public virtual JSONNode Remove(int aIndex) { return null; }
         public virtual JSONNode Remove(JSONNode aNode) { return aNode; }
+
  
         public virtual IEnumerable<JSONNode> Childs { get { yield break;} }
         public IEnumerable<JSONNode> DeepChilds
@@ -677,6 +683,12 @@ namespace SimpleJSON
     public class JSONClass : JSONNode, IEnumerable
     {
         private Dictionary<string,JSONNode> m_Dict = new Dictionary<string,JSONNode>();
+        
+		public override Dictionary<string, JSONNode>.KeyCollection Keys
+        {
+            get { return m_Dict.Keys; }
+        }
+
         public override JSONNode this[string aKey]
         {
             get

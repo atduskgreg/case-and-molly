@@ -48,20 +48,38 @@ public class ShowHUD : MonoBehaviour {
 			ws.Send ("join");
 		};
 		ws.OnMessage += (sender, e) => {
+			print(e.Data);
 			var d = JSON.Parse(e.Data);
-			tileNum = GetTileNumber(d["location"]["lat"].AsDouble,d["location"]["lng"].AsDouble, zoom);
 
-			lerpTo.x = d["location"]["lat"].AsFloat;
-			lerpTo.y = d["location"]["lng"].AsFloat;
+//			string[] keys = d.Keys.Select(x=> x.ToString()).ToArray();
+//			print("ping: " + keys.Contains("ping"));
+//			print("location: " + keys.Contains("ping"));
 
-			print ("Loc: " + point_lat + "," + point_lng);
+			List<string> keys = new List<string>(); 
+			foreach(string key in d.Keys)
+			{
+				keys.Add(key);
+			}
 
-			print("Tile number: "  + (int)tileNum.x  +"x" + (int)tileNum.y);
-			string newTexName = tileNum.x + "x" + tileNum.y;
-			if(!String.Equals(currentMapTile, newTexName)){
-				currentMapTile = newTexName;
-				needsNewMapTile = true;
-				needsLerp = true;
+			print("ping? " + keys.Contains("ping"));
+			print("locaiton? " + keys.Contains("location"));
+
+
+			if(keys.Contains("location")){
+				tileNum = GetTileNumber(d["location"]["lat"].AsDouble,d["location"]["lng"].AsDouble, zoom);
+
+				lerpTo.x = d["location"]["lat"].AsFloat;
+				lerpTo.y = d["location"]["lng"].AsFloat;
+
+				print ("Loc: " + point_lat + "," + point_lng);
+
+				print("Tile number: "  + (int)tileNum.x  +"x" + (int)tileNum.y);
+				string newTexName = tileNum.x + "x" + tileNum.y;
+				if(!String.Equals(currentMapTile, newTexName)){
+					currentMapTile = newTexName;
+					needsNewMapTile = true;
+					needsLerp = true;
+				}
 			}
 
 		};
@@ -122,8 +140,9 @@ public class ShowHUD : MonoBehaviour {
 
 		GUI.DrawTexture(new Rect(-256 + xOffset,-256 +yOffset,256,256), mapTiles[0], ScaleMode.ScaleToFit, true, 0.0f);
 		GUI.DrawTexture(new Rect(xOffset,-256 +yOffset,256,256), mapTiles[1], ScaleMode.ScaleToFit, true, 0.0f);
-		GUI.DrawTexture(new Rect(256 + xOffset,-256 +yOffset,256,256), mapTiles[3], ScaleMode.ScaleToFit, true, 0.0f);
 		GUI.DrawTexture(new Rect(xOffset,yOffset,256,256), mapTiles[2], ScaleMode.ScaleToFit, true, 0.0f);
+		GUI.DrawTexture(new Rect(256 + xOffset,-256 +yOffset,256,256), mapTiles[3], ScaleMode.ScaleToFit, true, 0.0f);
+		GUI.DrawTexture(new Rect(512 + xOffset,-256 +yOffset,256,256), mapTiles[4], ScaleMode.ScaleToFit, true, 0.0f);
 
 		GUI.Button(new Rect(128 - pointSize/2, 128 - pointSize/2, pointSize, pointSize), "", guiStyle);
 

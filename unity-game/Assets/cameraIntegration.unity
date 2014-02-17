@@ -4,13 +4,12 @@
 SceneSettings:
   m_ObjectHideFlags: 0
   m_PVSData: 
-  m_QueryMode: 1
   m_PVSObjectsArray: []
   m_PVSPortalsArray: []
   m_OcclusionBakeSettings:
-    viewCellSize: 1
-    bakeMode: 2
-    memoryUsage: 10485760
+    smallestOccluder: 5
+    smallestHole: .25
+    backfaceThreshold: 100
 --- !u!104 &2
 RenderSettings:
   m_Fog: 0
@@ -23,6 +22,7 @@ RenderSettings:
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: .5
   m_FlareStrength: 1
+  m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 0}
   m_ObjectHideFlags: 0
@@ -221,6 +221,7 @@ Camera:
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_HDR: 0
+  m_OcclusionCulling: 1
 --- !u!4 &76991377
 Transform:
   m_ObjectHideFlags: 0
@@ -418,6 +419,7 @@ Camera:
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_HDR: 0
+  m_OcclusionCulling: 1
 --- !u!1 &463963066
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,6 +488,7 @@ Camera:
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_HDR: 0
+  m_OcclusionCulling: 1
 --- !u!4 &463963071
 Transform:
   m_ObjectHideFlags: 0
@@ -534,6 +537,9 @@ Renderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortingLayerID: 0
 --- !u!64 &627899019
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -560,8 +566,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 627899017}
-  m_LocalRotation: {x: -4.52377151e-07, y: .707106709, z: -.707106829, w: -4.52377066e-07}
-  m_LocalPosition: {x: -.100002289, y: 4.76837158e-07, z: 3.58791447}
+  m_LocalRotation: {x: 4.52377151e-07, y: .707106709, z: .707106829, w: -4.52377066e-07}
+  m_LocalPosition: {x: -.100002289, y: 1.88999999, z: 6.82000017}
   m_LocalScale: {x: 1, y: 1.76999998, z: 1.76999998}
   m_Children: []
   m_Father: {fileID: 363173378}
@@ -678,7 +684,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &663879063
 Renderer:
   m_ObjectHideFlags: 0
@@ -697,6 +703,9 @@ Renderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortingLayerID: 0
 --- !u!64 &663879064
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -890,6 +899,9 @@ Renderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortingLayerID: 0
 --- !u!64 &1324856804
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -916,8 +928,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1324856802}
-  m_LocalRotation: {x: -4.52377151e-07, y: .707106709, z: -.707106829, w: -4.52377066e-07}
-  m_LocalPosition: {x: .0999984741, y: 4.76837158e-07, z: 3.58791447}
+  m_LocalRotation: {x: 4.52377151e-07, y: .707106709, z: .707106829, w: -4.52377066e-07}
+  m_LocalPosition: {x: .0999984741, y: 1.88999999, z: 6.82000017}
   m_LocalScale: {x: 1, y: 1.76999998, z: 1.76999998}
   m_Children: []
   m_Father: {fileID: 76991377}

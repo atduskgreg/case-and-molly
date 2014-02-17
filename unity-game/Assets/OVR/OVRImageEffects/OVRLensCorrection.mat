@@ -9,6 +9,7 @@ Material:
   m_Name: OVRLensCorrection
   m_Shader: {fileID: 4800000, guid: a93bda1d6550334418dd32b81cab531f, type: 3}
   m_ShaderKeywords: []
+  m_CustomRenderQueue: -1
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:

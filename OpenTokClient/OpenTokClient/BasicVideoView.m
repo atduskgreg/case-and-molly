@@ -15,8 +15,6 @@
     uint8_t* frameHolder;
     CGSize _videoFrameSize;
     NSObject* lock;
-    int x;
-    GLKTextureInfo* texture;
     SyphonServer* syphonServer;
 }
 
@@ -67,7 +65,7 @@
     syphonServer = [[SyphonServer alloc] initWithName:nil
                                               context:[glContext CGLContextObj]
                                               options:nil];
-    
+        
 }
 
 
@@ -116,23 +114,26 @@
                    frame.format.imageWidth, frame.format.imageHeight);
         
 	}
-    
+
+//    NSLog(@"renderVideoFrame: %d", (int)[NSThread isMainThread] );
     dispatch_async(dispatch_get_main_queue(), ^() {
         [self offerFrame:frameHolder
                    width:_videoFrameSize.width
                   height:_videoFrameSize.height];
-
     });
 
 }
 
 -(void) offerFrame:(uint8_t*)frame width:(size_t)width height:(size_t)height {
+//    NSLog(@"offerFrame: %d", (int)[NSThread isMainThread] );
+    
     @synchronized(lock) {
-        if (nil != imageHolderRep) {
+//        if (nil != imageHolderRep) {
             [imageHolder removeRepresentation:imageHolderRep];
             [imageHolderRep release];
             imageHolderRep = nil;
-        }
+//        }
+        
         
         imageHolderRep = [[NSBitmapImageRep alloc]
                           initWithBitmapDataPlanes:&frameHolder
@@ -145,35 +146,28 @@
                           colorSpaceName:NSDeviceRGBColorSpace
                           bytesPerRow:width*4
                           bitsPerPixel:32];
-        
-//        imageHolder = [[NSImage alloc] init];
+    
 
-        NSImage* myImage = [[NSImage alloc] initWithCGImage:[imageHolderRep CGImage] size:NSMakeSize(width,height)];
-        [self setImage:myImage];
+        imageHolder = [[NSImage alloc] initWithCGImage:[imageHolderRep CGImage] size:NSMakeSize(width,height)];
 
+        NSBitmapImageRep* imageRep=[[NSBitmapImageRep alloc] initWithData:[imageHolder TIFFRepresentation]];
+        CGImageRef pixelData = [imageRep CGImage];
+        GLKTextureInfo* texture = [GLKTextureLoader textureWithCGImage:pixelData options:NULL error:NULL];
         
-//        [imageHolder addRepresentation:imageHolderRep];
-//        if (![self.image isEqualTo:imageHolder]) {
-//            [self setImage:imageHolder];
-//        }
+        NSLog(@"texture: %i %ix%i", texture.name, texture.width, texture.height);
+        [syphonServer publishFrameTexture:texture.name
+                            textureTarget:GL_TEXTURE_2D
+                              imageRegion:NSMakeRect(0, 0, texture.width, texture.height)
+                        textureDimensions:NSMakeSize(texture.width, texture.height)
+                                  flipped:YES];
 
-//        NSBitmapImageRep* imageRep=[[NSBitmapImageRep alloc] initWithData:[myImage TIFFRepresentation]];
+        [self setImage:nil];
+   
+    [self setImage:imageHolder];
 
-        CGImageRef pixelData = [imageHolderRep CGImage];
-        texture = [GLKTextureLoader textureWithCGImage:pixelData options:NULL error:NULL];
-        NSRect aRect = NSMakeRect(0, 0, 640, 480);
-        
-//        NSLog(@"texture.name:%@", 1);
-        //    NSLog(@"texture: %i,%i", [img ]);
-        [syphonServer publishFrameTexture:1
-                        textureTarget:GL_TEXTURE_2D
-                          imageRegion:aRect
-                    textureDimensions:NSMakeSize(aRect.size.width,aRect.size.height)
-                              flipped:YES];
-        
        [self setNeedsDisplay:YES];
-        [self drawRect:NSMakeRect(0, 0, 640, 480)];
-        
+       [self drawRect:NSMakeRect(0, 0, 640, 480)];
+    
 //        [self.layer setNeedsDisplay];
         
        
@@ -190,35 +184,6 @@
 
 - (void) publishToSyphonServer:(SyphonServer*) syServer
 {
-//    NSLog(@"publishToSyphonServer:");
-//    CGImageSourceRef source;
-//    source = CGImageSourceCreateWithData((CFDataRef)[imageHolder TIFFRepresentation], NULL);
-//    CGImageRef img =  CGImageSourceCreateImageAtIndex(source, 0, NULL);
-    
-    
-//    const size_t bitsPerComponent = 8;
-//    const int componentsPerPixel = 4;
-//    const size_t bytesPerRow=((bitsPerComponent * 640) / 8) * componentsPerPixel;
-//    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-//    
-//    
-//    CGContextRef gtx = CGBitmapContextCreate(NULL, 640, 480, bitsPerComponent, bytesPerRow, colorSpace, kCGImageAlphaPremultipliedLast);
-//
-//    NSGraphicsContext* nsgtx = [NSGraphicsContext graphicsContextWithBitmapImageRep:imageHolderRep];
-//    NSRect aRect = NSMakeRect(0, 0, 640, 480);
-   
-//    CGImageRef pixelData = [imageHolderRep CGImage];
-    
- //   NSLog(@)
-//    CGContextDrawImage(gtx, CGRectMake(0, 0, 1132, 994), pixelData);
-//    CGContextFlush(gtx);
-    
-    //[imageHolder CGImageForProposedRect:NSMakeRect(0,0,640,480) context:nsgtx hints:NULL];
-//    NSImage*  img = [NSImage imageNamed:@"test_map.png"];
-    
-    
-    //NSBitmapImageRep* imageRep=[[NSBitmapImageRep alloc] initWithData:[img TIFFRepresentation]];
-    
 
 
 
@@ -229,7 +194,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
+        NSLog(@"here: %@", self);
         self.layer = [CALayer layer];
 //        self.layer.frame = [self bounds];
 //        self.layer.delegate = self;
@@ -240,9 +205,7 @@
         imageHolderRep = nil;
         frameHolder = nil;
         lock = [[NSObject alloc] init];
-        x = 0;
         [self setImage:imageHolder];
-        [self setupSyphon];
     }
     return self;
 }
