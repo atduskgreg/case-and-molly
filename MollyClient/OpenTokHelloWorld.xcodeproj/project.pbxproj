@@ -36,6 +36,10 @@
 		37B376C218ABE7AD003BCC67 /* Opentok.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37B376C118ABE7AD003BCC67 /* Opentok.framework */; };
 		37B376C418ABE8CE003BCC67 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37B376C318ABE8CE003BCC67 /* CoreLocation.framework */; };
 		37B376C618ABE91A003BCC67 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37B376C518ABE91A003BCC67 /* libicucore.dylib */; };
+		37E4215118B650BE009A4805 /* black_square.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 37E4215018B650BE009A4805 /* black_square.jpg */; };
+		37E4215318B65149009A4805 /* black_triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 37E4215218B65149009A4805 /* black_triangle.png */; };
+		37E4215618B651DD009A4805 /* empty_square.png in Resources */ = {isa = PBXBuildFile; fileRef = 37E4215418B651DD009A4805 /* empty_square.png */; };
+		37E4215718B651DD009A4805 /* empty_triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 37E4215518B651DD009A4805 /* empty_triangle.png */; };
 		D46D3E7B14F85CD700DEDEDF /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D46D3E7A14F85CD700DEDEDF /* CoreTelephony.framework */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +83,10 @@
 		37B376C118ABE7AD003BCC67 /* Opentok.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Opentok.framework; sourceTree = "<group>"; };
 		37B376C318ABE8CE003BCC67 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		37B376C518ABE91A003BCC67 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		37E4215018B650BE009A4805 /* black_square.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = black_square.jpg; sourceTree = "<group>"; };
+		37E4215218B65149009A4805 /* black_triangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = black_triangle.png; sourceTree = "<group>"; };
+		37E4215418B651DD009A4805 /* empty_square.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty_square.png; sourceTree = "<group>"; };
+		37E4215518B651DD009A4805 /* empty_triangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty_triangle.png; sourceTree = "<group>"; };
 		D46D3E7A14F85CD700DEDEDF /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -160,6 +168,10 @@
 		1FE24FC114F71E47002929E6 /* OpenTokHelloWorld */ = {
 			isa = PBXGroup;
 			children = (
+				37E4215018B650BE009A4805 /* black_square.jpg */,
+				37E4215218B65149009A4805 /* black_triangle.png */,
+				37E4215418B651DD009A4805 /* empty_square.png */,
+				37E4215518B651DD009A4805 /* empty_triangle.png */,
 				1FE24FCA14F71E47002929E6 /* AppDelegate.h */,
 				1FE24FCB14F71E47002929E6 /* AppDelegate.m */,
 				1FE24FCD14F71E47002929E6 /* MainStoryboard_iPhone.storyboard */,
@@ -249,8 +261,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37E4215118B650BE009A4805 /* black_square.jpg in Resources */,
+				37E4215718B651DD009A4805 /* empty_triangle.png in Resources */,
 				1FE24FC614F71E47002929E6 /* InfoPlist.strings in Resources */,
+				37E4215618B651DD009A4805 /* empty_square.png in Resources */,
 				1FE24FCF14F71E47002929E6 /* MainStoryboard_iPhone.storyboard in Resources */,
+				37E4215318B65149009A4805 /* black_triangle.png in Resources */,
 				1FE24FD214F71E47002929E6 /* MainStoryboard_iPad.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

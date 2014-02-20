@@ -23,6 +23,8 @@
 
 @property (nonatomic, retain) CLLocation* lastLocation;
 @property (nonatomic, retain) UIView* outputView;
+@property (nonatomic, retain) UIImageView* squareView;
+@property (nonatomic, retain) UIImageView* triangleView;
 
 
 //@property (nonatomic, retain) CLLocationManager *locationManager;

@@ -1,0 +1,153 @@
+fileFormatVersion: 2
+guid: 010fb35a9b9abbc498e7af2d875db2c3
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: Bottom
+    100002: Chimney
+    100004: Door
+    100006: //RootNode
+    100008: FrontWindow
+    100010: 'FrontWindow '
+    100012: FrontWindow  1
+    100014: FrontWindow  2
+    100016: Roof
+    100018: SideWindow
+    100020: 'SideWindow '
+    100022: SideWindow  1
+    100024: SideWindow  2
+    100026: SideWindow  3
+    100028: SideWindow  4
+    100030: SideWindow  5
+    100032: SideWindow  6
+    100034: Texture Group
+    400000: Bottom
+    400002: Chimney
+    400004: Door
+    400006: //RootNode
+    400008: FrontWindow
+    400010: 'FrontWindow '
+    400012: FrontWindow  1
+    400014: FrontWindow  2
+    400016: Roof
+    400018: SideWindow
+    400020: 'SideWindow '
+    400022: SideWindow  1
+    400024: SideWindow  2
+    400026: SideWindow  3
+    400028: SideWindow  4
+    400030: SideWindow  5
+    400032: SideWindow  6
+    400034: Texture Group
+    2300000: Bottom
+    2300002: Chimney
+    2300004: Door
+    2300006: FrontWindow
+    2300008: 'FrontWindow '
+    2300010: FrontWindow  1
+    2300012: FrontWindow  2
+    2300014: Roof
+    2300016: SideWindow
+    2300018: 'SideWindow '
+    2300020: SideWindow  1
+    2300022: SideWindow  2
+    2300024: SideWindow  3
+    2300026: SideWindow  4
+    2300028: SideWindow  5
+    2300030: SideWindow  6
+    3300000: Bottom
+    3300002: Chimney
+    3300004: Door
+    3300006: FrontWindow
+    3300008: 'FrontWindow '
+    3300010: FrontWindow  1
+    3300012: FrontWindow  2
+    3300014: Roof
+    3300016: SideWindow
+    3300018: 'SideWindow '
+    3300020: SideWindow  1
+    3300022: SideWindow  2
+    3300024: SideWindow  3
+    3300026: SideWindow  4
+    3300028: SideWindow  5
+    3300030: SideWindow  6
+    4300000: frames
+    4300002: D5006gre
+    4300004: D5006gla
+    4300006: D5006br3
+    4300008: D5006bri
+    4300010: door
+    4300012: D5006tab
+    4300014: door1
+    4300016: door2
+    4300018: Bottom
+    4300020: Roof
+    4300022: Chimney
+    4300024: Door
+    4300026: FrontWindow
+    4300028: SideWindow
+    4300030: 'FrontWindow '
+    4300032: 'FrontWindow '
+    4300034: 'FrontWindow '
+    4300036: 'SideWindow '
+    4300038: 'SideWindow '
+    4300040: 'SideWindow '
+    4300042: 'SideWindow '
+    4300044: 'SideWindow '
+    4300046: 'SideWindow '
+    4300048: 'SideWindow '
+    7400000: modo_Anim
+    11100000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  additionalBone: 0
+  userData: 

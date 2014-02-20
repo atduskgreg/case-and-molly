@@ -13,6 +13,8 @@
 @interface ViewController : UIViewController <OTSessionDelegate, OTSubscriberDelegate, OTPublisherDelegate>{
     GABLocationSocketSender* locationSender;
     IBOutlet UIView* indicatorView;
+    IBOutlet UIImageView* squareView;
+    IBOutlet UIImageView* triangleView;
 
 }
 - (void)doConnect;

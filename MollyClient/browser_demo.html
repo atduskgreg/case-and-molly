@@ -73,14 +73,14 @@
 		  }
 		}
 
-		function sendRed(){
-			console.log("sendRed()");
-			ws.send("{\"switch\": \"red\"}")
+		function sendZero(){
+			console.log("sendZero()");
+			ws.send("{\"case\": 0}")
 		}
 
-		function sendGreen(){
-			console.log("sendGreen()");
-			ws.send("{\"switch\": \"green\"}")
+		function sendOne(){
+			console.log("sendOne()");
+			ws.send("{\"case\": 1}")
 		}
 
 		function ready(){
@@ -318,9 +318,10 @@
 	</div>
 	<div id="myCamera" class="publisherContainer"></div>
 	<div id="subscribers"></div>
-	<input type="button" value="Red" id ="sendRed" onClick="javascript:sendRed()" />
-	<input type="button" value="Green" id ="sendGreen" onClick="javascript:sendGreen()" />
-
+	<p>Send: <br />
+	<input type="button" value="&#x25B2;" id ="sendRed" onClick="javascript:sendZero()" />
+	<input type="button" value="&#x25FC;" id ="sendGreen" onClick="javascript:sendOne()" />
+</p>
 
 </body>
 </html>

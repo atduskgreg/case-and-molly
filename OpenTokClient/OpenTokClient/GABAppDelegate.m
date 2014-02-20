@@ -76,7 +76,7 @@ static bool subscribeToSelf = NO; // Chaange to NO to subscribe streams other th
 - (void)session:(OTSession*)session streamCreated:(OTStream*)stream{
     NSLog(@"session: streamCreated:");
     _subscriber = [[OTSubscriberKit alloc] initWithStream:stream delegate:self];
-    _subscriber.subscribeToAudio = NO;
+    _subscriber.subscribeToAudio = YES;
     _subscriber.subscribeToVideo = YES;
     [_subscriber setVideoRender:videoView];
     [_subscriber subscribe];

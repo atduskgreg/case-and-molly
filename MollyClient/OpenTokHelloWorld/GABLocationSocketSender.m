@@ -85,14 +85,16 @@
         NSDictionary *result = [NSJSONSerialization JSONObjectWithData:[message dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableLeaves error:nil];
     
     
-        if([result objectForKey:@"switch"] != nil){
-            NSLog(@"switch: %@", [result objectForKey:@"switch"]);
-            NSString* switchColor = (NSString *)[result objectForKey:@"switch"];
-            if([switchColor isEqualToString:@"green"]){
-                [_outputView setBackgroundColor:[UIColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:1.0]];
-
+        if([result objectForKey:@"case"] != nil){
+            NSLog(@"case: %@", [result objectForKey:@"case"]);
+            NSInteger caseSignal = [[result objectForKey:@"case"] integerValue];
+            if(caseSignal == 1){
+//                [_outputView setBackgroundColor:[UIColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:1.0]];
+                [_squareView setImage:[UIImage imageNamed:@"black_square.jpg"]];
             } else {
-                [_outputView setBackgroundColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0]];
+//                [_outputView setBackgroundColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0]];
+                [_triangleView setImage:[UIImage imageNamed:@"black_triangle.png"]];
+
             }
             [self fadeOutColor];
         }
@@ -101,10 +103,26 @@
 
 -(void) fadeOutColor
 {
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:2];
-    [_outputView setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0]];
-    [UIView commitAnimations];
+//    [UIView beginAnimations:nil context:NULL];
+//    [UIView setAnimationDuration:2];
+//    [_outputView setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0]];
+//    [UIView commitAnimations];
+    
+    CABasicAnimation *crossFade = [CABasicAnimation animationWithKeyPath:@"contents"];
+    crossFade.duration = 1.0;
+    crossFade.fromValue = (id)_squareView.image.CGImage;
+    crossFade.toValue = (id)[UIImage imageNamed:@"empty_square.png"].CGImage;
+    [_squareView.layer addAnimation:crossFade forKey:@"animateContents"];
+    
+    CABasicAnimation *crossFadeT = [CABasicAnimation animationWithKeyPath:@"contents"];
+    crossFadeT.duration = 1.0;
+    crossFadeT.fromValue = (id)_triangleView.image.CGImage;
+    crossFade.toValue = (id)[UIImage imageNamed:@"empty_triangle.png"].CGImage;
+    [_triangleView.layer addAnimation:crossFadeT forKey:@"animateContents"];
+    
+    _squareView.image = [UIImage imageNamed:@"empty_square.png"];
+    _triangleView.image = [UIImage imageNamed:@"empty_triangle.png"];
+
 }
 
 

@@ -34,6 +34,12 @@ static bool subscribeToSelf = NO; // Change to NO to subscribe to streams other 
     locationSender = [[GABLocationSocketSender alloc] init];
     [locationSender setOutputView:indicatorView];
 
+    [locationSender setTriangleView:triangleView];
+    [locationSender setSquareView:squareView];
+
+    [squareView setImage:[UIImage imageNamed:@"empty_square.png"]];
+    [triangleView setImage:[UIImage imageNamed:@"empty_triangle.png"]];
+    
     [self doConnect];
 }
 
