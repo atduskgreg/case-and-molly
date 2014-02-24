@@ -68,8 +68,8 @@ static bool subscribeToSelf = NO; // Change to NO to subscribe to streams other 
     }
 }
 
--(IBAction)sendLocation:(id)sender{
-    [locationSender sendLocation];
+-(IBAction)sendHere:(id)sender{
+    [locationSender sendHere];
 }
 
 

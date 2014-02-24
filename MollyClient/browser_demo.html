@@ -32,6 +32,8 @@
 		var markers = [];
 		var map;
 
+		var target = {"lat" : 42.361030, "lng" : -71.088133};
+
 		function clearMarkers(){
       	  for(var i = 0; i < markers.length; i++){
       	    markers[i].setMap(null);
@@ -117,30 +119,59 @@
 				console.log("onmessage: " + e.data);
 				var result = $.parseJSON(e.data);				
 				//$("h1").html(result.time);
-				if(result.switch != null){
-					if(result.switch == "green"){
+				if(result.molly != null){
+					if(result.molly == 1){
 						$("body").css("background", "green");
 	
-					} else {
-						$("body").css("background", "red");
 					}
 					$("body").animate({backgroundColor: "#ffffff"}, 500);
 				} 
 				if(result.location != null) {
 
 					clearMarkers();
-					var pos =  new google.maps.LatLng(result.location.lat,
-                	                       result.location.lng);
+					var pos =  new google.maps.LatLng(result.location.lat, result.location.lng);
 					console.log(pos);
         			var marker = new google.maps.Marker({
         			  position: pos,
         			  map: map,
         			});
+
+        			var dest =  new google.maps.LatLng(target.lat, target.lng);
+        			var destMarker = new google.maps.Marker({
+        			  position: dest,
+        			  map: map,
+        			});
+
+        			markers.push(destMarker);
 		
         			markers.push(marker);
         			map.setCenter(pos);
+
+        			$("#dist").html(getDistance(target.lat, target.lng,result.location.lat, result.location.lng));
         		}
 			}		
+
+			function getDistance(lat1,lon1,lat2,lon2) {
+			  var R = 6371; // Radius of the earth in km
+			  var dLat = deg2rad(lat2-lat1);  // deg2rad below
+			  var dLon = deg2rad(lon2-lon1); 
+			  var a = 
+			    Math.sin(dLat/2) * Math.sin(dLat/2) +
+			    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+			    Math.sin(dLon/2) * Math.sin(dLon/2)
+			    ; 
+			  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+			  var d = R * c; // Distance in km
+			  return kmToFt(d);
+			}
+			
+			function deg2rad(deg) {
+			  return deg * (Math.PI/180)
+			}
+
+			function kmToFt(km){
+				return (km * 3280.84);
+			}
 
 
 			
@@ -157,7 +188,7 @@
 
 		var apiKey = '44604152';    // Replace with your own API key.
 		var sessionId = '2_MX40NDYwNDE1Mn5-VGh1IEphbiAwOSAxMjowNDo1MCBQU1QgMjAxNH4wLjY4NTE4ODh-'; // Replace with your generated Session ID.
-		var token = 'T1==cGFydG5lcl9pZD00NDYwNDE1MiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz0zZTQzMmUzYTM4YmVmNzk3OTJiNGQ2NDc5ZjAxOGI5OWE5ODY5Yzg2OnJvbGU9c3Vic2NyaWJlciZzZXNzaW9uX2lkPTJfTVg0ME5EWXdOREUxTW41LVZHaDFJRXBoYmlBd09TQXhNam93TkRvMU1DQlFVMVFnTWpBeE5INHdMalk0TlRFNE9EaC0mY3JlYXRlX3RpbWU9MTM5MjIyNTUxNCZub25jZT0wLjQ4MTg3MjM5MDQzMzUyODAzJmV4cGlyZV90aW1lPTEzOTQ4MTc1MDImY29ubmVjdGlvbl9kYXRhPQ==';     // Replace with your generated Token (use Project Tools or from a server-side library)
+		var token = 'T1==cGFydG5lcl9pZD00NDYwNDE1MiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz02YWEyYTUxMzNmMTUzNjhjNDhhNmNiODllMmI2M2FmZTg3NWRiZmU5OnJvbGU9cHVibGlzaGVyJnNlc3Npb25faWQ9Ml9NWDQwTkRZd05ERTFNbjUtVkdoMUlFcGhiaUF3T1NBeE1qb3dORG8xTUNCUVUxUWdNakF4Tkg0d0xqWTROVEU0T0RoLSZjcmVhdGVfdGltZT0xMzkzMjE3Mjg5Jm5vbmNlPTAuNzQzMjY5NTk5NzM5OTg1NCZleHBpcmVfdGltZT0xMzk1ODA5MjIxJmNvbm5lY3Rpb25fZGF0YT0=';     // Replace with your generated Token (use Project Tools or from a server-side library)
 
 		var session;
 		var publisher;
@@ -319,9 +350,11 @@
 	<div id="myCamera" class="publisherContainer"></div>
 	<div id="subscribers"></div>
 	<p>Send: <br />
-	<input type="button" value="&#x25B2;" id ="sendRed" onClick="javascript:sendZero()" />
-	<input type="button" value="&#x25FC;" id ="sendGreen" onClick="javascript:sendOne()" />
-</p>
+		<input type="button" value="&#x25B2;" id ="sendRed" onClick="javascript:sendZero()" />
+		<input type="button" value="&#x25FC;" id ="sendGreen" onClick="javascript:sendOne()" />
+	</p>
+	<h4>Distance: <span id="dist"></span> ft.</h4>
+
 
 </body>
 </html>

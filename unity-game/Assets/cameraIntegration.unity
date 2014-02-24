@@ -117,6 +117,14 @@ Prefab:
       propertyPath: m_CullingMask.m_Bits
       value: 4294967039
       objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: 9da535ecc7e009544bd58323d6696a4d, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 9da535ecc7e009544bd58323d6696a4d, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9da535ecc7e009544bd58323d6696a4d, type: 2}
   m_RootGameObject: {fileID: 194750355}
@@ -136,7 +144,7 @@ GameObject:
   - 114: {fileID: 76991373}
   - 114: {fileID: 76991372}
   - 114: {fileID: 76991378}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: CameraRight
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -808,7 +816,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1249336608}
   - 108: {fileID: 1249336609}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Spotlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}

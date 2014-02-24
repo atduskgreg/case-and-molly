@@ -6,6 +6,7 @@ public class moveControl : MonoBehaviour {
 	public float speed = 10.0f;
 	public float gridDistance = 50.0f;
 	public GameObject lead;
+	public GameObject exit;
 
 	public float flickThreshold = 0.2f;
 	public float minSecsBetweenFlicks = 1.0f;
@@ -21,7 +22,7 @@ public class moveControl : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		lead.rigidbody.velocity = new Vector3(0,0,speed);
+		lead.rigidbody.velocity = new Vector3(0,0,0);
 	}
 
 	void  OnCollisionEnter ( Collision myCollision  ){
@@ -65,6 +66,12 @@ public class moveControl : MonoBehaviour {
 		prevO = currO;
 //		prevW = currW;
 
+//		print (gameObject.transform.position.z);
+		if (gameObject.transform.position.z >= exit.transform.position.z) {
+			Application.LoadLevel ("mollyLevel");
+//			
+		}
+
 		if(Input.GetKeyDown(KeyCode.Escape)){
 			Application.LoadLevel(Application.loadedLevel);
 		}
@@ -87,6 +94,11 @@ public class moveControl : MonoBehaviour {
 		if(clickedThisTurn){
 			print("clickedThisTurn: " + p.x );
 			lead.transform.position = lead.transform.position = new Vector3(p.x, p.y, p.z);
+		}
+
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			print ("here");
+			lead.rigidbody.velocity = new Vector3(0,0,speed);
 		}
 
 	}

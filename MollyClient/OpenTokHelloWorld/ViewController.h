@@ -20,6 +20,6 @@
 - (void)doConnect;
 - (void)doPublish;
 - (void)showAlert:(NSString*)string;
--(IBAction)sendLocation:(id)sender;
+-(IBAction)sendHere:(id)sender;
 
 @end

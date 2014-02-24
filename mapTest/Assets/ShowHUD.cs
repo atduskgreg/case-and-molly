@@ -48,7 +48,7 @@ public class ShowHUD : MonoBehaviour {
 			ws.Send ("join");
 		};
 		ws.OnMessage += (sender, e) => {
-			print(e.Data);
+//			print(e.Data);
 			var d = JSON.Parse(e.Data);
 
 //			string[] keys = d.Keys.Select(x=> x.ToString()).ToArray();
@@ -61,8 +61,8 @@ public class ShowHUD : MonoBehaviour {
 				keys.Add(key);
 			}
 
-			print("ping? " + keys.Contains("ping"));
-			print("locaiton? " + keys.Contains("location"));
+//			print("ping? " + keys.Contains("ping"));
+//			print("locaiton? " + keys.Contains("location"));
 
 
 			if(keys.Contains("location")){
@@ -71,9 +71,9 @@ public class ShowHUD : MonoBehaviour {
 				lerpTo.x = d["location"]["lat"].AsFloat;
 				lerpTo.y = d["location"]["lng"].AsFloat;
 
-				print ("Loc: " + point_lat + "," + point_lng);
+//				print ("Loc: " + point_lat + "," + point_lng);
 
-				print("Tile number: "  + (int)tileNum.x  +"x" + (int)tileNum.y);
+//				print("Tile number: "  + (int)tileNum.x  +"x" + (int)tileNum.y);
 				string newTexName = tileNum.x + "x" + tileNum.y;
 				if(!String.Equals(currentMapTile, newTexName)){
 					currentMapTile = newTexName;
@@ -93,7 +93,7 @@ public class ShowHUD : MonoBehaviour {
 
 	void OnGUI(){
 		if(needsNewMapTile == true){
-			print ("changing map tile");
+//			print ("changing map tile");
 			lerpStarted = Time.time;
 
 			foreach(Texture tex in mapTiles){
@@ -112,13 +112,13 @@ public class ShowHUD : MonoBehaviour {
 		int topY = 0;//39654x48478
 
 		if(needsLerp){
-			print ("needs lerp: " + (Time.time - lerpStarted));
+//			print ("needs lerp: " + (Time.time - lerpStarted));
 			point_lat = (double)Mathf.Lerp((float)point_lat, lerpTo.x, Time.time - lerpStarted);
 			point_lng = (double)Mathf.Lerp((float)point_lng, lerpTo.y, Time.time - lerpStarted);
 		}
 
 		if(point_lat == lerpTo.x && point_lng == lerpTo.y){
-			print ("end lerp");
+//			print ("end lerp");
 			needsLerp = false;
 		}
 
@@ -128,7 +128,7 @@ public class ShowHUD : MonoBehaviour {
 		int pointY= 0;
 		Microsoft.MapPoint.TileSystem.LatLongToPixelXY( point_lat,  point_lng,  levelOfDetail, out pointX, out pointY);
 
-		print (pointX + "," + pointY + " " + topX + "," + topY + " (" + (pointX - topX) + "," + (pointY - topY) + ")");
+//		print (pointX + "," + pointY + " " + topX + "," + topY + " (" + (pointX - topX) + "," + (pointY - topY) + ")");
 
 		pointX = pointX - topX;
 		pointY = pointY - topY;
@@ -173,11 +173,24 @@ public class ShowHUD : MonoBehaviour {
 		}
 		
 		if (Input.GetKeyDown(KeyCode.N)) {
-						ws.Send ("{\"switch\": \"red\"}");
+			ws.Send ("{\"case\": \"0\"}");
 		}
 		if (Input.GetKeyDown(KeyCode.Y)) {
-						ws.Send ("{\"switch\": \"green\"}");
+			ws.Send ("{\"case\": \"1\"}");
 		}
+
+		if (Input.GetKeyDown (KeyCode.C)) {
+			print ("here?");
+			GoToCase();
+		}
+	}
+
+	void GoToCase() {
+		print("going to case");
+		Application.LoadLevel ("caseLevel1");
+//		AsyncOperation async = Application.LoadLevelAsync("caseLevel1");
+//		yield return async;
+		print ("level loaded");
 	}
 
 	Vector2 GetTileNumber(double lat_deg, double lng_deg, int zoom){

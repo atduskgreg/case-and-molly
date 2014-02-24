@@ -14,13 +14,14 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="khK-Sb-v1w">
-                                <rect key="frame" x="260" y="297" width="34" height="30"/>
+                                <rect key="frame" x="257" y="297" width="41" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="send">
+                                <state key="normal" title="HERE">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="connectToSocket:" destination="4" eventType="touchUpInside" id="5f3-yI-63M"/>
+                                    <action selector="sendHere:" destination="2" eventType="touchUpInside" id="TtO-HR-znb"/>
                                     <action selector="sendLocation:" destination="4" eventType="touchUpInside" id="I06-kJ-HDL"/>
                                 </connections>
                             </button>

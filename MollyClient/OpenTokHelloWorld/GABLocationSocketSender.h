@@ -42,4 +42,6 @@
 
 -(void) sendLocation;
 
+-(void) sendHere;
+
 @end

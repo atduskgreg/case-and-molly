@@ -55,6 +55,12 @@
     [self send:[self locationJSON]];
 }
 
+
+-(void) sendHere
+{
+    [self send:[[NSString alloc] initWithFormat:@"{\"molly\": 1, \"location\":{\"lat\":%f,\"lng\":%f}}", lastLocation.coordinate.latitude, lastLocation.coordinate.longitude ]];
+}
+
 -(NSString*) locationJSON
 {
     return [[NSString alloc] initWithFormat:@"{\"location\":{\"lat\":%f,\"lng\":%f}}",lastLocation.coordinate.latitude, lastLocation.coordinate.longitude];
