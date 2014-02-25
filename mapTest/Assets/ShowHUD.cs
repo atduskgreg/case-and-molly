@@ -30,6 +30,7 @@ public class ShowHUD : MonoBehaviour {
 	public string host = "case-and-molly-server.herokuapp.com";
 
 	Vector2 tileNum;
+	Vector2 nextWayPoint;
 
 	public List<Texture> mapTiles; // 0 1 2
 								   //   3
@@ -47,6 +48,9 @@ public class ShowHUD : MonoBehaviour {
 
 	int pointX;
 	int pointY;
+	int topX;
+	int topY;
+
 	void Start () {
 		ovrGui = new OVRGUI();
 		ovrGui.SetCameraController(ref cameraController);
@@ -120,8 +124,8 @@ public class ShowHUD : MonoBehaviour {
 
 		int levelOfDetail = 17;
 
-		int topX = 0;
-		int topY = 0;//39654x48478
+		topX = 0;
+		topY = 0;//39654x48478
 
 		if(needsLerp){
 //			print ("needs lerp: " + (Time.time - lerpStarted));
@@ -170,9 +174,36 @@ public class ShowHUD : MonoBehaviour {
 		GUI.DrawTexture(new Rect(256 + xOffset,-256 +yOffset,256,256), mapTiles[3], ScaleMode.ScaleToFit, true, 0.0f);
 		GUI.DrawTexture(new Rect(512 + xOffset,-256 +yOffset,256,256), mapTiles[4], ScaleMode.ScaleToFit, true, 0.0f);
 
+
 		GUI.Button(new Rect(128 - pointSize/2, 128 - pointSize/2, pointSize, pointSize), "", guiStyle);
 
+		int wpX = 0;
+		int wpY = 0;
+		Microsoft.MapPoint.TileSystem.LatLongToPixelXY( nextWayPoint.x,  nextWayPoint.y,  17, out wpX, out wpY);
+
+		wpX = wpX - topX;
+		wpY = wpY - topY;
+
+
+		int wpOffsetX = wpX - pointX;
+		int wpOffsetY = wpY - pointY;
+
+
+		Color beforeColor = GUI.color;
+
+		GUI.color = Color.red;
+		GUI.Button(new Rect(128 + wpOffsetX - pointSize/2, 128 + wpOffsetY - pointSize/2, pointSize, pointSize), "", guiStyle);
+
+		GUI.color = beforeColor;
+
 //		GUI.matrix = svMat; // restore matrix
+	}
+
+	public void SetNextWaypoint(Vector2 p){
+		nextWayPoint.x = p.x;
+		nextWayPoint.y = p.y;
+		print (nextWayPoint.x + "," +  nextWayPoint.y);
+
 	}
 
 	// Update is called once per frame
