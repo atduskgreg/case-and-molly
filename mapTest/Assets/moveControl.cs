@@ -22,7 +22,7 @@ public class moveControl : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		lead.rigidbody.velocity = new Vector3(0,0,0);
+		lead.rigidbody.velocity = new Vector3(0,0,speed);
 	}
 
 	void  OnCollisionEnter ( Collision myCollision  ){
@@ -93,7 +93,7 @@ public class moveControl : MonoBehaviour {
 
 		if(clickedThisTurn){
 			print("clickedThisTurn: " + p.x );
-			lead.transform.position = lead.transform.position = new Vector3(p.x, p.y, p.z);
+			lead.transform.position = new Vector3(p.x, p.y, p.z);
 		}
 
 		if (Input.GetKeyDown (KeyCode.Space)) {

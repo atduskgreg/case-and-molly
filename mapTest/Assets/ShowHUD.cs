@@ -15,6 +15,9 @@ public class ShowHUD : MonoBehaviour {
 	public double point_lat;
 	public double point_lng;
 
+	OVRGUI ovrGui;
+	public OVRCameraController cameraController;
+
 	public double debugMoveAmt = 0.00001d;
 
 	public float pointSize = 10.0f;
@@ -31,6 +34,9 @@ public class ShowHUD : MonoBehaviour {
 	public List<Texture> mapTiles; // 0 1 2
 								   //   3
 
+	public Vector2 guiPosition;
+	public int mapSize = 256;
+
 	Vector2 lerpTo;
 	bool needsLerp = false;
 	float lerpStarted = 0.0f;
@@ -38,7 +44,13 @@ public class ShowHUD : MonoBehaviour {
 	String currentMapTile = "39654x48478";
 	bool needsNewMapTile = false;
 	// Use this for initialization
-	void Start () {;
+
+	int pointX;
+	int pointY;
+	void Start () {
+		ovrGui = new OVRGUI();
+		ovrGui.SetCameraController(ref cameraController);
+
 		Texture t = mapTiles[0];
 		mapImage = t;
 
@@ -124,8 +136,8 @@ public class ShowHUD : MonoBehaviour {
 
 		Vector2 tileTop = LatLngForTileNumber(39653, 48479, zoom);
 		Microsoft.MapPoint.TileSystem.LatLongToPixelXY( tileTop.x,  tileTop.y,  levelOfDetail, out topX, out topY);
-		int pointX= 0;
-		int pointY= 0;
+		pointX = 0;
+		pointY = 0;
 		Microsoft.MapPoint.TileSystem.LatLongToPixelXY( point_lat,  point_lng,  levelOfDetail, out pointX, out pointY);
 
 //		print (pointX + "," + pointY + " " + topX + "," + topY + " (" + (pointX - topX) + "," + (pointY - topY) + ")");
@@ -133,7 +145,21 @@ public class ShowHUD : MonoBehaviour {
 		pointX = pointX - topX;
 		pointY = pointY - topY;
 
-		GUI.BeginGroup(new Rect(0,0,256,256));
+
+		GUI.BeginGroup(new Rect(guiPosition.x,guiPosition.y,mapSize,mapSize));
+		RenderGUIGuts ();
+		GUI.EndGroup();
+
+
+		GUI.BeginGroup(new Rect(Screen.width/2 + guiPosition.x - 100, guiPosition.y,mapSize,mapSize));
+		RenderGUIGuts ();
+		GUI.EndGroup();
+	}
+
+	void RenderGUIGuts(){
+//		var svMat = GUI.matrix; // save current matrix
+//		// substitute matrix - only scale is altered from standard
+//		GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, new Vector3(0.5f, 0.5f, 1.0f));
 
 		int xOffset = 128 - pointX;
 		int yOffset = 128 - pointY;
@@ -146,7 +172,7 @@ public class ShowHUD : MonoBehaviour {
 
 		GUI.Button(new Rect(128 - pointSize/2, 128 - pointSize/2, pointSize, pointSize), "", guiStyle);
 
-		GUI.EndGroup();
+//		GUI.matrix = svMat; // restore matrix
 	}
 
 	// Update is called once per frame
