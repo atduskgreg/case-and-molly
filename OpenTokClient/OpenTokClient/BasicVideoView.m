@@ -16,6 +16,9 @@
     CGSize _videoFrameSize;
     NSObject* lock;
     SyphonServer* syphonServer;
+    GLKTextureInfo* texture;
+    NSBitmapImageRep* imageRep;
+//    GLKTextureInfo* prevFrame;
 }
 
 - (NSImage*) getImageHolder {
@@ -129,9 +132,9 @@
     
     @synchronized(lock) {
 //        if (nil != imageHolderRep) {
-            [imageHolder removeRepresentation:imageHolderRep];
-            [imageHolderRep release];
-            imageHolderRep = nil;
+//            [imageHolder removeRepresentation:imageHolderRep];
+//            [imageHolderRep release];
+//            imageHolderRep = nil;
 //        }
         
         
@@ -150,9 +153,9 @@
 
         imageHolder = [[NSImage alloc] initWithCGImage:[imageHolderRep CGImage] size:NSMakeSize(width,height)];
 
-        NSBitmapImageRep* imageRep=[[NSBitmapImageRep alloc] initWithData:[imageHolder TIFFRepresentation]];
-        CGImageRef pixelData = [imageRep CGImage];
-        GLKTextureInfo* texture = [GLKTextureLoader textureWithCGImage:pixelData options:NULL error:NULL];
+        imageRep =[[NSBitmapImageRep alloc] initWithData:[imageHolder TIFFRepresentation]];
+//        CGImageRef pixelData = ;
+        texture = [GLKTextureLoader textureWithCGImage:[imageRep CGImage] options:NULL error:NULL];
         
         NSLog(@"texture: %i %ix%i", texture.name, texture.width, texture.height);
         [syphonServer publishFrameTexture:texture.name
@@ -160,10 +163,19 @@
                               imageRegion:NSMakeRect(0, 0, texture.width, texture.height)
                         textureDimensions:NSMakeSize(texture.width, texture.height)
                                   flipped:YES];
+        
+        [imageHolder release];
+//        [texture release];
+        [imageRep release];
+        
+        [imageHolderRep release];
 
+//        [imageHolderRep release];
+
+        
         [self setImage:nil];
    
-    [self setImage:imageHolder];
+//    [self setImage:imageHolder];
 
        [self setNeedsDisplay:YES];
        [self drawRect:NSMakeRect(0, 0, 640, 480)];

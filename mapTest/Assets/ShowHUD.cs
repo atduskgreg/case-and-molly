@@ -24,6 +24,9 @@ public class ShowHUD : MonoBehaviour {
 
 	public GUIStyle guiStyle;
 
+	public Texture ret;
+		public Texture bigTile;
+
 	int zoom = 17;
 
 	WebSocket ws;
@@ -38,6 +41,7 @@ public class ShowHUD : MonoBehaviour {
 	public Vector2 guiPosition;
 	public int mapSize = 256;
 
+		float mapAlpha = 1.0f;
 	Vector2 lerpTo;
 	bool needsLerp = false;
 	float lerpStarted = 0.0f;
@@ -50,6 +54,10 @@ public class ShowHUD : MonoBehaviour {
 	int pointY;
 	int topX;
 	int topY;
+
+	Vector2 prevPosition;
+
+	
 
 	void Start () {
 		ovrGui = new OVRGUI();
@@ -138,7 +146,8 @@ public class ShowHUD : MonoBehaviour {
 			needsLerp = false;
 		}
 
-		Vector2 tileTop = LatLngForTileNumber(39653, 48479, zoom);
+				//39653x48478
+		Vector2 tileTop = LatLngForTileNumber(39653, 48478, zoom);
 		Microsoft.MapPoint.TileSystem.LatLongToPixelXY( tileTop.x,  tileTop.y,  levelOfDetail, out topX, out topY);
 		pointX = 0;
 		pointY = 0;
@@ -158,6 +167,9 @@ public class ShowHUD : MonoBehaviour {
 		GUI.BeginGroup(new Rect(Screen.width/2 + guiPosition.x - 100, guiPosition.y,mapSize,mapSize));
 		RenderGUIGuts ();
 		GUI.EndGroup();
+
+
+
 	}
 
 	void RenderGUIGuts(){
@@ -165,17 +177,38 @@ public class ShowHUD : MonoBehaviour {
 //		// substitute matrix - only scale is altered from standard
 //		GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, new Vector3(0.5f, 0.5f, 1.0f));
 
-		int xOffset = 128 - pointX;
-		int yOffset = 128 - pointY;
+				int xOffset = 256 - pointX;
+				int yOffset = 256 - pointY;
 
-		GUI.DrawTexture(new Rect(-256 + xOffset,-256 +yOffset,256,256), mapTiles[0], ScaleMode.ScaleToFit, true, 0.0f);
-		GUI.DrawTexture(new Rect(xOffset,-256 +yOffset,256,256), mapTiles[1], ScaleMode.ScaleToFit, true, 0.0f);
-		GUI.DrawTexture(new Rect(xOffset,yOffset,256,256), mapTiles[2], ScaleMode.ScaleToFit, true, 0.0f);
-		GUI.DrawTexture(new Rect(256 + xOffset,-256 +yOffset,256,256), mapTiles[3], ScaleMode.ScaleToFit, true, 0.0f);
-		GUI.DrawTexture(new Rect(512 + xOffset,-256 +yOffset,256,256), mapTiles[4], ScaleMode.ScaleToFit, true, 0.0f);
+				Color before = GUI.color;
+				GUI.color = new Vector4(before.r, before.g, before.b, mapAlpha);
+				GUI.DrawTexture(new Rect(xOffset,yOffset,512,512), bigTile, ScaleMode.ScaleToFit, true, 0.0f);
+				GUI.color = before;
+//		GUI.DrawTexture(new Rect(-256 + xOffset,-256 +yOffset,256,256), mapTiles[0], ScaleMode.ScaleToFit, true, 0.0f);
+//		GUI.DrawTexture(new Rect(xOffset,-256 +yOffset,256,256), mapTiles[1], ScaleMode.ScaleToFit, true, 0.0f);
+//		GUI.DrawTexture(new Rect(xOffset,yOffset,256,256), mapTiles[2], ScaleMode.ScaleToFit, true, 0.0f);
+//		GUI.DrawTexture(new Rect(256 + xOffset,-256 +yOffset,256,256), mapTiles[3], ScaleMode.ScaleToFit, true, 0.0f);
+//		GUI.DrawTexture(new Rect(512 + xOffset,-256 +yOffset,256,256), mapTiles[4], ScaleMode.ScaleToFit, true, 0.0f);
+
+				Vector2 currPosition = new Vector2 (pointX, pointY);
+//				Vector2 moveDir = currPosition - prevPosition;
+
+//				Matrix4x4 matrixBackup = GUI.matrix;
+//				float a1 = Vector2.Angle (new Vector2 (0, 1), currPosition);
+//				float a2 = Vector2.Angle (new Vector2 (0, 1), prevPosition);
+//				if (a1 != a2) {
+//						print ("gotcha!");
+//				} else {
+//						print ("a1: " + a1 + " a2: " + a2 + " diff: " + (a1 - a2));
+//				}
+////				print ("curr: " + currPosition + " prev: " + prevPosition + " move: " + moveDir + " a: " + a);
+//				GUIUtility.RotateAroundPivot(a1, new Vector2(256,256));
+				//GUI.DrawTexture(rect, texture);
+//				GUI.DrawTexture (new Rect(0, 0, 512, 512), ret, ScaleMode.ScaleToFit, true, 0.0f);
 
 
-		GUI.Button(new Rect(128 - pointSize/2, 128 - pointSize/2, pointSize, pointSize), "", guiStyle);
+
+				GUI.Button(new Rect(256 - pointSize/2, 256 - pointSize/2, pointSize, pointSize), "", guiStyle);
 
 		int wpX = 0;
 		int wpY = 0;
@@ -192,37 +225,60 @@ public class ShowHUD : MonoBehaviour {
 		Color beforeColor = GUI.color;
 
 		GUI.color = Color.red;
-		GUI.Button(new Rect(128 + wpOffsetX - pointSize/2, 128 + wpOffsetY - pointSize/2, pointSize, pointSize), "", guiStyle);
+				GUI.Button(new Rect(256 + wpOffsetX - pointSize/2, 256 + wpOffsetY - pointSize/2, pointSize, pointSize), "", guiStyle);
 
 		GUI.color = beforeColor;
+//				GUI.matrix = matrixBackup;
+
 
 //		GUI.matrix = svMat; // restore matrix
+	}
+
+
+	public void SetMapAlpha(float a){
+			mapAlpha = a;
 	}
 
 	public void SetNextWaypoint(Vector2 p){
 		nextWayPoint.x = p.x;
 		nextWayPoint.y = p.y;
-		print (nextWayPoint.x + "," +  nextWayPoint.y);
 
 	}
 
 	// Update is called once per frame
 	void Update () {
+				bool posChanged = false;
 		if ( Input.GetKey(KeyCode.UpArrow) ){
 			point_lat += debugMoveAmt;
+						posChanged = true;
 		}
 		if ( Input.GetKey(KeyCode.DownArrow) ){
 			point_lat -= debugMoveAmt;
+						posChanged = true;
+
 
 		}
 		if ( Input.GetKey(KeyCode.RightArrow) ){
 			point_lng += debugMoveAmt;
+						posChanged = true;
+
 
 
 		}
 		if ( Input.GetKey(KeyCode.LeftArrow) ){
 			point_lng -= debugMoveAmt;
+						posChanged = true;
+
 		}
+
+				if (posChanged) {
+						int pX = 0;
+						int pY = 0;
+						Microsoft.MapPoint.TileSystem.LatLongToPixelXY (point_lat, point_lng, 17, out pX, out pY);
+						prevPosition.x = pX - topX;
+						prevPosition.y = pY - topY;
+
+				}
 
 		if(Input.GetKey(KeyCode.Space)){
 			needsLerp = true;

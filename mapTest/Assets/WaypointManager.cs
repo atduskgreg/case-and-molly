@@ -41,7 +41,10 @@ public class WaypointManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 //		Vector2 currentLoc = new Vector2((float)hudScript.point_lat, (float)hudScript.point_lng);
-		print (GetDistance (hudScript.point_lat, hudScript.point_lng, visibleWayPoints[0].x, visibleWayPoints[0].y));
-
-	}
+				double d = GetDistance (hudScript.point_lat, hudScript.point_lng, visibleWayPoints [0].x, visibleWayPoints [0].y);
+				print (d);
+				if (d < 600) {
+						hudScript.SetMapAlpha (Mathf.Pow((float)d/600, 4));
+				}
+		}
 }
