@@ -16,7 +16,6 @@ public class WaypointManager : MonoBehaviour {
 		hudScript = gameObject.GetComponent<ShowHUD>();
 		WaypointManager.currentWayPoint++;
 		hudScript.SetNextWaypoint (visibleWayPoints[WaypointManager.currentWayPoint]);
-	
 	}
 
 	double GetDistance(double lat1, double lng1, double lat2, double lng2) {
@@ -41,6 +40,11 @@ public class WaypointManager : MonoBehaviour {
 		return (km * 3280.84);
 	}
 
+	bool IsWithinVictoryDistance(){
+		double d = GetDistance (hudScript.point_lat, hudScript.point_lng, visibleWayPoints[WaypointManager.currentWayPoint].x, visibleWayPoints[WaypointManager.currentWayPoint].y);
+		return (d <= victoryDistance);
+	}
+
 	// Update is called once per frame
 	void Update () {
 //		Vector2 currentLoc = new Vector2((float)hudScript.point_lat, (float)hudScript.point_lng);
@@ -49,9 +53,6 @@ public class WaypointManager : MonoBehaviour {
 				if (d < 600) {
 						hudScript.SetMapAlpha (Mathf.Pow((float)d/600, 4));
 				}
-
-				if (d <= victoryDistance) {
-						Application.LoadLevel("caseLevel1");
-				}
+						
 		}
 }

@@ -58,7 +58,7 @@ public class ShowHUD : MonoBehaviour {
 
 	Vector2 prevPosition;
 
-	
+		bool shouldLoadNextLevel = false;
 
 	void Start () {
 		ovrGui = new OVRGUI();
@@ -76,9 +76,6 @@ public class ShowHUD : MonoBehaviour {
 //			print(e.Data);
 			var d = JSON.Parse(e.Data);
 
-//			string[] keys = d.Keys.Select(x=> x.ToString()).ToArray();
-//			print("ping: " + keys.Contains("ping"));
-//			print("location: " + keys.Contains("ping"));
 
 			List<string> keys = new List<string>(); 
 			foreach(string key in d.Keys)
@@ -86,9 +83,10 @@ public class ShowHUD : MonoBehaviour {
 				keys.Add(key);
 			}
 
-//			print("ping? " + keys.Contains("ping"));
-//			print("locaiton? " + keys.Contains("location"));
-
+			if(keys.Contains("molly") && (d["molly"].AsInt == 1)){
+				shouldLoadNextLevel = true;
+			}
+								
 
 			if(keys.Contains("location")){
 				tileNum = GetTileNumber(d["location"]["lat"].AsDouble,d["location"]["lng"].AsDouble, zoom);
@@ -248,7 +246,11 @@ public class ShowHUD : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-				bool posChanged = false;
+		if (shouldLoadNextLevel) {
+			Application.LoadLevel("caseLevel1");		
+		}
+
+		bool posChanged = false;
 		if ( Input.GetKey(KeyCode.UpArrow) ){
 			point_lat += debugMoveAmt;
 						posChanged = true;

@@ -85,6 +85,11 @@
 			ws.send("{\"case\": 1}")
 		}
 
+		function sendHere(){
+			console.log("sendHere()");
+			ws.send("{\"molly\": 1}");
+		}
+
 		function ready(){
 			initializeMap();
 			console.log("trying to open a websocket:" + "ws://"+host)
@@ -352,7 +357,10 @@
 	<p>Send: <br />
 		<input type="button" value="&#x25B2;" id ="sendRed" onClick="javascript:sendZero()" />
 		<input type="button" value="&#x25FC;" id ="sendGreen" onClick="javascript:sendOne()" />
+		<input type="button" value="HERE" id ="sendMollyHere" onClick="javascript:sendHere()" />
+
 	</p>
+
 	<h4>Distance: <span id="dist"></span> ft.</h4>
 
 
