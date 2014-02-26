@@ -83,13 +83,30 @@
     NSLog(@"locationManager didFailWithError: %@", error );
 }
 
+-(NSTimeInterval) elapsedGameTime
+{
+    if(gameStarted){
+        return [[NSDate date] timeIntervalSinceDate:gameStartTime];
+    } else {
+        return 0.0f;
+    }
+}
+
 - (void)webSocket:(SRWebSocket *)ws didReceiveMessage:(id)message
 {
     NSLog(@"webSocket:didReceiveMessage: %@", message);
     
     if(message != NULL){
         NSDictionary *result = [NSJSONSerialization JSONObjectWithData:[message dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableLeaves error:nil];
-    
+        
+        if([result objectForKey:@"start"] != nil){
+            NSInteger startSignal = [[result objectForKey:@"start"] integerValue];
+            if(startSignal == 1){
+                //start game clock timer
+                gameStartTime = [NSDate date];
+                gameStarted = YES;
+            }
+        }
     
         if([result objectForKey:@"case"] != nil){
             NSLog(@"case: %@", [result objectForKey:@"case"]);

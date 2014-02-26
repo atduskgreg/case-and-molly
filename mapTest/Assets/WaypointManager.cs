@@ -43,7 +43,7 @@ public class WaypointManager : MonoBehaviour {
 		return (km * 3280.84);
 	}
 
-	bool IsWithinVictoryDistance(){
+	public bool IsWithinVictoryDistance(){
 		return (DistanceToNextWaypoint() <= victoryDistance);
 	}
 	
@@ -64,6 +64,7 @@ public class WaypointManager : MonoBehaviour {
 		if(Input.GetKey(KeyCode.Space) && !WaypointManager.gameStarted){
 			WaypointManager.gameStartTime = Time.time;	
 			WaypointManager.gameStarted = true;
+						print ("sending start");
 			hudScript.SendStartSignal();
 		}
 

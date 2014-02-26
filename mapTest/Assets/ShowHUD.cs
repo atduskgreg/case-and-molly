@@ -59,7 +59,7 @@ public class ShowHUD : MonoBehaviour {
 
 	Vector2 prevPosition;
 
-		bool shouldLoadNextLevel = false;
+		bool mollyClickedHere = false;
 
 	void Start () {
 		ovrGui = new OVRGUI();
@@ -85,7 +85,9 @@ public class ShowHUD : MonoBehaviour {
 			}
 
 			if(keys.Contains("molly") && (d["molly"].AsInt == 1)){
-				shouldLoadNextLevel = true;
+				mollyClickedHere = true;
+			} else{
+				mollyClickedHere = false;
 			}
 								
 
@@ -255,7 +257,7 @@ public class ShowHUD : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (shouldLoadNextLevel) {
+		if (mollyClickedHere && gameObject.GetComponent<WaypointManager>().IsWithinVictoryDistance()) {
 			GoToCase();
 		}
 

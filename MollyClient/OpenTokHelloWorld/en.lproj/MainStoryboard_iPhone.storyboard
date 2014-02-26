@@ -14,7 +14,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="khK-Sb-v1w">
-                                <rect key="frame" x="257" y="297" width="41" height="30"/>
+                                <rect key="frame" x="230" y="297" width="41" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="HERE">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -38,12 +38,20 @@
                                 <rect key="frame" x="83" y="332" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jMc-kc-9X9">
+                                <rect key="frame" x="230" y="335" width="68" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="indicatorView" destination="TsZ-sY-FDb" id="88E-TR-juF"/>
                         <outlet property="squareView" destination="s02-Q6-yEB" id="bJ3-j1-hgF"/>
+                        <outlet property="timeDisplay" destination="jMc-kc-9X9" id="Z58-IB-lt1"/>
                         <outlet property="triangleView" destination="vZr-ZE-NsJ" id="RKB-Uy-ILE"/>
                     </connections>
                 </viewController>

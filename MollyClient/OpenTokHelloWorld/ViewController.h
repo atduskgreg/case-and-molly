@@ -15,11 +15,12 @@
     IBOutlet UIView* indicatorView;
     IBOutlet UIImageView* squareView;
     IBOutlet UIImageView* triangleView;
-
+    IBOutlet UILabel* timeDisplay;
 }
 - (void)doConnect;
 - (void)doPublish;
 - (void)showAlert:(NSString*)string;
 -(IBAction)sendHere:(id)sender;
+-(void) showTime:(NSTimer *) timer;
 
 @end

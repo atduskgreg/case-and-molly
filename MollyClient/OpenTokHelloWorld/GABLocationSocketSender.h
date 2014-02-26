@@ -15,6 +15,8 @@
     SRWebSocket* webSocket;
     BOOL socketIsOpen;
     CLLocation* lastLocation;
+    NSDate* gameStartTime;
+    BOOL gameStarted;
 }
 
 - (void) connect;
@@ -43,5 +45,6 @@
 -(void) sendLocation;
 
 -(void) sendHere;
+-(NSTimeInterval) elapsedGameTime;
 
 @end

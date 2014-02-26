@@ -39,6 +39,12 @@ static bool subscribeToSelf = NO; // Change to NO to subscribe to streams other 
 
     [squareView setImage:[UIImage imageNamed:@"empty_square.png"]];
     [triangleView setImage:[UIImage imageNamed:@"empty_triangle.png"]];
+   
+    [NSTimer scheduledTimerWithTimeInterval:0.01
+                                     target:self
+                                   selector:@selector(showTime:)
+                                   userInfo:nil repeats:YES];
+
     
     [self doConnect];
 }
@@ -68,7 +74,19 @@ static bool subscribeToSelf = NO; // Change to NO to subscribe to streams other 
     }
 }
 
+-(void) showTime:(NSTimer *) timer
+{
+//    NSLog([NSString stringWithFormat:@"%f", [locationSender elapsedGameTime]]);
+    timeDisplay.text = [NSString stringWithFormat:@"%.02f", [locationSender elapsedGameTime]];
+    
+//    [timeDisplay setText:[NSString stringWithFormat:@"%f", [locationSender elapsedGameTime]]];
+//    [timeDisplay setNeedsDisplay];
+    NSLog(@"time: %@", [timeDisplay text]);
+}
+
+
 -(IBAction)sendHere:(id)sender{
+    NSLog(@"elapsedGameTime: %f", [locationSender elapsedGameTime]);
     [locationSender sendHere];
 }
 
