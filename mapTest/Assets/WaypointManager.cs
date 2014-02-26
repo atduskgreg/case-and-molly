@@ -6,16 +6,19 @@ public class WaypointManager : MonoBehaviour {
 
 	public Vector2[] visibleWayPoints;
 	public Vector2[] hiddenDestinations;
-		static int currentWayPoint = -1;
 	ShowHUD hudScript;
 	public float victoryDistance = 5.0f; // feet
 
+	static int currentWayPoint = -1;
+	static float gameStartTime = 0.0f;
+	static bool gameStarted = false;
 
 	// Use this for initialization
-	void Start () {
-		hudScript = gameObject.GetComponent<ShowHUD>();
+	void Start (){
+		hudScript = gameObject.GetComponent<ShowHUD> ();
 		WaypointManager.currentWayPoint++;
-		hudScript.SetNextWaypoint (visibleWayPoints[WaypointManager.currentWayPoint]);
+		hudScript.SetNextWaypoint (visibleWayPoints [WaypointManager.currentWayPoint]);
+		
 	}
 
 	double GetDistance(double lat1, double lng1, double lat2, double lng2) {
@@ -41,18 +44,35 @@ public class WaypointManager : MonoBehaviour {
 	}
 
 	bool IsWithinVictoryDistance(){
-		double d = GetDistance (hudScript.point_lat, hudScript.point_lng, visibleWayPoints[WaypointManager.currentWayPoint].x, visibleWayPoints[WaypointManager.currentWayPoint].y);
-		return (d <= victoryDistance);
+		return (DistanceToNextWaypoint() <= victoryDistance);
+	}
+	
+	double DistanceToNextWaypoint(){
+		return GetDistance(hudScript.point_lat, hudScript.point_lng, visibleWayPoints[WaypointManager.currentWayPoint].x, visibleWayPoints[WaypointManager.currentWayPoint].y);
+	}
+
+	public float GetElapsedGameTime(){
+		if (WaypointManager.gameStarted) {
+			return (Time.time - WaypointManager.gameStartTime);
+		} else {
+			return 0.0f;
+		}
 	}
 
 	// Update is called once per frame
 	void Update () {
-//		Vector2 currentLoc = new Vector2((float)hudScript.point_lat, (float)hudScript.point_lng);
-				double d = GetDistance (hudScript.point_lat, hudScript.point_lng, visibleWayPoints[WaypointManager.currentWayPoint].x, visibleWayPoints[WaypointManager.currentWayPoint].y);
-				print (d);
-				if (d < 600) {
-						hudScript.SetMapAlpha (Mathf.Pow((float)d/600, 4));
-				}
-						
+		if(Input.GetKey(KeyCode.Space) && !WaypointManager.gameStarted){
+			WaypointManager.gameStartTime = Time.time;	
+			WaypointManager.gameStarted = true;
+			hudScript.SendStartSignal();
 		}
+
+
+		print (GetElapsedGameTime());
+
+		if (DistanceToNextWaypoint() < 600) {
+			hudScript.SetMapAlpha (Mathf.Pow((float)DistanceToNextWaypoint()/600, 4));
+		}
+						
+	}
 }

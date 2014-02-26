@@ -23,6 +23,7 @@ public class ShowHUD : MonoBehaviour {
 	public float pointSize = 10.0f;
 
 	public GUIStyle guiStyle;
+		public GUIStyle timerStyle;
 
 	public Texture ret;
 	public Texture bigTile;
@@ -114,6 +115,11 @@ public class ShowHUD : MonoBehaviour {
 		ws.Connect();
 	}
 
+	public void SendStartSignal(){
+		ws.Send("{\"start\": \"1\"}");
+	}
+			
+
 	void OnGUI(){
 		if(needsNewMapTile == true){
 //			print ("changing map tile");
@@ -167,8 +173,6 @@ public class ShowHUD : MonoBehaviour {
 		RenderGUIGuts ();
 		GUI.EndGroup();
 
-
-
 	}
 
 	void RenderGUIGuts(){
@@ -189,7 +193,7 @@ public class ShowHUD : MonoBehaviour {
 //		GUI.DrawTexture(new Rect(256 + xOffset,-256 +yOffset,256,256), mapTiles[3], ScaleMode.ScaleToFit, true, 0.0f);
 //		GUI.DrawTexture(new Rect(512 + xOffset,-256 +yOffset,256,256), mapTiles[4], ScaleMode.ScaleToFit, true, 0.0f);
 
-				Vector2 currPosition = new Vector2 (pointX, pointY);
+//				Vector2 currPosition = new Vector2 (pointX, pointY);
 //				Vector2 moveDir = currPosition - prevPosition;
 
 //				Matrix4x4 matrixBackup = GUI.matrix;
@@ -224,18 +228,23 @@ public class ShowHUD : MonoBehaviour {
 		Color beforeColor = GUI.color;
 
 		GUI.color = Color.red;
-				GUI.Button(new Rect(256 + wpOffsetX - pointSize/2, 256 + wpOffsetY - pointSize/2, pointSize, pointSize), "", guiStyle);
+		GUI.Button(new Rect(256 + wpOffsetX - pointSize/2, 256 + wpOffsetY - pointSize/2, pointSize, pointSize), "", guiStyle);
 
 		GUI.color = beforeColor;
+		GUI.Label(new Rect(128,128, 100, 20), GetElapsedTime().ToString("f2"), timerStyle);
 //				GUI.matrix = matrixBackup;
 
 
 //		GUI.matrix = svMat; // restore matrix
 	}
 
+	float GetElapsedTime(){
+		return gameObject.GetComponent<WaypointManager> ().GetElapsedGameTime ();
+	}
+
 
 	public void SetMapAlpha(float a){
-			mapAlpha = a;
+		mapAlpha = a;
 	}
 
 	public void SetNextWaypoint(Vector2 p){
@@ -247,7 +256,7 @@ public class ShowHUD : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (shouldLoadNextLevel) {
-			Application.LoadLevel("caseLevel1");		
+			GoToCase();
 		}
 
 		bool posChanged = false;
@@ -274,19 +283,19 @@ public class ShowHUD : MonoBehaviour {
 
 		}
 
-				if (posChanged) {
-						int pX = 0;
-						int pY = 0;
-						Microsoft.MapPoint.TileSystem.LatLongToPixelXY (point_lat, point_lng, 17, out pX, out pY);
-						prevPosition.x = pX - topX;
-						prevPosition.y = pY - topY;
+//				if (posChanged) {
+//						int pX = 0;
+//						int pY = 0;
+//						Microsoft.MapPoint.TileSystem.LatLongToPixelXY (point_lat, point_lng, 17, out pX, out pY);
+//						prevPosition.x = pX - topX;
+//						prevPosition.y = pY - topY;
+//
+//				}
 
-				}
-
-		if(Input.GetKey(KeyCode.Space)){
-			needsLerp = true;
-			lerpStarted = Time.time;
-		}
+//		if(Input.GetKey(KeyCode.Space)){
+//			needsLerp = true;
+//			lerpStarted = Time.time;
+//		}
 		
 		if (Input.GetKeyDown(KeyCode.N)) {
 			ws.Send ("{\"case\": \"0\"}");
