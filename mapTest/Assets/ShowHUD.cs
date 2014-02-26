@@ -25,7 +25,8 @@ public class ShowHUD : MonoBehaviour {
 	public GUIStyle guiStyle;
 
 	public Texture ret;
-		public Texture bigTile;
+	public Texture bigTile;
+
 
 	int zoom = 17;
 

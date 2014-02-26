@@ -6,13 +6,16 @@ public class WaypointManager : MonoBehaviour {
 
 	public Vector2[] visibleWayPoints;
 	public Vector2[] hiddenDestinations;
-	public int currentWayPoint = 0;
+		static int currentWayPoint = -1;
 	ShowHUD hudScript;
+	public float victoryDistance = 5.0f; // feet
+
 
 	// Use this for initialization
 	void Start () {
 		hudScript = gameObject.GetComponent<ShowHUD>();
-		hudScript.SetNextWaypoint (visibleWayPoints[0]);
+		WaypointManager.currentWayPoint++;
+		hudScript.SetNextWaypoint (visibleWayPoints[WaypointManager.currentWayPoint]);
 	
 	}
 
@@ -41,10 +44,14 @@ public class WaypointManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 //		Vector2 currentLoc = new Vector2((float)hudScript.point_lat, (float)hudScript.point_lng);
-				double d = GetDistance (hudScript.point_lat, hudScript.point_lng, visibleWayPoints [0].x, visibleWayPoints [0].y);
+				double d = GetDistance (hudScript.point_lat, hudScript.point_lng, visibleWayPoints[WaypointManager.currentWayPoint].x, visibleWayPoints[WaypointManager.currentWayPoint].y);
 				print (d);
 				if (d < 600) {
 						hudScript.SetMapAlpha (Mathf.Pow((float)d/600, 4));
+				}
+
+				if (d <= victoryDistance) {
+						Application.LoadLevel("caseLevel1");
 				}
 		}
 }
