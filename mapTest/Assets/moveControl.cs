@@ -98,7 +98,7 @@ public class moveControl : MonoBehaviour {
 
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			print ("here");
-			lead.rigidbody.velocity = new Vector3(0,0,speed);
+			lead.rigidbody.velocity = new Vector3(0,0,0);
 		}
 
 	}

@@ -314,6 +314,8 @@ public class ShowHUD : MonoBehaviour {
 
 	void GoToCase() {
 		print("going to case");
+				TextMap.NextMap();
+
 		Application.LoadLevel ("caseLevel1");
 //		AsyncOperation async = Application.LoadLevelAsync("caseLevel1");
 //		yield return async;

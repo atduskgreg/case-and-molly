@@ -4,68 +4,86 @@ using System;
 
 public class TextMap : MonoBehaviour {
 
-	public TextAsset textMap;
-    public float zSize = 7.5f;
-    public float xSize = 10.0f;
+		//public TextAsset textMap;
+	public float zSize = 30.0f;
+	public float xSize = 20.0f;
     public float ySize = 10.0f;
+	public GameObject exit;
+	public TextAsset[] maps;
+	
+	static int currentMap = -1;
 
 
-	string map = "|  |\n|  |\n|  |\n|_ |\n | |";
-//	public GameObject wall;
+	int WidthOfLine(string line){
+		int wUnits = 0;
+		char[] chars = line.ToCharArray ();
+		for (int i = 0; i < chars.Length; i++) {
+				if (chars [i] == ' ' || chars [i] == '_') {
+						wUnits++;
+				}
+		}
+		return wUnits;
+	}
+
+		public static void NextMap(){
+				TextMap.currentMap++;
+		}
 
 	// Use this for initialization
 	void Start () {
-		string[] lines = textMap.text.Split(Environment.NewLine.ToCharArray());
+		string[] lines = maps[TextMap.currentMap].text.Split(Environment.NewLine.ToCharArray());
 
-        float x = 0.0f;
+		float x = 0.0f;//-WidthOfLine(lines[0])/2.0f;
         float z = 0.0f;
 		for(int i = 0; i < lines.Length; i++){
 			char[] chars = lines[i].ToCharArray();
             bool anyForwardWalls = false;
-            x = 0;
+			bool rightFacing = true;
+
+			int lineWidth = WidthOfLine (lines [0]);
+			x = -(lineWidth * xSize)/2.0f + xSize/2.0f;
 
 			for(int j = 0; j < chars.Length; j++){
 
-                print(i + " " + j);
+
+//                print(i + " " + j);
 				if (chars[j] == ' ') {
-					print( "space" );
+//					print( "space" );
                     x += xSize;
 				}
 
 				if (chars[j] == '|') {
                     anyForwardWalls = true;
-					print( "forward wall" );
+//					print( "forward wall" );
 					Quaternion q = new Quaternion ();
-                    // this is a hack, only correct if path is in middle of world.
-                    // need to detect "inside" of walls (state based on counting forward walls per row)
-                    if (j <= chars.Length/2) { 
+                   
+					if (rightFacing) { 
 						q.SetFromToRotation (Vector3.up, Vector3.right);
 					} else {
 						q.SetFromToRotation (Vector3.up, Vector3.left);
 					}
+												  
 
-					int p = j;
-					if (j == (chars.Length - 1)) {
-					    p = j - 1;
-                    }   
+					rightFacing = !rightFacing;
+					GameObject w = (GameObject)Instantiate(Resources.Load("Wall"), new Vector3(x,ySize*5, z), q);
+					w.transform.localScale = new Vector3(ySize,1,zSize/10.0f);
 
-
-                    GameObject w = (GameObject)Instantiate(Resources.Load("Wall"), new Vector3(x,5, z), q);
 				}
 
                 if (chars[j] == '_') {
-					print( "blocking wall" );
+//					print( "blocking wall" );
 					Quaternion q = new Quaternion ();
-//                    q.SetFromToRotation (Vector3.up, Vector3.back);
                     q.eulerAngles = new Vector3 (0, 90, 270);
 
-                    GameObject w = (GameObject)Instantiate(Resources.Load("Wall"), new Vector3(x + xSize/2,5, z + zSize/2), q);
-                    w.transform.localScale = new Vector3(1,1,1);
-                    Vector3 v = new Vector3 (0, 0, 0);
-//                    w.transform.rotation;
-                    x += xSize;
+					GameObject w = (GameObject)Instantiate(Resources.Load("Wall"), new Vector3(x + xSize/2,ySize*5, z + zSize/2), q);
+					w.transform.localScale = new Vector3(ySize,1,xSize/10.0f);
 
+                    x += xSize;
 				}	
+
+				if (chars [j] == 'x') {
+										exit.transform.position = new Vector3(x + 7, 3, z);
+				}
 
 			}
             if (anyForwardWalls) {
