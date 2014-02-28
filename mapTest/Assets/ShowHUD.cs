@@ -74,7 +74,7 @@ public class ShowHUD : MonoBehaviour {
 			ws.Send ("join");
 		};
 		ws.OnMessage += (sender, e) => {
-//			print(e.Data);
+			print(e.Data);
 			var d = JSON.Parse(e.Data);
 
 
@@ -85,6 +85,7 @@ public class ShowHUD : MonoBehaviour {
 			}
 
 			if(keys.Contains("molly") && (d["molly"].AsInt == 1)){
+								print("got molly 1");
 				mollyClickedHere = true;
 			} else{
 				mollyClickedHere = false;
@@ -232,8 +233,17 @@ public class ShowHUD : MonoBehaviour {
 		GUI.color = Color.red;
 		GUI.Button(new Rect(256 + wpOffsetX - pointSize/2, 256 + wpOffsetY - pointSize/2, pointSize, pointSize), "", guiStyle);
 
-		GUI.color = beforeColor;
+				if (gameObject.GetComponent<WaypointManager> ().IsWithinVictoryDistance ()) {
+						timerStyle.onNormal.textColor = Color.red;
+						print ("here");
+				} else {
+						timerStyle.onNormal.textColor = Color.green;
+//						print ("not here");
+				}
+
+
 		GUI.Label(new Rect(128,128, 100, 20), GetElapsedTime().ToString("f2"), timerStyle);
+
 //				GUI.matrix = matrixBackup;
 
 
