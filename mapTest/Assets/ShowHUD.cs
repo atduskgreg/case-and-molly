@@ -26,7 +26,15 @@ public class ShowHUD : MonoBehaviour {
 		public GUIStyle timerStyle;
 
 	public Texture ret;
-	public Texture bigTile;
+
+	public Texture[] maps;
+	public Vector2[] mapCorners;
+
+		public Texture[] msgs; // 0 - square 1 - triangle
+
+	int lastMsgSent = 0;
+	float msgSentTime = 0;
+	bool msgSent = false;
 
 
 	int zoom = 17;
@@ -36,6 +44,7 @@ public class ShowHUD : MonoBehaviour {
 
 	Vector2 tileNum;
 	Vector2 nextWayPoint;
+
 
 	public List<Texture> mapTiles; // 0 1 2
 								   //   3
@@ -85,7 +94,6 @@ public class ShowHUD : MonoBehaviour {
 			}
 
 			if(keys.Contains("molly") && (d["molly"].AsInt == 1)){
-								print("got molly 1");
 				mollyClickedHere = true;
 			} else{
 				mollyClickedHere = false;
@@ -122,6 +130,9 @@ public class ShowHUD : MonoBehaviour {
 		ws.Send("{\"start\": \"1\"}");
 	}
 			
+	public void SendDeathMessage(){
+		ws.Send("{\"dead\": \"1\"}");
+	}
 
 	void OnGUI(){
 		if(needsNewMapTile == true){
@@ -155,7 +166,9 @@ public class ShowHUD : MonoBehaviour {
 		}
 
 				//39653x48478
-		Vector2 tileTop = LatLngForTileNumber(39653, 48478, zoom);
+
+
+		Vector2 tileTop = LatLngForTileNumber((int)mapCorners[WaypointManager.currentWayPoint].x, (int)mapCorners[WaypointManager.currentWayPoint].y, zoom);
 		Microsoft.MapPoint.TileSystem.LatLongToPixelXY( tileTop.x,  tileTop.y,  levelOfDetail, out topX, out topY);
 		pointX = 0;
 		pointY = 0;
@@ -188,7 +201,7 @@ public class ShowHUD : MonoBehaviour {
 
 				Color before = GUI.color;
 				GUI.color = new Vector4(before.r, before.g, before.b, mapAlpha);
-				GUI.DrawTexture(new Rect(xOffset,yOffset,512,512), bigTile, ScaleMode.ScaleToFit, true, 0.0f);
+				GUI.DrawTexture(new Rect(0,0,512,512), maps[WaypointManager.currentWayPoint], ScaleMode.ScaleToFit, true, 0.0f);
 				GUI.color = before;
 //		GUI.DrawTexture(new Rect(-256 + xOffset,-256 +yOffset,256,256), mapTiles[0], ScaleMode.ScaleToFit, true, 0.0f);
 //		GUI.DrawTexture(new Rect(xOffset,-256 +yOffset,256,256), mapTiles[1], ScaleMode.ScaleToFit, true, 0.0f);
@@ -214,7 +227,7 @@ public class ShowHUD : MonoBehaviour {
 
 
 
-				GUI.Button(new Rect(256 - pointSize/2, 256 - pointSize/2, pointSize, pointSize), "", guiStyle);
+				GUI.Button(new Rect(pointX - pointSize/2, pointY - pointSize/2, pointSize, pointSize), "", guiStyle);
 
 		int wpX = 0;
 		int wpY = 0;
@@ -229,20 +242,24 @@ public class ShowHUD : MonoBehaviour {
 
 
 		Color beforeColor = GUI.color;
-
-		GUI.color = Color.red;
-		GUI.Button(new Rect(256 + wpOffsetX - pointSize/2, 256 + wpOffsetY - pointSize/2, pointSize, pointSize), "", guiStyle);
-
-				if (gameObject.GetComponent<WaypointManager> ().IsWithinVictoryDistance ()) {
-						timerStyle.onNormal.textColor = Color.red;
-						print ("here");
-				} else {
-						timerStyle.onNormal.textColor = Color.green;
-//						print ("not here");
-				}
-
-
+		
+		if (gameObject.GetComponent<WaypointManager> ().IsWithinVictoryDistance ()) {
+			GUI.color = Color.green;
+		} else {
+			GUI.color = Color.red;
+		}
+		GUI.Button(new Rect(wpX - pointSize/2, wpY - pointSize/2, pointSize, pointSize), "", guiStyle);
+		
+		GUI.color = Color.green;
 		GUI.Label(new Rect(128,128, 100, 20), GetElapsedTime().ToString("f2"), timerStyle);
+
+		GUI.color = beforeColor;
+
+		if (msgSent && (Time.time - msgSentTime) < 1.0f) {
+			GUI.color = new Color (1, 1, 1, 1 - Mathf.Clamp((Time.time - msgSentTime), 0, 1000));
+			GUI.DrawTexture (new Rect(128,128, 256,256), msgs[lastMsgSent], ScaleMode.ScaleToFit, true, 0.0f );
+			GUI.color = beforeColor;
+		}
 
 //				GUI.matrix = matrixBackup;
 
@@ -308,12 +325,21 @@ public class ShowHUD : MonoBehaviour {
 //			needsLerp = true;
 //			lerpStarted = Time.time;
 //		}
+
 		
-		if (Input.GetKeyDown(KeyCode.N)) {
+		
+		if (Input.GetKeyDown(KeyCode.N) || Input.GetButton ("Fire1")) {
 			ws.Send ("{\"case\": \"0\"}");
+						msgSent = true;
+						lastMsgSent = 0;
+						msgSentTime = Time.time;
+
 		}
-		if (Input.GetKeyDown(KeyCode.Y)) {
+		if (Input.GetKeyDown(KeyCode.Y) || Input.GetButton ("Fire3")) {
 			ws.Send ("{\"case\": \"1\"}");
+						msgSent = true;
+						lastMsgSent = 1;
+						msgSentTime = Time.time;
 		}
 
 		if (Input.GetKeyDown (KeyCode.C)) {
