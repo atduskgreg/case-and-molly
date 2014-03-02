@@ -39,7 +39,7 @@ public class ShowHUD : MonoBehaviour {
 
 	int zoom = 17;
 
-	WebSocket ws;
+  static WebSocket ws;
 	public string host = "case-and-molly-server.herokuapp.com";
 
 	Vector2 tileNum;
@@ -77,12 +77,12 @@ public class ShowHUD : MonoBehaviour {
 		Texture t = mapTiles[0];
 		mapImage = t;
 
-		ws = new WebSocket("ws://"+host);
-		ws.OnOpen += (sender, e) => {
+    ShowHUD.ws = new WebSocket("ws://"+host);
+    ShowHUD.ws.OnOpen += (sender, e) => {
 			print ("socket open");
-			ws.Send ("join");
+      ShowHUD.ws.Send ("join");
 		};
-		ws.OnMessage += (sender, e) => {
+    ShowHUD.ws.OnMessage += (sender, e) => {
 			print(e.Data);
 			var d = JSON.Parse(e.Data);
 
@@ -119,19 +119,19 @@ public class ShowHUD : MonoBehaviour {
 
 		};
 
-		ws.OnError += (sender, e) => {
+    ShowHUD.ws.OnError += (sender, e) => {
 			print ("error: " + e);
 		};
 
-		ws.Connect();
+    ShowHUD.ws.Connect();
 	}
 
 	public void SendStartSignal(){
-		ws.Send("{\"start\": \"1\"}");
+    ShowHUD.ws.Send("{\"start\": \"1\"}");
 	}
 			
 	public void SendDeathMessage(){
-		ws.Send("{\"dead\": \"1\"}");
+    ShowHUD.ws.Send("{\"dead\": \"1\"}");
 	}
 
 	void OnGUI(){
@@ -329,14 +329,14 @@ public class ShowHUD : MonoBehaviour {
 		
 		
 		if (Input.GetKeyDown(KeyCode.N) || Input.GetButton ("Fire1")) {
-			ws.Send ("{\"case\": \"0\"}");
+      ShowHUD.ws.Send ("{\"case\": \"0\"}");
 						msgSent = true;
 						lastMsgSent = 0;
 						msgSentTime = Time.time;
 
 		}
 		if (Input.GetKeyDown(KeyCode.Y) || Input.GetButton ("Fire3")) {
-			ws.Send ("{\"case\": \"1\"}");
+      ShowHUD.ws.Send ("{\"case\": \"1\"}");
 						msgSent = true;
 						lastMsgSent = 1;
 						msgSentTime = Time.time;

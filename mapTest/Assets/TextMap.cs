@@ -46,7 +46,7 @@ public class TextMap : MonoBehaviour {
 	void Start () {
     // support starting on caseLevel for debugging
     if (TextMap.currentMap == -1){
-        TextMap.currentMap = 0;
+      TextMap.currentMap = 0;
     }
 
 
@@ -66,6 +66,7 @@ public class TextMap : MonoBehaviour {
 
 			int lineWidth = WidthOfLine (lines [0]);
 			x = -(lineWidth * xSize)/2.0f + xSize/2.0f;
+        int numWalls = 0;
 
 			for(int j = 0; j < chars.Length; j++){
 
@@ -77,6 +78,7 @@ public class TextMap : MonoBehaviour {
 
 				if (chars[j] == '|') {
           anyForwardWalls = true;
+                numWalls++;
 //					print( "forward wall" );
 					Quaternion q = new Quaternion ();
                    
@@ -85,11 +87,23 @@ public class TextMap : MonoBehaviour {
 					} else {
 						q.SetFromToRotation (Vector3.up, Vector3.left);
 					}
-												  
 
-					rightFacing = !rightFacing;
+          rightFacing = !rightFacing;
+
+
+//          if (numWalls > 1 && rightFacing){
+//            x += xSize;
+//          }			  
+//
+          if (numWalls == 3){
+            x += xSize * 2;
+          }
 					GameObject w = (GameObject)Instantiate(Resources.Load("Wall"), new Vector3(x,ySize*5, z), q);
+
 					w.transform.localScale = new Vector3(ySize,1,zSize/10.0f);
+
+
+         
 				}
 
         if (chars[j] == '_') {

@@ -49,10 +49,12 @@ public class moveControl : MonoBehaviour {
 
 //		print ("dt: " + (Time.time - lastFlickAt) + " min: " + minSecsBetweenFlicks + " cO: " + currO.z + " pO: " + prevO.z );
 		if((Time.time - lastFlickAt) > minSecsBetweenFlicks){
-//			rightFlick = (currW.x > 1.0f) && (prevW.x <= 1.0f);
-//		 	leftFlick = (currW.x < -1.0f) && (prevW.x >= -1.0f);
-			rightFlick = (currO.z < -flickThreshold) && (prevO.z >= -flickThreshold);
-			leftFlick = (currO.z > flickThreshold) && (prevO.z <= flickThreshold);
+
+
+
+
+        rightFlick = (currO.z < -flickThreshold);// && (prevO.z >= -flickThreshold);
+      leftFlick = (currO.z > flickThreshold);// && (prevO.z <= flickThreshold);
 
 
 		}
