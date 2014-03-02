@@ -3,7 +3,7 @@
 		_MainTex ("Base (RGB)", 2D) = "white" {}
 	}
 	SubShader {
-		Tags { "Queue"="Background-1" }
+		Tags { "Queue"="Geometry" }
 		LOD 200
 		
 		CGPROGRAM

@@ -10,6 +10,9 @@ public class TextMap : MonoBehaviour {
     public float ySize = 10.0f;
 	public GameObject exit;
 	public TextAsset[] maps;
+
+  public GameObject top;
+  public GameObject floor;
 	
 	static int currentMap = -1;
 
@@ -25,13 +28,34 @@ public class TextMap : MonoBehaviour {
 		return wUnits;
 	}
 
+  int LengthOfMap(string map){
+    string[] lines = map.Split(Environment.NewLine.ToCharArray());
+    int result = 0;
+    for(int i = 0; i < lines.Length; i++){
+      if(lines[i].IndexOf('|') != -1){
+        result++;
+      }
+    }
+    return result;
+  }
+
 		public static void NextMap(){
 				TextMap.currentMap++;
 		}
 
-	// Use this for initialization
 	void Start () {
-		string[] lines = maps[TextMap.currentMap].text.Split(Environment.NewLine.ToCharArray());
+    // support starting on caseLevel for debugging
+    if (TextMap.currentMap == -1){
+        TextMap.currentMap = 0;
+    }
+
+
+    int l = LengthOfMap(maps[TextMap.currentMap].text);
+    print("l: " + l);
+    top.transform.localScale = new Vector3(200, 1, 3.5f * l);
+    floor.transform.localScale = new Vector3(200, 1, 4.5f * l);
+
+    string[] lines = maps[TextMap.currentMap].text.Split(Environment.NewLine.ToCharArray());
 
 		float x = 0.0f;//-WidthOfLine(lines[0])/2.0f;
         float z = 0.0f;
@@ -46,14 +70,13 @@ public class TextMap : MonoBehaviour {
 			for(int j = 0; j < chars.Length; j++){
 
 
-//                print(i + " " + j);
 				if (chars[j] == ' ') {
 //					print( "space" );
-                    x += xSize;
+          x += xSize;
 				}
 
 				if (chars[j] == '|') {
-                    anyForwardWalls = true;
+          anyForwardWalls = true;
 //					print( "forward wall" );
 					Quaternion q = new Quaternion ();
                    
@@ -67,34 +90,33 @@ public class TextMap : MonoBehaviour {
 					rightFacing = !rightFacing;
 					GameObject w = (GameObject)Instantiate(Resources.Load("Wall"), new Vector3(x,ySize*5, z), q);
 					w.transform.localScale = new Vector3(ySize,1,zSize/10.0f);
-
 				}
 
-                if (chars[j] == '_') {
+        if (chars[j] == '_') {
 //					print( "blocking wall" );
 					Quaternion q = new Quaternion ();
-                    q.eulerAngles = new Vector3 (0, 90, 270);
+          q.eulerAngles = new Vector3 (0, 90, 270);
 
 					GameObject w = (GameObject)Instantiate(Resources.Load("Wall"), new Vector3(x + xSize/2,ySize*5, z + zSize/2), q);
 					w.transform.localScale = new Vector3(ySize,1,xSize/10.0f);
 
-                    x += xSize;
+          x += xSize;
 				}	
 
 				if (chars [j] == 'x') {
-										exit.transform.position = new Vector3(x + 7, 3, z);
+          exit.transform.position = new Vector3(x+7, 3, z+25);
+                x += xSize;
 				}
 
 			}
-            if (anyForwardWalls) {
-                z += zSize;
-            }
+      if (anyForwardWalls) {
+          z += zSize;
+      }
 
 		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
 	}
 }
