@@ -47,7 +47,7 @@ public class WaypointManager : MonoBehaviour {
 		return (DistanceToNextWaypoint() <= victoryDistance);
 	}
 	
-	double DistanceToNextWaypoint(){
+	public double DistanceToNextWaypoint(){
 		return GetDistance(hudScript.point_lat, hudScript.point_lng, visibleWayPoints[WaypointManager.currentWayPoint].x, visibleWayPoints[WaypointManager.currentWayPoint].y);
 	}
 

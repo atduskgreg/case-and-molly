@@ -23,7 +23,7 @@ public class ShowHUD : MonoBehaviour {
 	public float pointSize = 10.0f;
 
 	public GUIStyle guiStyle;
-		public GUIStyle timerStyle;
+	public GUIStyle timerStyle;
 
 	public Texture ret;
 

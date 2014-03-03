@@ -10,11 +10,18 @@
 
 @implementation GABAppDelegate
 
-static NSString* const kApiKey = @"44604152";    // Replace with your OpenTok API key
 
 //========iOS===========
+static NSString* const kApiKey = @"44604152";    // Replace with your OpenTok API key
 static NSString* const kSessionId = @"2_MX40NDYwNDE1Mn5-VGh1IEphbiAwOSAxMjowNDo1MCBQU1QgMjAxNH4wLjY4NTE4ODh-";
 static NSString* const kToken = @"T1==cGFydG5lcl9pZD00NDYwNDE1MiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz0zZTQzMmUzYTM4YmVmNzk3OTJiNGQ2NDc5ZjAxOGI5OWE5ODY5Yzg2OnJvbGU9c3Vic2NyaWJlciZzZXNzaW9uX2lkPTJfTVg0ME5EWXdOREUxTW41LVZHaDFJRXBoYmlBd09TQXhNam93TkRvMU1DQlFVMVFnTWpBeE5INHdMalk0TlRFNE9EaC0mY3JlYXRlX3RpbWU9MTM5MjIyNTUxNCZub25jZT0wLjQ4MTg3MjM5MDQzMzUyODAzJmV4cGlyZV90aW1lPTEzOTQ4MTc1MDImY29ubmVjdGlvbl9kYXRhPQ==";
+
+//========iOS HIGH DEF===========
+//static NSString* const kApiKey = @"44675712";
+//// Replace with your generated session ID
+//static NSString* const kSessionId = @"1_MX40NDY3NTcxMn5-TW9uIE1hciAwMyAxMjozMjowNCBQU1QgMjAxNH4wLjA0NDMxMTEwNn4";
+//// Replace with your generated token
+//static NSString* const kToken = @"T1==cGFydG5lcl9pZD00NDY3NTcxMiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz05MTAwOGEyOTc3YzFmMzQxMjM3Mzk0YWIzYzI5MzhhMjBmZTI5MjQzOnJvbGU9cHVibGlzaGVyJnNlc3Npb25faWQ9MV9NWDQwTkRZM05UY3hNbjUtVFc5dUlFMWhjaUF3TXlBeE1qb3pNam93TkNCUVUxUWdNakF4Tkg0d0xqQTBORE14TVRFd05uNCZjcmVhdGVfdGltZT0xMzkzODc4NzM0Jm5vbmNlPTAuODQ5Mjc3MjQ3MDM2NTQzNSZleHBpcmVfdGltZT0xMzk2NDcwNzE5JmNvbm5lY3Rpb25fZGF0YT0=";
 
 //=======BROWSER=========
 /*static NSString* const kSessionId = @"1_MX40NDYwNDE1Mn5-TW9uIEphbiAyMCAxMzowNjowMyBQU1QgMjAxNH4wLjUwMjg5NjY3fg"; // Replace with your generated session ID

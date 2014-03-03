@@ -117,10 +117,10 @@ public class TextMap : MonoBehaviour {
           x += xSize;
 				}	
 
-				if (chars [j] == 'x') {
-          exit.transform.position = new Vector3(x+7, 3, z+25);
+			if (chars [j] == 'x') {
+          		exit.transform.position = new Vector3(x+7, 3, z+25);
                 x += xSize;
-				}
+			}
 
 			}
       if (anyForwardWalls) {

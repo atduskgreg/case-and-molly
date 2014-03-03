@@ -99,14 +99,14 @@ public class moveControl : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.RightArrow) || rightFlick){
 			p.x += gridDistance;
 			clickedThisTurn= true;
-      soundManager.GetComponents<AudioSource>()[2].Play ();
+						soundManager.GetComponents<AudioSource>()[1].Play ();
 
 		}
 
 		if (Input.GetKeyDown(KeyCode.LeftArrow) || leftFlick){
 			p.x -= gridDistance;
 			clickedThisTurn = true;
-      soundManager.GetComponents<AudioSource>()[1].Play ();
+      	soundManager.GetComponents<AudioSource>()[1].Play ();
 
 		}
 
