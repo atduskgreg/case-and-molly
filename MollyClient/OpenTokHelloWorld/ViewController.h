@@ -16,6 +16,7 @@
     IBOutlet UIImageView* squareView;
     IBOutlet UIImageView* triangleView;
     IBOutlet UILabel* timeDisplay;
+    IBOutlet UIButton* hereButton;
 }
 - (void)doConnect;
 - (void)doPublish;

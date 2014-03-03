@@ -13,8 +13,8 @@
     OTPublisher* _publisher;
     OTSubscriber* _subscriber;
 }
-static double widgetHeight = 240;
-static double widgetWidth = 320;
+static double widgetHeight = 255;
+static double widgetWidth = 300;
 
 // *** Fill the following variables using your own Project info from the Dashboard  ***
 // ***                   https://dashboard.tokbox.com/projects                      ***
@@ -32,7 +32,7 @@ static bool subscribeToSelf = NO; // Change to NO to subscribe to streams other 
     _session = [[OTSession alloc] initWithSessionId:kSessionId
                                            delegate:self];
     locationSender = [[GABLocationSocketSender alloc] init];
-    [locationSender setOutputView:indicatorView];
+//    [locationSender setOutputView:indicatorView];
 
     [locationSender setTriangleView:triangleView];
     [locationSender setSquareView:squareView];
@@ -40,6 +40,8 @@ static bool subscribeToSelf = NO; // Change to NO to subscribe to streams other 
     [squareView setImage:[UIImage imageNamed:@"empty_square.png"]];
     [triangleView setImage:[UIImage imageNamed:@"empty_triangle.png"]];
    
+    [hereButton setTitleColor:[UIColor greenColor] forState:UIControlStateHighlighted];
+    
     [NSTimer scheduledTimerWithTimeInterval:0.01
                                      target:self
                                    selector:@selector(showTime:)
@@ -54,15 +56,38 @@ static bool subscribeToSelf = NO; // Change to NO to subscribe to streams other 
     return YES;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+-(BOOL)shouldAutorotate
 {
-    // Return YES for supported orientations
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return NO;
-    } else {
-        return YES;
-    }
+    
+    return UIInterfaceOrientationMaskLandscape;
+    
 }
+
+-(NSUInteger)supportedInterfaceOrientations
+{
+    
+    return UIInterfaceOrientationMaskLandscape;
+    
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    
+    return UIInterfaceOrientationLandscapeLeft;
+    
+}
+
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+//{
+//    return NO;
+//
+//    // Return YES for supported orientations
+////    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+////        return NO;
+////    } else {
+////        return YES;
+////    }
+//}
 
 - (void)updateSubscriber {
     for (NSString* streamId in _session.streams) {
@@ -76,12 +101,7 @@ static bool subscribeToSelf = NO; // Change to NO to subscribe to streams other 
 
 -(void) showTime:(NSTimer *) timer
 {
-//    NSLog([NSString stringWithFormat:@"%f", [locationSender elapsedGameTime]]);
     timeDisplay.text = [NSString stringWithFormat:@"%.02f", [locationSender elapsedGameTime]];
-    
-//    [timeDisplay setText:[NSString stringWithFormat:@"%f", [locationSender elapsedGameTime]]];
-//    [timeDisplay setNeedsDisplay];
-    NSLog(@"time: %@", [timeDisplay text]);
 }
 
 
@@ -104,7 +124,7 @@ static bool subscribeToSelf = NO; // Change to NO to subscribe to streams other 
     [_publisher setName:[[UIDevice currentDevice] name]];
     [_session publish:_publisher];
     [self.view addSubview:_publisher.view];
-    [_publisher.view setFrame:CGRectMake(0, 0, widgetWidth, widgetHeight)];
+    [_publisher.view setFrame:CGRectMake(indicatorView.frame.origin.x,indicatorView.frame.origin.y, indicatorView.frame.size.width,indicatorView.frame.size.height)];
 }
 
 - (void)sessionDidConnect:(OTSession*)session
