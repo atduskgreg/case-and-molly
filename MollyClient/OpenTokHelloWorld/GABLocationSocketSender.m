@@ -107,17 +107,26 @@
                 gameStarted = YES;
             }
         }
+        
+        if([result objectForKey:@"level"] != nil){
+            NSInteger levelSignal = [[result objectForKey:@"level"] integerValue];
+            if(levelSignal == 0){
+                _caseStatus.text = @"Watching";
+                [_hereButton setHidden:NO];
+
+            } else { // case level
+                _caseStatus.text = @"Hacking";
+                [_hereButton setHidden:YES];
+            }
+        }
     
         if([result objectForKey:@"case"] != nil){
             NSLog(@"case: %@", [result objectForKey:@"case"]);
             NSInteger caseSignal = [[result objectForKey:@"case"] integerValue];
             if(caseSignal == 1){
-//                [_outputView setBackgroundColor:[UIColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:1.0]];
                 [_squareView setImage:[UIImage imageNamed:@"black_square.jpg"]];
             } else {
-//                [_outputView setBackgroundColor:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0]];
                 [_triangleView setImage:[UIImage imageNamed:@"black_triangle.png"]];
-
             }
             [self fadeOutColor];
         }

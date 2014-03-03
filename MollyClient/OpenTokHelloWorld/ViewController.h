@@ -17,6 +17,7 @@
     IBOutlet UIImageView* triangleView;
     IBOutlet UILabel* timeDisplay;
     IBOutlet UIButton* hereButton;
+    IBOutlet UILabel* caseStatus;
 }
 - (void)doConnect;
 - (void)doPublish;

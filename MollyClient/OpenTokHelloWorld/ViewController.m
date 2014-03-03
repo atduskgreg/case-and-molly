@@ -36,11 +36,14 @@ static bool subscribeToSelf = NO; // Change to NO to subscribe to streams other 
 
     [locationSender setTriangleView:triangleView];
     [locationSender setSquareView:squareView];
-
+    [locationSender setCaseStatus:caseStatus];
+    [locationSender setHereButton:hereButton];
+    
     [squareView setImage:[UIImage imageNamed:@"empty_square.png"]];
     [triangleView setImage:[UIImage imageNamed:@"empty_triangle.png"]];
    
     [hereButton setTitleColor:[UIColor greenColor] forState:UIControlStateHighlighted];
+    
     
     [NSTimer scheduledTimerWithTimeInterval:0.01
                                      target:self

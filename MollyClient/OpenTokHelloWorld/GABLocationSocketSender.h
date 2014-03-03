@@ -27,6 +27,8 @@
 @property (nonatomic, retain) UIView* outputView;
 @property (nonatomic, retain) UIImageView* squareView;
 @property (nonatomic, retain) UIImageView* triangleView;
+@property (nonatomic, retain) UILabel* caseStatus;
+@property (nonatomic, retain) UIButton* hereButton;
 
 
 //@property (nonatomic, retain) CLLocationManager *locationManager;

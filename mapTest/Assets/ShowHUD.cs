@@ -39,7 +39,8 @@ public class ShowHUD : MonoBehaviour {
 
 	int zoom = 17;
 
-  static WebSocket ws;
+  	static WebSocket ws;
+		static bool socketConnected = false;
 	public string host = "case-and-molly-server.herokuapp.com";
 
 	Vector2 tileNum;
@@ -52,7 +53,7 @@ public class ShowHUD : MonoBehaviour {
 	public Vector2 guiPosition;
 	public int mapSize = 256;
 
-		float mapAlpha = 1.0f;
+	float mapAlpha = 1.0f;
 	Vector2 lerpTo;
 	bool needsLerp = false;
 	float lerpStarted = 0.0f;
@@ -77,61 +78,66 @@ public class ShowHUD : MonoBehaviour {
 		Texture t = mapTiles[0];
 		mapImage = t;
 
-    ShowHUD.ws = new WebSocket("ws://"+host);
-    ShowHUD.ws.OnOpen += (sender, e) => {
-			print ("socket open");
-      ShowHUD.ws.Send ("join");
-		};
-    ShowHUD.ws.OnMessage += (sender, e) => {
-			print(e.Data);
-			var d = JSON.Parse(e.Data);
+
+				//if (!ShowHUD.socketConnected) {
+						ShowHUD.ws = new WebSocket ("ws://" + host);
+						ShowHUD.ws.OnOpen += (sender, e) => {
+								print ("socket open");
+								ShowHUD.ws.Send ("join");
+						};
+						ShowHUD.ws.OnMessage += (sender, e) => {
+								print (e.Data);
+								var d = JSON.Parse (e.Data);
 
 
-			List<string> keys = new List<string>(); 
-			foreach(string key in d.Keys)
-			{
-				keys.Add(key);
-			}
+								List<string> keys = new List<string> (); 
+								foreach (string key in d.Keys) {
+										keys.Add (key);
+								}
 
-			if(keys.Contains("molly") && (d["molly"].AsInt == 1)){
-				mollyClickedHere = true;
-			} else{
-				mollyClickedHere = false;
-			}
+								if (keys.Contains ("molly") && (d ["molly"].AsInt == 1)) {
+										mollyClickedHere = true;
+								} else {
+										mollyClickedHere = false;
+								}
 								
 
-			if(keys.Contains("location")){
-				tileNum = GetTileNumber(d["location"]["lat"].AsDouble,d["location"]["lng"].AsDouble, zoom);
+								if (keys.Contains ("location")) {
+										tileNum = GetTileNumber (d ["location"] ["lat"].AsDouble, d ["location"] ["lng"].AsDouble, zoom);
 
-				lerpTo.x = d["location"]["lat"].AsFloat;
-				lerpTo.y = d["location"]["lng"].AsFloat;
+										lerpTo.x = d ["location"] ["lat"].AsFloat;
+										lerpTo.y = d ["location"] ["lng"].AsFloat;
 
 //				print ("Loc: " + point_lat + "," + point_lng);
 
 //				print("Tile number: "  + (int)tileNum.x  +"x" + (int)tileNum.y);
-				string newTexName = tileNum.x + "x" + tileNum.y;
-				if(!String.Equals(currentMapTile, newTexName)){
-					currentMapTile = newTexName;
-					needsNewMapTile = true;
-					needsLerp = true;
-				}
-			}
+										string newTexName = tileNum.x + "x" + tileNum.y;
+										if (!String.Equals (currentMapTile, newTexName)) {
+												currentMapTile = newTexName;
+												needsNewMapTile = true;
+												needsLerp = true;
+										}
+								}
 
-		};
+						};
 
-    ShowHUD.ws.OnError += (sender, e) => {
-			print ("error: " + e);
-		};
+						ShowHUD.ws.OnError += (sender, e) => {
+								print ("error: " + e);
+						};
 
-    ShowHUD.ws.Connect();
+						ShowHUD.ws.Connect ();
+				//ShowHUD.socketConnected = true;
+
+				//}
+				ShowHUD.ws.Send("{\"level\": 0}");
 	}
 
 	public void SendStartSignal(){
-    ShowHUD.ws.Send("{\"start\": \"1\"}");
+    	ShowHUD.ws.Send("{\"start\": 1}");
 	}
 			
 	public void SendDeathMessage(){
-    ShowHUD.ws.Send("{\"dead\": \"1\"}");
+    	ShowHUD.ws.Send("{\"dead\": 1}");
 	}
 
 	void OnGUI(){
@@ -329,14 +335,14 @@ public class ShowHUD : MonoBehaviour {
 		
 		
 		if (Input.GetKeyDown(KeyCode.N) || Input.GetButton ("Fire1")) {
-      ShowHUD.ws.Send ("{\"case\": \"0\"}");
+      ShowHUD.ws.Send ("{\"case\": 0}");
 						msgSent = true;
 						lastMsgSent = 0;
 						msgSentTime = Time.time;
 
 		}
 		if (Input.GetKeyDown(KeyCode.Y) || Input.GetButton ("Fire3")) {
-      ShowHUD.ws.Send ("{\"case\": \"1\"}");
+      ShowHUD.ws.Send ("{\"case\": 1}");
 						msgSent = true;
 						lastMsgSent = 1;
 						msgSentTime = Time.time;
@@ -351,6 +357,8 @@ public class ShowHUD : MonoBehaviour {
 	void GoToCase() {
 		print("going to case");
 				TextMap.NextMap();
+
+		ShowHUD.ws.Send("{\"level\": 1}");
 
 		Application.LoadLevel ("caseLevel1");
 //		AsyncOperation async = Application.LoadLevelAsync("caseLevel1");
