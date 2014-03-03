@@ -16,6 +16,10 @@ public class moveControl : MonoBehaviour {
 	bool rightFlick = false;
 	bool leftFlick = false;
 
+  public GameObject soundManager;
+
+  static bool crashed = false;
+
 	Vector3 prevW;
 
 	Quaternion prevO;
@@ -23,11 +27,22 @@ public class moveControl : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		lead.rigidbody.velocity = new Vector3(0,0,speed);
+
+    if (crashed){
+//      soundManager.GetComponents<AudioSource>()[1].Play ();
+      //soundManager.GetComponents<AudioSource>()[1].Play ();
+
+      moveControl.crashed = false;
+      }
 	}
 
 	void  OnCollisionEnter ( Collision myCollision  ){
+
 		Application.LoadLevel(Application.loadedLevel);
 		lastFlickAt = Time.time;
+    moveControl.crashed = true;
+
+
 	}
 	
 	// Update is called once per frame
@@ -53,7 +68,7 @@ public class moveControl : MonoBehaviour {
 
 
 
-        rightFlick = (currO.z < -flickThreshold);// && (prevO.z >= -flickThreshold);
+       rightFlick = (currO.z < -flickThreshold);// && (prevO.z >= -flickThreshold);
       leftFlick = (currO.z > flickThreshold);// && (prevO.z <= flickThreshold);
 
 
@@ -62,7 +77,6 @@ public class moveControl : MonoBehaviour {
 //			print ("x: " + currW.x + " left: " + leftFlick + " right: " + rightFlick);
 			print ("HIT l: " + leftFlick + " r: " + rightFlick);
 			lastFlickAt = Time.time;
-
 		}
 
 		prevO = currO;
@@ -85,11 +99,15 @@ public class moveControl : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.RightArrow) || rightFlick){
 			p.x += gridDistance;
 			clickedThisTurn= true;
+      soundManager.GetComponents<AudioSource>()[2].Play ();
+
 		}
 
 		if (Input.GetKeyDown(KeyCode.LeftArrow) || leftFlick){
 			p.x -= gridDistance;
 			clickedThisTurn = true;
+      soundManager.GetComponents<AudioSource>()[1].Play ();
+
 		}
 
 
