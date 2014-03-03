@@ -150,7 +150,6 @@
                           bytesPerRow:width*4
                           bitsPerPixel:32];
     
-
         imageHolder = [[NSImage alloc] initWithCGImage:[imageHolderRep CGImage] size:NSMakeSize(width,height)];
 
         imageRep =[[NSBitmapImageRep alloc] initWithData:[imageHolder TIFFRepresentation]];
@@ -178,7 +177,7 @@
 //    [self setImage:imageHolder];
 
        [self setNeedsDisplay:YES];
-       [self drawRect:NSMakeRect(0, 0, 640, 480)];
+       [self drawRect:NSMakeRect(0, 0, 352, 288)];
     
 //        [self.layer setNeedsDisplay];
         
