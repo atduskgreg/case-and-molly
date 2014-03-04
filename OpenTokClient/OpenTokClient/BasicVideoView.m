@@ -154,6 +154,8 @@
 
         imageRep =[[NSBitmapImageRep alloc] initWithData:[imageHolder TIFFRepresentation]];
 //        CGImageRef pixelData = ;
+        
+
         texture = [GLKTextureLoader textureWithCGImage:[imageRep CGImage] options:NULL error:NULL];
         
         NSLog(@"texture: %i %ix%i", texture.name, texture.width, texture.height);
@@ -168,13 +170,12 @@
         [imageRep release];
         
         [imageHolderRep release];
-
-//        [imageHolderRep release];
-
+        
+        GLuint name = texture.name;
+        glDeleteTextures(1, &name);
         
         [self setImage:nil];
    
-//    [self setImage:imageHolder];
 
        [self setNeedsDisplay:YES];
        [self drawRect:NSMakeRect(0, 0, 352, 288)];

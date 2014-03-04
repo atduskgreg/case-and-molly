@@ -15,11 +15,14 @@
     OTSession* _session;
     OTSubscriberKit* _subscriber;
 //    SyphonServer* syphonServer;
-
+    NSDate* lastFrameTime;
+    BOOL everConnected;
+    NSDate* lastReconnectTry;
 }
 
 - (void)doConnect;
 - (void)doDisconnect;
+-(void) checkConnection:(NSTimer *) timer;
 
 @property (assign) IBOutlet NSWindow *window;
 

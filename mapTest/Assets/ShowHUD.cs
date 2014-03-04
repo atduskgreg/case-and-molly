@@ -33,6 +33,8 @@ public class ShowHUD : MonoBehaviour {
 	float msgSentTime = 0;
 	bool msgSent = false;
 
+		float lastPingSent = 0.0f;
+
 
 	int zoom = 17;
 
@@ -258,6 +260,13 @@ public class ShowHUD : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+//		if ((Time.time - lastPingSent) > 1.0f) {
+//			DateTime epochStart = new System.DateTime(1970, 1, 1, 8, 0, 0, System.DateTimeKind.Utc);
+//			int timestamp = (int)(System.DateTime.UtcNow - epochStart).TotalSeconds;
+//			ShowHUD.ws.Send ("{\"ping\": "+ timestamp +"}");
+//			lastPingSent = Time.time;
+//		}
+
 		if (mollyClickedHere && gameObject.GetComponent<WaypointManager>().IsWithinVictoryDistance()) {
 						print ("transition now");
 	      if (gameObject.GetComponent<WaypointManager>().AtFinalWaypoint()) {
@@ -309,17 +318,16 @@ public class ShowHUD : MonoBehaviour {
 		
 		
 		if (Input.GetKeyDown(KeyCode.N) || Input.GetButton ("Fire1")) {
-      ShowHUD.ws.Send ("{\"case\": 0}");
-						msgSent = true;
-						lastMsgSent = 0;
-						msgSentTime = Time.time;
-
+      		ShowHUD.ws.Send ("{\"case\": 0}");
+			msgSent = true;
+			lastMsgSent = 0;
+			msgSentTime = Time.time;
 		}
 		if (Input.GetKeyDown(KeyCode.Y) || Input.GetButton ("Fire3")) {
-      ShowHUD.ws.Send ("{\"case\": 1}");
-						msgSent = true;
-						lastMsgSent = 1;
-						msgSentTime = Time.time;
+      		ShowHUD.ws.Send ("{\"case\": 1}");
+			msgSent = true;
+			lastMsgSent = 1;
+			msgSentTime = Time.time;
 		}
 
 		if (Input.GetKeyDown (KeyCode.C)) {

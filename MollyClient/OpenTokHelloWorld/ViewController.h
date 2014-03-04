@@ -24,5 +24,6 @@
 - (void)showAlert:(NSString*)string;
 -(IBAction)sendHere:(id)sender;
 -(void) showTime:(NSTimer *) timer;
+-(void) sendPing:(NSTimer *) timer;
 
 @end

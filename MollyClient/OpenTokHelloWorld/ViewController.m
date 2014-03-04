@@ -49,10 +49,21 @@ static bool subscribeToSelf = NO; // Change to NO to subscribe to streams other 
                                      target:self
                                    selector:@selector(showTime:)
                                    userInfo:nil repeats:YES];
+    
+    [NSTimer scheduledTimerWithTimeInterval:1
+                                     target:self
+                                   selector:@selector(sendPing:)
+                                   userInfo:nil repeats:YES];
 
     
     [self doConnect];
 }
+
+-(void) sendPing:(NSTimer *) timer
+{
+    [locationSender sendPing];
+}
+
 
 - (BOOL)prefersStatusBarHidden
 {

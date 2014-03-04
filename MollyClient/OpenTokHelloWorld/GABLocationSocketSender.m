@@ -50,6 +50,11 @@
     }
 }
 
+- (void) sendPing
+{
+    [self send:[[NSString alloc] initWithFormat:@"{\"ping\": %i}", (int)[NSDate timeIntervalSinceReferenceDate]]];
+}
+
 -(void) sendLocation
 {
     [self send:[self locationJSON]];

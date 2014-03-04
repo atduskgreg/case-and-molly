@@ -32,17 +32,42 @@ static NSString* const kToken = @"T1==cGFydG5lcl9pZD00NDYwNDE1MiZzZGtfdmVyc2lvbj
 static bool subscribeToSelf = NO; // Chaange to NO to subscribe streams other than your own
 
 
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     
     // Insert code here to initialize your application
     [self doConnect];
     [videoView setupSyphon];
+    
+    everConnected = false;
+    
+    [NSTimer scheduledTimerWithTimeInterval:1
+                                     target:self
+                                   selector:@selector(checkConnection:)
+                                   userInfo:nil repeats:YES];
+}
+
+-(void) checkConnection:(NSTimer *) timer
+{
+    NSDate* nowDate =[NSDate date];
+    NSLog(@"Time between frames: %.20f", [nowDate timeIntervalSinceDate:lastFrameTime]);
+    
+    if([nowDate timeIntervalSinceDate:lastFrameTime] > 2){
+//        [self doDisconnect];
+//        [self doConnect];
+        NSTimeInterval t = [[NSDate date] timeIntervalSinceDate:lastReconnectTry];
+        if(t > 5){
+            [self doConnect];
+        }
+    }
 }
 
 
 - (void)doConnect
 {
+    lastReconnectTry = [NSDate date];
+
     _session = [[OTSession alloc] initWithSessionId:kSessionId
                                            delegate:self];
     [_session addObserver:self
@@ -154,7 +179,7 @@ static bool subscribeToSelf = NO; // Chaange to NO to subscribe streams other th
 - (void)subscriberDidConnectToStream:(OTSubscriberKit*)subscriber
 {
     NSLog(@"subscriberDidConnectToStream (%@)", subscriber.stream.connection.connectionId);
-
+    
 }
 
 - (void)subscriber:(OTSubscriberKit*)subscriber didFailWithError:(OTError*)error
@@ -168,7 +193,8 @@ static bool subscribeToSelf = NO; // Chaange to NO to subscribe streams other th
 - (void)subscriberVideoDataReceived:(OTSubscriberKit*)subscriber
 {
     
-    
+      lastFrameTime = [NSDate date];
+
     
 //    [videoView publishToSyphonServer:syphonServer];
 //    [videoView drawRect:NSMakeRect(0, 0, 640, 480)];

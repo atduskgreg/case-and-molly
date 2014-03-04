@@ -47,6 +47,7 @@
 -(void) sendLocation;
 
 -(void) sendHere;
+-(void) sendPing;
 -(NSTimeInterval) elapsedGameTime;
 
 @end
