@@ -15,6 +15,12 @@ public class moveControl : MonoBehaviour {
 	float lastFlickAt = 0.00f;
 	bool rightFlick = false;
 	bool leftFlick = false;
+  public Vector2 guiPosition = new Vector2(128,128);
+
+  public Texture tiltWarning;
+  public Texture wallWarning;
+
+    float levelStartedAt = 0.0f;
 
   public GameObject soundManager;
 
@@ -33,7 +39,10 @@ public class moveControl : MonoBehaviour {
       //soundManager.GetComponents<AudioSource>()[1].Play ();
 
       moveControl.crashed = false;
-      }
+     }
+
+    levelStartedAt = Time.time;
+
 	}
 
 	void  OnCollisionEnter ( Collision myCollision  ){
@@ -44,10 +53,41 @@ public class moveControl : MonoBehaviour {
 
 
 	}
+
+  void DrawGUIWarning(){
+//    GUI.color = Color.green;
+//    GUI.Label(new Rect(128,128, 100, 20), GetElapsedTime().ToString("f2"), timerStyle); 
+    GUI.DrawTexture(new Rect(0,0,512,512), tiltWarning, ScaleMode.ScaleToFit, true, 0.0f);
+  }
+
+  void OnGUI(){
+    if ((Time.time - levelStartedAt) > 1.5f && (Time.time - levelStartedAt) < 3.0f){
+      GUI.BeginGroup(new Rect(guiPosition.x, guiPosition.y, 512, 512));
+      GUI.DrawTexture(new Rect(0,0,512,512), tiltWarning, ScaleMode.ScaleToFit, true, 0.0f);
+      GUI.EndGroup();
+
+
+      GUI.BeginGroup(new Rect(Screen.width / 2 + guiPosition.x - 100, guiPosition.y, 512, 512));
+      GUI.DrawTexture(new Rect(0,0,512,512), tiltWarning, ScaleMode.ScaleToFit, true, 0.0f);
+      GUI.EndGroup();
+      } 
+    else if ((Time.time - levelStartedAt) > 3.5f && (Time.time - levelStartedAt) < 4.5f){
+      GUI.BeginGroup(new Rect(guiPosition.x, guiPosition.y, 512, 512));
+      GUI.DrawTexture(new Rect(0,0,512,512), wallWarning, ScaleMode.ScaleToFit, true, 0.0f);
+      GUI.EndGroup();
+
+
+      GUI.BeginGroup(new Rect(Screen.width / 2 + guiPosition.x - 100, guiPosition.y, 512, 512));
+      GUI.DrawTexture(new Rect(0,0,512,512), wallWarning, ScaleMode.ScaleToFit, true, 0.0f);
+      GUI.EndGroup();
+    }
+  }
 	
 	// Update is called once per frame
 	void Update () {
 
+
+    
 //		Vector3 currW = new Vector3();
 //		OVRDevice.GetAngularVelocity(0, ref currW.x, ref currW.y, ref currW.z);
 

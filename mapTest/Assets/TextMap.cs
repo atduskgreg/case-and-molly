@@ -118,7 +118,7 @@ public class TextMap : MonoBehaviour {
 				}	
 
 			if (chars [j] == 'x') {
-          		exit.transform.position = new Vector3(x+7, 3, z+25);
+          exit.transform.position = new Vector3(x+5, 3, z+25);
                 x += xSize;
 			}
 

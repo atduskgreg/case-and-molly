@@ -240,9 +240,15 @@
 				var publisherProperties = {};
 				publisherProperties.name = "A web-based OpenTok client";
 				publisherProperties.data = "Joe mama"
-				publisherDiv.setAttribute('id', 'opentok_publisher');
-				parentDiv.appendChild(publisherDiv);
-				publisher = session.publish(publisherDiv.id, publisherProperties); // Pass the replacement div id to the publish method
+				publisherProperties.width = 300;
+				publisherProperties.height = 224;
+
+				// publisherDiv.setAttribute('id', 'opentok_publisher');
+				// parentDiv.appendChild(publisherDiv);
+				publisher = TB.initPublisher(apiKey, "myCamera", {width: 300, height: 224, mirror: false});
+				session.publish(publisher);
+				// publisherDiv
+				// publisher = session.publish(publisherDiv.id, publisherProperties); // Pass the replacement div id to the publish method
 				show('unpublishLink');
 				hide('publishLink');
 			}

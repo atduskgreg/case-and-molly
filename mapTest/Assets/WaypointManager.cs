@@ -5,7 +5,6 @@ using System;
 public class WaypointManager : MonoBehaviour {
 
 	public Vector2[] visibleWayPoints;
-	public Vector2[] hiddenDestinations;
 	ShowHUD hudScript;
 	public float victoryDistance = 5.0f; // feet
 
@@ -17,8 +16,7 @@ public class WaypointManager : MonoBehaviour {
 	void Start (){
 		hudScript = gameObject.GetComponent<ShowHUD> ();
 		WaypointManager.currentWayPoint++;
-		hudScript.SetNextWaypoint (visibleWayPoints [WaypointManager.currentWayPoint]);
-		
+		hudScript.SetNextWaypoint (visibleWayPoints [WaypointManager.currentWayPoint]);	
 	}
 
 	double GetDistance(double lat1, double lng1, double lat2, double lng2) {
@@ -43,6 +41,11 @@ public class WaypointManager : MonoBehaviour {
 		return (km * 3280.84);
 	}
 
+
+	public bool AtFinalWaypoint(){
+			return (currentWayPoint == visibleWayPoints.Length-1);
+	}
+
 	public bool IsWithinVictoryDistance(){
 		return (DistanceToNextWaypoint() <= victoryDistance);
 	}
@@ -51,7 +54,7 @@ public class WaypointManager : MonoBehaviour {
 		return GetDistance(hudScript.point_lat, hudScript.point_lng, visibleWayPoints[WaypointManager.currentWayPoint].x, visibleWayPoints[WaypointManager.currentWayPoint].y);
 	}
 
-	public float GetElapsedGameTime(){
+	static public float GetElapsedGameTime(){
 		if (WaypointManager.gameStarted) {
 			return (Time.time - WaypointManager.gameStartTime);
 		} else {

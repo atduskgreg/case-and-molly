@@ -15,9 +15,6 @@ public class ShowHUD : MonoBehaviour {
 	public double point_lat;
 	public double point_lng;
 
-	OVRGUI ovrGui;
-	public OVRCameraController cameraController;
-
 	public double debugMoveAmt = 0.00001d;
 
 	public float pointSize = 10.0f;
@@ -39,8 +36,8 @@ public class ShowHUD : MonoBehaviour {
 
 	int zoom = 17;
 
-  	static WebSocket ws;
-		static bool socketConnected = false;
+  static WebSocket ws;
+	static bool socketConnected = false;
 	public string host = "case-and-molly-server.herokuapp.com";
 
 	Vector2 tileNum;
@@ -72,8 +69,6 @@ public class ShowHUD : MonoBehaviour {
 		bool mollyClickedHere = false;
 
 	void Start () {
-		ovrGui = new OVRGUI();
-		ovrGui.SetCameraController(ref cameraController);
 
 		Texture t = mapTiles[0];
 		mapImage = t;
@@ -180,7 +175,6 @@ public class ShowHUD : MonoBehaviour {
 		pointY = 0;
 		Microsoft.MapPoint.TileSystem.LatLongToPixelXY( point_lat,  point_lng,  levelOfDetail, out pointX, out pointY);
 
-//		print (pointX + "," + pointY + " " + topX + "," + topY + " (" + (pointX - topX) + "," + (pointY - topY) + ")");
 
 		pointX = pointX - topX;
 		pointY = pointY - topY;
@@ -198,9 +192,6 @@ public class ShowHUD : MonoBehaviour {
 	}
 
 	void RenderGUIGuts(){
-//		var svMat = GUI.matrix; // save current matrix
-//		// substitute matrix - only scale is altered from standard
-//		GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, new Vector3(0.5f, 0.5f, 1.0f));
 
 				int xOffset = 256 - pointX;
 				int yOffset = 256 - pointY;
@@ -209,29 +200,6 @@ public class ShowHUD : MonoBehaviour {
 				GUI.color = new Vector4(before.r, before.g, before.b, mapAlpha);
 				GUI.DrawTexture(new Rect(0,0,512,512), maps[WaypointManager.currentWayPoint], ScaleMode.ScaleToFit, true, 0.0f);
 				GUI.color = before;
-//		GUI.DrawTexture(new Rect(-256 + xOffset,-256 +yOffset,256,256), mapTiles[0], ScaleMode.ScaleToFit, true, 0.0f);
-//		GUI.DrawTexture(new Rect(xOffset,-256 +yOffset,256,256), mapTiles[1], ScaleMode.ScaleToFit, true, 0.0f);
-//		GUI.DrawTexture(new Rect(xOffset,yOffset,256,256), mapTiles[2], ScaleMode.ScaleToFit, true, 0.0f);
-//		GUI.DrawTexture(new Rect(256 + xOffset,-256 +yOffset,256,256), mapTiles[3], ScaleMode.ScaleToFit, true, 0.0f);
-//		GUI.DrawTexture(new Rect(512 + xOffset,-256 +yOffset,256,256), mapTiles[4], ScaleMode.ScaleToFit, true, 0.0f);
-
-//				Vector2 currPosition = new Vector2 (pointX, pointY);
-//				Vector2 moveDir = currPosition - prevPosition;
-
-//				Matrix4x4 matrixBackup = GUI.matrix;
-//				float a1 = Vector2.Angle (new Vector2 (0, 1), currPosition);
-//				float a2 = Vector2.Angle (new Vector2 (0, 1), prevPosition);
-//				if (a1 != a2) {
-//						print ("gotcha!");
-//				} else {
-//						print ("a1: " + a1 + " a2: " + a2 + " diff: " + (a1 - a2));
-//				}
-////				print ("curr: " + currPosition + " prev: " + prevPosition + " move: " + moveDir + " a: " + a);
-//				GUIUtility.RotateAroundPivot(a1, new Vector2(256,256));
-				//GUI.DrawTexture(rect, texture);
-//				GUI.DrawTexture (new Rect(0, 0, 512, 512), ret, ScaleMode.ScaleToFit, true, 0.0f);
-
-
 
 				GUI.Button(new Rect(pointX - pointSize/2, pointY - pointSize/2, pointSize, pointSize), "", guiStyle);
 
@@ -274,7 +242,7 @@ public class ShowHUD : MonoBehaviour {
 	}
 
 	float GetElapsedTime(){
-		return gameObject.GetComponent<WaypointManager> ().GetElapsedGameTime ();
+		return WaypointManager.GetElapsedGameTime();
 	}
 
 
@@ -291,7 +259,13 @@ public class ShowHUD : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (mollyClickedHere && gameObject.GetComponent<WaypointManager>().IsWithinVictoryDistance()) {
-			GoToCase();
+						print ("transition now");
+	      if (gameObject.GetComponent<WaypointManager>().AtFinalWaypoint()) {
+								print ("transition to ending");
+			Application.LoadLevel ("ending");
+    	  } else{
+        	    GoToCase();
+      	  }
 		}
 
 		bool posChanged = false;
