@@ -102,18 +102,20 @@ public class ShowHUD : MonoBehaviour {
 								if (keys.Contains ("location")) {
 										tileNum = GetTileNumber (d ["location"] ["lat"].AsDouble, d ["location"] ["lng"].AsDouble, zoom);
 
-										lerpTo.x = d ["location"] ["lat"].AsFloat;
-										lerpTo.y = d ["location"] ["lng"].AsFloat;
+								point_lat = d ["location"] ["lat"].AsFloat;
+								point_lng = d ["location"] ["lng"].AsFloat;
+//										needsLerp = true;
+//										lerpStarted = Time.time;
 
 //				print ("Loc: " + point_lat + "," + point_lng);
 
 //				print("Tile number: "  + (int)tileNum.x  +"x" + (int)tileNum.y);
-										string newTexName = tileNum.x + "x" + tileNum.y;
-										if (!String.Equals (currentMapTile, newTexName)) {
-												currentMapTile = newTexName;
-												needsNewMapTile = true;
-												needsLerp = true;
-										}
+//										string newTexName = tileNum.x + "x" + tileNum.y;
+//										if (!String.Equals (currentMapTile, newTexName)) {
+//												currentMapTile = newTexName;
+//												needsNewMapTile = true;
+//												needsLerp = true;
+//										}
 								}
 
 						};
@@ -138,50 +140,58 @@ public class ShowHUD : MonoBehaviour {
 	}
 
 	void OnGUI(){
-		if(needsNewMapTile == true){
-//			print ("changing map tile");
-			lerpStarted = Time.time;
-
-			foreach(Texture tex in mapTiles){
-				if(tex.name == currentMapTile){
-					mapImage = tex;
-				}
-			}
-			needsNewMapTile = false;
-		}
+//		if(needsNewMapTile == true){
+////			print ("changing map tile");
+//			lerpStarted = Time.time;
+//
+//			foreach(Texture tex in mapTiles){
+//				if(tex.name == currentMapTile){
+//					mapImage = tex;
+//				}
+//			}
+//			needsNewMapTile = false;
+//		}
 
 
 
 		int levelOfDetail = 17;
 
-		topX = 0;
-		topY = 0;//39654x48478
+		//39654x48478
 
-		if(needsLerp){
-//			print ("needs lerp: " + (Time.time - lerpStarted));
-			point_lat = (double)Mathf.Lerp((float)point_lat, lerpTo.x, Time.time - lerpStarted);
-			point_lng = (double)Mathf.Lerp((float)point_lng, lerpTo.y, Time.time - lerpStarted);
-		}
+//		if(needsLerp){
+////			print ("needs lerp: " + (Time.time - lerpStarted));
+//			point_lat = (double)Mathf.Lerp((float)point_lat, lerpTo.x, Time.time - lerpStarted);
+//			point_lng = (double)Mathf.Lerp((float)point_lng, lerpTo.y, Time.time - lerpStarted);
+//		}
 
-		if(point_lat == lerpTo.x && point_lng == lerpTo.y){
-//			print ("end lerp");
-			needsLerp = false;
-		}
+//		if(point_lat == lerpTo.x && point_lng == lerpTo.y){
+////			print ("end lerp");
+//			needsLerp = false;
+//		}
 
+				print (point_lat + "x" + point_lng);
 				//39653x48478
+
+				topX = 0;
+				topY = 0;
+				print ("currentWayPoint: " + WaypointManager.currentWayPoint);
+				print ((int)mapCorners [WaypointManager.currentWayPoint].x + "x" + (int)mapCorners [WaypointManager.currentWayPoint].y);
 
 
 		Vector2 tileTop = LatLngForTileNumber((int)mapCorners[WaypointManager.currentWayPoint].x, (int)mapCorners[WaypointManager.currentWayPoint].y, zoom);
 		Microsoft.MapPoint.TileSystem.LatLongToPixelXY( tileTop.x,  tileTop.y,  levelOfDetail, out topX, out topY);
+
+
 		pointX = 0;
 		pointY = 0;
 		Microsoft.MapPoint.TileSystem.LatLongToPixelXY( point_lat,  point_lng,  levelOfDetail, out pointX, out pointY);
 
+				print ("orig top: " + topX + "," + topY);
 
 		pointX = pointX - topX;
 		pointY = pointY - topY;
 
-
+				print ("x: " + pointX + " y: " + pointY);
 		GUI.BeginGroup(new Rect(guiPosition.x,guiPosition.y,mapSize,mapSize));
 		RenderGUIGuts ();
 		GUI.EndGroup();
@@ -195,8 +205,8 @@ public class ShowHUD : MonoBehaviour {
 
 	void RenderGUIGuts(){
 
-				int xOffset = 256 - pointX;
-				int yOffset = 256 - pointY;
+//				int xOffset = 256 - pointX;
+//				int yOffset = 256 - pointY;
 
 				Color before = GUI.color;
 				GUI.color = new Vector4(before.r, before.g, before.b, mapAlpha);
@@ -207,14 +217,17 @@ public class ShowHUD : MonoBehaviour {
 
 		int wpX = 0;
 		int wpY = 0;
+
 		Microsoft.MapPoint.TileSystem.LatLongToPixelXY( nextWayPoint.x,  nextWayPoint.y,  17, out wpX, out wpY);
+				print ("dest top: " + topX + "," + topY + "(" +nextWayPoint.x + "," + nextWayPoint.y +")");
 
 		wpX = wpX - topX;
 		wpY = wpY - topY;
+				print ("wp: " + wpX + "," + wpY);
 
 
-		int wpOffsetX = wpX - pointX;
-		int wpOffsetY = wpY - pointY;
+//		int wpOffsetX = wpX - pointX;
+//		int wpOffsetY = wpY - pointY;
 
 
 		Color beforeColor = GUI.color;
