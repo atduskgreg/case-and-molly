@@ -284,7 +284,9 @@ public class ShowHUD : MonoBehaviour {
 						print ("transition now");
 	      if (gameObject.GetComponent<WaypointManager>().AtFinalWaypoint()) {
 								print ("transition to ending");
-			Application.LoadLevel ("ending");
+              ShowHUD.ws.Send("{\"level\": 1}");
+
+			        Application.LoadLevel ("ending");
     	  } else{
         	    GoToCase();
       	  }
@@ -330,13 +332,13 @@ public class ShowHUD : MonoBehaviour {
 
 		
 		
-		if (Input.GetKeyDown(KeyCode.N) || Input.GetButton ("Fire1")) {
+		if (Input.GetKeyDown(KeyCode.N) || Input.GetButtonDown ("Fire1")) {
       		ShowHUD.ws.Send ("{\"case\": 0}");
 			msgSent = true;
 			lastMsgSent = 0;
 			msgSentTime = Time.time;
 		}
-		if (Input.GetKeyDown(KeyCode.Y) || Input.GetButton ("Fire3")) {
+		if (Input.GetKeyDown(KeyCode.Y) || Input.GetButtonDown ("Fire3")) {
       		ShowHUD.ws.Send ("{\"case\": 1}");
 			msgSent = true;
 			lastMsgSent = 1;

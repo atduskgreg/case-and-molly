@@ -35,14 +35,16 @@
 {
     NSTimeInterval timeSinceLastMsg = [[NSDate date] timeIntervalSinceDate:lastMsgAt];
     NSTimeInterval timeSinceLastConnectionAttempt = [[NSDate date] timeIntervalSinceDate:lastConnectionAttempt];
-    
-//    NSLog(@"checkWSConnection: timeSinceLastMsg: %f, timeSinceLastConnectionAttempt: %f",timeSinceLastMsg, timeSinceLastConnectionAttempt);
+  
     if(  (timeSinceLastMsg > 5) && (timeSinceLastConnectionAttempt > 2)){
         NSLog(@"RECONNNNECTING");
+        
+        NSLog(@"checkWSConnection: timeSinceLastMsg: %f, timeSinceLastConnectionAttempt: %f",timeSinceLastMsg, timeSinceLastConnectionAttempt);
         [_lostView setHidden:NO];
         
         NSLog(@"readyState: %d",[webSocket readyState] );
-        if([webSocket readyState] != SR_OPEN && [webSocket readyState] != SR_CONNECTING){
+        if([webSocket readyState] != SR_CONNECTING){
+            [self disconnect];
             [self connect];
         }
     }

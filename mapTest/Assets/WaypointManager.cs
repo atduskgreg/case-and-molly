@@ -8,7 +8,7 @@ public class WaypointManager : MonoBehaviour {
 	ShowHUD hudScript;
 	public float victoryDistance = 5.0f; // feet
 
-	static public int currentWayPoint = -1;
+  static public int currentWayPoint = -1;
 	static float gameStartTime = 0.0f;
 	static bool gameStarted = false;
 

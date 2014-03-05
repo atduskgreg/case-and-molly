@@ -14,7 +14,7 @@ public class TextMap : MonoBehaviour {
   public GameObject top;
   public GameObject floor;
 	
-	static int currentMap = -1;
+  static int currentMap = 0;
 
 
 	int WidthOfLine(string line){
