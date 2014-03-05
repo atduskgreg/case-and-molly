@@ -26,6 +26,7 @@
 		372992191889C74C0092DBD5 /* OpenTok-OSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 372992181889C74C0092DBD5 /* OpenTok-OSX.framework */; };
 		3729921B188A3B6F0092DBD5 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3729921A188A3B6F0092DBD5 /* CoreAudio.framework */; };
 		3729921D188A3BA00092DBD5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3729921C188A3BA00092DBD5 /* AudioToolbox.framework */; };
+		3767DF4918C7A3DE00063089 /* connectionLost.png in Resources */ = {isa = PBXBuildFile; fileRef = 3767DF4818C7A3DE00063089 /* connectionLost.png */; };
 		37CD1AC9188A3C0B00751BCF /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37CD1AC8188A3C0B00751BCF /* QTKit.framework */; };
 		37CD1AD1188A47B900751BCF /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37CD1AC6188A3BE300751BCF /* IOKit.framework */; };
 		37EF0D56188F1E740060C7C3 /* Syphon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37EF0D55188F1E740060C7C3 /* Syphon.framework */; };
@@ -97,6 +98,7 @@
 		372992181889C74C0092DBD5 /* OpenTok-OSX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OpenTok-OSX.framework"; path = "../../../../../../../../Library/Frameworks/OpenTok-OSX.framework"; sourceTree = "<group>"; };
 		3729921A188A3B6F0092DBD5 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		3729921C188A3BA00092DBD5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		3767DF4818C7A3DE00063089 /* connectionLost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = connectionLost.png; sourceTree = "<group>"; };
 		37CD1AC6188A3BE300751BCF /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		37CD1AC8188A3C0B00751BCF /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
 		37EF0D55188F1E740060C7C3 /* Syphon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Syphon.framework; path = ../../../../../../../../Library/Frameworks/Syphon.framework; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 		372991C61889AEBB0092DBD5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				3767DF4818C7A3DE00063089 /* connectionLost.png */,
 				37EF0D72188F6F7E0060C7C3 /* test_map.png */,
 				372991C71889AEBB0092DBD5 /* OpenTokClient-Info.plist */,
 				372991C81889AEBB0092DBD5 /* InfoPlist.strings */,
@@ -355,6 +358,7 @@
 				37EF0D73188F6F7E0060C7C3 /* test_map.png in Resources */,
 				372991D01889AEBB0092DBD5 /* Credits.rtf in Resources */,
 				372991D61889AEBB0092DBD5 /* MainMenu.xib in Resources */,
+				3767DF4918C7A3DE00063089 /* connectionLost.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

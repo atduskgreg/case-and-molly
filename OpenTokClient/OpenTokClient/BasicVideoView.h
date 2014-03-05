@@ -23,4 +23,6 @@
 
 - (void)clearRenderBuffer;
 - (void) setupSyphon;
+- (void) sendTexture:(GLKTextureInfo*) theTexture;
+
 @end

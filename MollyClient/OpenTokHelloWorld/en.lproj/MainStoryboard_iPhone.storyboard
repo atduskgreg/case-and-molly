@@ -87,6 +87,27 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" id="zjE-ts-aCT">
+                                <rect key="frame" x="95" y="237" width="231" height="79"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CONNECTION LOST" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="RQf-6F-Z0s">
+                                        <rect key="frame" x="0.0" y="21" width="226" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Attempting to reconnect)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cCb-Q2-ncw">
+                                        <rect key="frame" x="16" y="44" width="195" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -96,6 +117,7 @@
                         <outlet property="caseStatus" destination="aub-ct-ccB" id="tH1-Jz-32u"/>
                         <outlet property="hereButton" destination="khK-Sb-v1w" id="9Yf-cz-MJf"/>
                         <outlet property="indicatorView" destination="TsZ-sY-FDb" id="88E-TR-juF"/>
+                        <outlet property="lostView" destination="zjE-ts-aCT" id="wtQ-CO-HZu"/>
                         <outlet property="squareView" destination="s02-Q6-yEB" id="bJ3-j1-hgF"/>
                         <outlet property="timeDisplay" destination="jMc-kc-9X9" id="Z58-IB-lt1"/>
                         <outlet property="triangleView" destination="vZr-ZE-NsJ" id="RKB-Uy-ILE"/>

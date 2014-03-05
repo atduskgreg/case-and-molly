@@ -19,11 +19,36 @@
         locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         locationManager.delegate = self;
         [locationManager startUpdatingLocation];
-        
+        isAttemptingReconnect = NO;
         [self connect];
+        lastMsgAt = [NSDate date];
+        
+        [NSTimer scheduledTimerWithTimeInterval:1.1
+                                         target:self
+                                       selector:@selector(checkWSConnection:)
+                                       userInfo:nil repeats:YES];
     }
     return self;
 }
+
+-(void) checkWSConnection:(NSTimer*) timer
+{
+    NSTimeInterval timeSinceLastMsg = [[NSDate date] timeIntervalSinceDate:lastMsgAt];
+    NSTimeInterval timeSinceLastConnectionAttempt = [[NSDate date] timeIntervalSinceDate:lastConnectionAttempt];
+    
+//    NSLog(@"checkWSConnection: timeSinceLastMsg: %f, timeSinceLastConnectionAttempt: %f",timeSinceLastMsg, timeSinceLastConnectionAttempt);
+    if(  (timeSinceLastMsg > 5) && (timeSinceLastConnectionAttempt > 2)){
+        NSLog(@"RECONNNNECTING");
+        [_lostView setHidden:NO];
+        
+        NSLog(@"readyState: %d",[webSocket readyState] );
+        if([webSocket readyState] != SR_OPEN && [webSocket readyState] != SR_CONNECTING){
+            [self connect];
+        }
+    }
+    
+}
+
 
 - (void) connect
 {
@@ -35,6 +60,7 @@
     [webSocket open];
     
     socketIsOpen = NO;
+    lastConnectionAttempt = [NSDate date];
 }
 
 - (void) disconnect
@@ -46,13 +72,13 @@
 - (void) send:(id)message{
     if(socketIsOpen == YES){
         [webSocket send:message];
-        NSLog(@"sent: %@", message);
     }
 }
 
 - (void) sendPing
 {
-    [self send:[[NSString alloc] initWithFormat:@"{\"ping\": %i}", (int)[NSDate timeIntervalSinceReferenceDate]]];
+    
+    [self send:[[NSString alloc] initWithFormat:@"{\"ping\": %i}", (int)([NSDate timeIntervalSinceReferenceDate] * 1000)]];
 }
 
 -(void) sendLocation
@@ -76,10 +102,7 @@
 	 didUpdateLocations:(NSArray *)locations
 {
     lastLocation = [locations lastObject];
-   // NSLog(@"lss received: %f,%f", lastLocation.coordinate.latitude, lastLocation.coordinate.longitude);
-  //  [self sendLocation];
     [self sendLocation];
-    
 }
 
 - (void)locationManager:(CLLocationManager *)manager
@@ -99,9 +122,12 @@
 
 - (void)webSocket:(SRWebSocket *)ws didReceiveMessage:(id)message
 {
-    NSLog(@"webSocket:didReceiveMessage: %@", message);
+//    NSLog(@"webSocket:didReceiveMessage: %@", message);
+    
     
     if(message != NULL){
+        lastMsgAt = [NSDate date];
+        [_lostView setHidden:YES];
         NSDictionary *result = [NSJSONSerialization JSONObjectWithData:[message dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableLeaves error:nil];
         
         if([result objectForKey:@"start"] != nil){
@@ -165,7 +191,10 @@
 
 - (void)webSocketDidOpen:(SRWebSocket *)ws
 {
+    [reconnectTimer invalidate];
     socketIsOpen = YES;
+    isAttemptingReconnect = NO;
+    [_lostView setHidden:YES];
     NSLog(@"webSocketDidOpen");
     [webSocket send:@"join"];
 }
@@ -173,6 +202,64 @@
 - (void)webSocket:(SRWebSocket *)ws didFailWithError:(NSError *)error
 {
     NSLog(@"webSocket didFailWithError: %@", error);
+    [_lostView setHidden:NO];
+    [ws close];
+//    if([[NSDate date] timeIntervalSinceDate:lastConnectionAttempt] > 2){
+//        [self connect];
+//    }
+//    if(isAttemptingReconnect == NO){
+//        [self attemptReconnect:NULL];
+//    }
+    // give feedback that connection to case was lost (or in a timer that checks?)
+//    if([[NSDate date] timeIntervalSinceDate:lastConnectionAttempt] > 2){
+//        [self connect];
+//    }
+
 }
+//
+//- (void) attemptReconnect:(NSTimer*) timer
+//{
+//    
+//    NSLog(@"lastattempt: %f", [[NSDate date] timeIntervalSinceDate:lastConnectionAttempt]);
+//    if([[NSDate date] timeIntervalSinceDate:lastConnectionAttempt] > 2){
+//        //if(!isAttemptingReconnect){
+//            if([webSocket readyState] != SR_OPEN ||  [webSocket readyState] != SR_CONNECTING){
+//                NSLog(@"attempting reconnect");
+//                isAttemptingReconnect = YES;
+//
+//                [self connect];
+//            
+//            }
+//    } else {
+//        reconnectTimer = [NSTimer scheduledTimerWithTimeInterval:1.2
+//                                        target:self
+//                                        selector:@selector(attemptReconnect:)
+//                                        userInfo:nil repeats:NO];
+//
+//    }
+//    
+//}
+//
+
+
+- (void)webSocket:(SRWebSocket *)webSocket
+ didCloseWithCode:(NSInteger)code
+           reason:(NSString *)reason
+         wasClean:(BOOL)wasClean
+{
+    [_lostView setHidden:NO];
+//    if(isAttemptingReconnect == NO){
+//        [self attemptReconnect:NULL];
+//    }
+
+//    [self attemptReconnect:NULL];
+    
+//    // give feedback that connection to case was lost (or in a timer that checks?)
+//    if([[NSDate date] timeIntervalSinceDate:lastConnectionAttempt] > 2){
+//        [self connect];
+//    }
+    
+}
+
 
 @end

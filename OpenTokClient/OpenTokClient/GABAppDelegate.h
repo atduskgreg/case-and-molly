@@ -18,6 +18,7 @@
     NSDate* lastFrameTime;
     BOOL everConnected;
     NSDate* lastReconnectTry;
+    GLKTextureInfo* lostTexture;
 }
 
 - (void)doConnect;

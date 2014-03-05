@@ -34,6 +34,9 @@ static bool subscribeToSelf = NO; // Change to NO to subscribe to streams other 
     locationSender = [[GABLocationSocketSender alloc] init];
 //    [locationSender setOutputView:indicatorView];
 
+    [lostView setHidden:YES];
+    
+    [locationSender setLostView:lostView];
     [locationSender setTriangleView:triangleView];
     [locationSender setSquareView:squareView];
     [locationSender setCaseStatus:caseStatus];
@@ -43,6 +46,7 @@ static bool subscribeToSelf = NO; // Change to NO to subscribe to streams other 
     [triangleView setImage:[UIImage imageNamed:@"empty_triangle.png"]];
    
     [hereButton setTitleColor:[UIColor greenColor] forState:UIControlStateHighlighted];
+    
     
     
     [NSTimer scheduledTimerWithTimeInterval:0.01

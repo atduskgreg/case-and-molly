@@ -25,6 +25,18 @@
     return imageHolder;
 }
 
+- (void) sendTexture:(GLKTextureInfo*) theTexture
+{
+    [syphonServer publishFrameTexture:theTexture.name
+                                       textureTarget:GL_TEXTURE_2D
+                                         imageRegion:NSMakeRect(0, 0, theTexture.width, theTexture.height)
+                                   textureDimensions:NSMakeSize(theTexture.width, theTexture.height)
+                                             flipped:YES];
+//    GLuint name = theTexture.name;
+//    glDeleteTextures(1, &name);
+}
+
+
 
 - (void) setupSyphon{
     NSLog(@"setupSyphon");

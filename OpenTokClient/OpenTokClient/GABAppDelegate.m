@@ -29,7 +29,7 @@ static NSString* const kToken = @"T1==cGFydG5lcl9pZD00NDYwNDE1MiZzZGtfdmVyc2lvbj
 
 // Replace with your generated token (use the Dashboard or an OpenTok server-side library)
 
-static bool subscribeToSelf = NO; // Chaange to NO to subscribe streams other than your own
+//static bool subscribeToSelf = NO; // Chaange to NO to subscribe streams other than your own
 
 
 
@@ -42,10 +42,14 @@ static bool subscribeToSelf = NO; // Chaange to NO to subscribe streams other th
     
     everConnected = false;
     
-    [NSTimer scheduledTimerWithTimeInterval:1
-                                     target:self
-                                   selector:@selector(checkConnection:)
-                                   userInfo:nil repeats:YES];
+    NSString* path = [[NSBundle mainBundle] pathForResource:@"connectionLost" ofType:@"png"];
+    lostTexture = [GLKTextureLoader textureWithContentsOfFile:path options:NULL error:NULL];
+    [videoView sendTexture:lostTexture];
+
+//    [NSTimer scheduledTimerWithTimeInterval:1
+//                                     target:self
+//                                   selector:@selector(checkConnection:)
+//                                   userInfo:nil repeats:YES];
 }
 
 -(void) checkConnection:(NSTimer *) timer
@@ -91,6 +95,25 @@ static bool subscribeToSelf = NO; // Chaange to NO to subscribe streams other th
     NSLog(@"sessionDidConnect: %@", session.sessionId);
     NSLog(@"- connectionId: %@", session.connection.connectionId);
     NSLog(@"- creationTime: %@", session.connection.creationTime);
+    NSLog(@"streamIDs: %@", [[session streams] allKeys]);
+
+    
+    if([[[session streams] allKeys] count] > 0){
+        NSObject* keyForFirstStream = [[[session streams] allKeys] objectAtIndex:0];
+        NSLog(@"");
+        OTStream* stream =[[session streams] objectForKey:keyForFirstStream];
+        [self subscribeToStream:stream];
+    }
+    
+
+}
+
+-(void) subscribeToStream:(OTStream*) stream{
+    _subscriber = [[OTSubscriberKit alloc] initWithStream:stream delegate:self];
+    _subscriber.subscribeToAudio = YES;
+    _subscriber.subscribeToVideo = YES;
+    [_subscriber setVideoRender:videoView];
+    [_subscriber subscribe];
 }
 
 - (void)sessionDidDisconnect:(OTSession*)session
@@ -107,19 +130,15 @@ static bool subscribeToSelf = NO; // Chaange to NO to subscribe streams other th
 
 - (void)session:(OTSession*)session streamCreated:(OTStream*)stream{
     NSLog(@"session: streamCreated:");
-    _subscriber = [[OTSubscriberKit alloc] initWithStream:stream delegate:self];
-    _subscriber.subscribeToAudio = YES;
-    _subscriber.subscribeToVideo = YES;
-    [_subscriber setVideoRender:videoView];
-    [_subscriber subscribe];
-    
+
+    [self subscribeToStream:stream];
 }
 
 
 
 - (void)session:(OTSession*)session streamDestroyed:(OTStream*)stream{
     NSLog(@"session: streamDestroyed:");
-
+    [videoView sendTexture:lostTexture];
 }
 
 
@@ -136,20 +155,20 @@ static bool subscribeToSelf = NO; // Chaange to NO to subscribe streams other th
     NSLog(@"- name %@", stream.name);
     NSLog(@"- hasAudio %@", (stream.hasAudio ? @"YES" : @"NO"));
     NSLog(@"- hasVideo %@", (stream.hasVideo ? @"YES" : @"NO"));
-    if ( (subscribeToSelf && [stream.connection.connectionId isEqualToString: _session.connection.connectionId])
-        ||
-        (!subscribeToSelf && ![stream.connection.connectionId isEqualToString: _session.connection.connectionId])
-        ) {
-//        if (!_subscriber) {
-//            _subscriber = [[OTSubscriber alloc] initWithStream:stream delegate:self];
-//            _subscriber.subscribeToAudio = YES;
-//            _subscriber.subscribeToVideo = YES;
-//        }
-//        NSLog(@"subscriber.session.sessionId: %@", _subscriber.session.sessionId);
-//        NSLog(@"- stream.streamId: %@", _subscriber.stream.streamId);
-//        NSLog(@"- subscribeToAudio %@", (_subscriber.subscribeToAudio ? @"YES" : @"NO"));
-//        NSLog(@"- subscribeToVideo %@", (_subscriber.subscribeToVideo ? @"YES" : @"NO"));
-    }
+//    if ( (subscribeToSelf && [stream.connection.connectionId isEqualToString: _session.connection.connectionId])
+//        ||
+//        (!subscribeToSelf && ![stream.connection.connectionId isEqualToString: _session.connection.connectionId])
+//        ) {
+////        if (!_subscriber) {
+////            _subscriber = [[OTSubscriber alloc] initWithStream:stream delegate:self];
+////            _subscriber.subscribeToAudio = YES;
+////            _subscriber.subscribeToVideo = YES;
+////        }
+////        NSLog(@"subscriber.session.sessionId: %@", _subscriber.session.sessionId);
+////        NSLog(@"- stream.streamId: %@", _subscriber.stream.streamId);
+////        NSLog(@"- subscribeToAudio %@", (_subscriber.subscribeToAudio ? @"YES" : @"NO"));
+////        NSLog(@"- subscribeToVideo %@", (_subscriber.subscribeToVideo ? @"YES" : @"NO"));
+//    }
 }
 
 - (void)session:(OTSession*)session didDropStream:(OTStream*)stream

@@ -18,6 +18,7 @@
     IBOutlet UILabel* timeDisplay;
     IBOutlet UIButton* hereButton;
     IBOutlet UILabel* caseStatus;
+    IBOutlet UIView* lostView;
 }
 - (void)doConnect;
 - (void)doPublish;

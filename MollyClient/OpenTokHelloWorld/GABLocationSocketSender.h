@@ -17,11 +17,17 @@
     CLLocation* lastLocation;
     NSDate* gameStartTime;
     BOOL gameStarted;
+    NSDate* lastConnectionAttempt;
+    BOOL isAttemptingReconnect;
+    NSTimer* reconnectTimer;
+    NSDate* lastMsgAt;
 }
 
 - (void) connect;
 - (void) send:(id)message;
 - (void) disconnect;
+//- (void) attemptReconnect:(NSTimer*) timer;
+-(void) checkWSConnection:(NSTimer*) timer;
 
 @property (nonatomic, retain) CLLocation* lastLocation;
 @property (nonatomic, retain) UIView* outputView;
@@ -29,6 +35,7 @@
 @property (nonatomic, retain) UIImageView* triangleView;
 @property (nonatomic, retain) UILabel* caseStatus;
 @property (nonatomic, retain) UIButton* hereButton;
+@property (nonatomic, retain) UIView* lostView;
 
 
 //@property (nonatomic, retain) CLLocationManager *locationManager;
@@ -43,6 +50,9 @@
 
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket;
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error;
+- (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean;
+
+
 
 -(void) sendLocation;
 
